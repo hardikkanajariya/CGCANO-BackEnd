@@ -1,4 +1,4 @@
-@extends('main')
+@extends('layouts.main')
 
 @section("content")
     <div class="row g-3 row-deck">
