@@ -16,6 +16,7 @@
     <script src="{{url('/')}}/assets/js/plugins.js"></script>
     {{-- Styles --}}
     <script src="https://kit.fontawesome.com/cabb64bd6b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     {{-- Scripts --}}
     @yield('head')
 </head>
@@ -39,6 +40,43 @@
 <script src="{{url('/')}}/assets/js/bundle/dataTables.bundle.js"></script>
 <!-- Vendor Script -->
 <script src="{{url('/')}}/assets/js/bundle/apexcharts.bundle.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<script>
+    @foreach($errors->all() as $error)
+    Toastify({
+        text: "{{$error}}",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
+        className: "info"
+    }).showToast();
+    @endforeach
+
+    @if(session()->has('success'))
+    Toastify({
+        text: "{{session()->get('success')}}",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+        className: "info"
+    }).showToast();
+    @endif
+
+    @if(session()->has('msg'))
+    Toastify({
+        text: "{{session()->get('error')}}",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "linear-gradient(to right, #ff416c, #ff4b2b)",
+        className: "info"
+    }).showToast();
+    @endif
+</script>
+
 @yield('page-scripts')
 @yield('components-scripts')
 </body>
