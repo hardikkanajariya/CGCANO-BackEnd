@@ -23,105 +23,26 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="{{route('pos.edit', [1])}}" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="{{route('pos.edit', [1])}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
+                    @foreach($pos as $data)
+                        <tr>
+                            <td>{{$data->name}}</td>
+                            <td>#SCANNER-{{$data->id}}</td>
+                            <td>{{\Illuminate\Support\Facades\Date::make($data->created_at)}}</td>
+                            <td>
+                                @if($data->status)
+                                    <span class="badge  bg-success text-white">Active</span>
+                                @else
+                                    <span class="badge  bg-danger text-white">Blocked</span>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{route('scanner.edit', [$data->id])}}" class="btn btn-sm btn-success"><i
+                                        class="fa fa-pencil"></i></a>
+                                <a href="{{route('scanner.delete', [$data->id])}}" class="btn btn-sm btn-danger"><i
+                                        class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

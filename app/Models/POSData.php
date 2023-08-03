@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class POSData extends Model
 {
     use HasFactory;
-    protected $table = 'pos_data';
+    protected $table = 'p_o_s_data';
     protected $primaryKey = 'id';
 }

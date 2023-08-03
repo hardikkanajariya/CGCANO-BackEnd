@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\POSData;
 use Illuminate\Http\Request;
 
 class PointOfSaleController extends Controller
@@ -9,7 +10,8 @@ class PointOfSaleController extends Controller
     // Function to view All Scanners List
     public function list()
     {
-        return view('pages.pos.view');
+        $pos = POSData::all();
+        return view('pages.pos.view')->with('pos', $pos);
     }
 
     // Function to view Add Scanner
