@@ -38,8 +38,8 @@ class Scanner extends Controller
         $request->validate([
             'username' => 'required',
             'email' => 'required|email|unique:scanners,email',
-            'password' => 'required|min:8|confirmed',
-            'password_confirmation' => 'required|min:8'
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required'
         ]);
         try {
             $scanner = new \App\Models\Scanner();
@@ -50,7 +50,7 @@ class Scanner extends Controller
             $scanner->save();
             return redirect()->route('scanner')->with('success', 'Scanner added successfully');
         } catch (Exception $e) {
-            return redirect()->route('scanner')->with('error', 'Something went wrong, please try again later');
+            return redirect()->back()->with('error', 'Something went wrong, please try again later');
         }
     }
 
@@ -69,15 +69,26 @@ class Scanner extends Controller
                 $scanner->name = $request->name;
                 $scanner->username = $request->username;
                 $scanner->email = $request->email;
-                if ($request->password) {
-                    $scanner->password = Hash::make($request->password);
+                if ($request->old_password != null) {
+                    $request->validate([
+                        'old_password' => 'required',
+                    ]);
+                    if (Hash::check($request->old_password, $scanner->password)) {
+                        $request->validate([
+                            'password' => 'required',
+                            'confirm_password' => 'required|same:password',
+                        ]);
+                        $scanner->password = Hash::make($request->password);
+                    }else{
+                        return redirect()->back()->with('error', 'Old password is incorrect');
+                    }
                 }
                 $scanner->save();
                 return redirect()->route('scanner')->with('success', 'Scanner updated successfully');
             }
-            return redirect()->route('scanner')->with('error', 'Scanner not found');
+            return redirect()->back()->with('error', 'Scanner not found');
         } catch (Exception $e) {
-            return redirect()->route('scanner')->with('error', 'Something went wrong, please try again later');
+            return redirect()->back()->with('error', 'Something went wrong, please try again later');
         }
     }
 
@@ -90,9 +101,9 @@ class Scanner extends Controller
                 $scanenr->delete();
                 return redirect()->route('scanner')->with('success', 'Scanner deleted successfully');
             }
-            return redirect()->route('scanner')->with('error', 'Scanner not found');
+            return redirect()->back()->with('error', 'Scanner not found');
         } catch (Exception $e) {
-            return redirect()->route('scanner')->with('error', 'Something went wrong, please try again later');
+            return redirect()->back()->with('error', 'Something went wrong, please try again later');
         }
     }
 }

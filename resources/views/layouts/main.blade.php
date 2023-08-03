@@ -65,7 +65,7 @@
     }).showToast();
     @endif
 
-    @if(session()->has('msg'))
+    @if(session()->has('error'))
     Toastify({
         text: "{{session()->get('error')}}",
         duration: 3000,

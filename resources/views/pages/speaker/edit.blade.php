@@ -5,86 +5,45 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h6 class="card-title m-0">Add New Product</h6>
+                    <h6 class="card-title m-0">Edit Speaker</h6>
                     <div class="dropdown morphing scale-left">
-                        <a href="#" class="card-fullscreen" data-bs-toggle="tooltip" title="Card Full-Screen"><i class="icon-size-fullscreen"></i></a>
-                        <a href="#" class="more-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
-                        <ul class="dropdown-menu shadow border-0 p-2">
-                            <li><a class="dropdown-item" href="#">File Info</a></li>
-                            <li><a class="dropdown-item" href="#">Copy to</a></li>
-                            <li><a class="dropdown-item" href="#">Move to</a></li>
-                            <li><a class="dropdown-item" href="#">Rename</a></li>
-                            <li><a class="dropdown-item" href="#">Block</a></li>
-                            <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
+                        <a href="#" class="card-fullscreen" data-bs-toggle="tooltip" title="Card Full-Screen"><i
+                                class="icon-size-fullscreen"></i></a>
+                        <a href="{{route('speaker')}}" class="more-icon dropdown-toggle"><i
+                                class="fa fa-mail-reply"></i></a>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-sm-4">
-                            <label class="form-label">Product SKU*</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="#2255">
-                        </div>
-                        <div class="col-sm-4">
-                            <label class="form-label">Product Name</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="Name">
-                        </div>
-                        <div class="col-sm-4">
-                            <label class="form-label">Quantity</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="Enter here">
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-label">Purchase Price</label>
-                            <input type="number" class="form-control form-control-lg" placeholder="$12.29">
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-label">Retail Price</label>
-                            <input type="number" class="form-control form-control-lg" placeholder="$18.99">
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-label">Brand</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="Nike">
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-label">Manufacture</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="Nike India">
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-label">Category</label>
-                            <select class="form-control form-control-lg" tabindex="-98">
-                                <option value="">- Category -</option>
-                                <option value="10">Cloths</option>
-                                <option value="20">Electronics</option>
-                                <option value="30">Home Appliance</option>
-                                <option value="40">Mobile</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-label">Package Dimensions</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="Length in Inches">
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-label">&nbsp;</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="Width in Inches">
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="form-label">&nbsp;</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="Height in Inches">
-                        </div>
-                        <div class="col-lg-12">
-                            <label class="form-label">Upload Product Images</label>
-                            <input type="file" class="form-control">
-                        </div>
-                        <div class="col-sm-12">
-                            <label class="form-label">Product Description</label>
-                            <textarea rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
-                        </div>
+                <form action="{{route('speaker.edit', [$speaker->id])}}" method="post" enctype="multipart/form-data" class="card-body">
+                    @csrf
+                    <div class="col-sm-12">
+                        <label class="form-label">Name</label>
+                        <input type="text" max="15" class="form-control form-control-lg" placeholder="@johndoe"
+                               name="name" value="{{old('name') ? old('name') : $speaker->name}}" required>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <button type="button" class="btn btn-primary">Add</button>
-                    <button type="button" class="btn btn-secondary">Cancel</button>
-                </div>
+                    <div class="col-sm-12">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control form-control-lg" placeholder="Speaker" name="title"
+                               required value="{{old('title') ? old('title') : $speaker->title}}">
+                    </div>
+                    <div class="col-sm-12 ">
+                        <label class="form-label">Image</label>
+                        <input type="file" class="form-control form-control-lg" name="image">
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="form-label">Website</label>
+                        <input type="url" class="form-control form-control-lg" placeholder="www.example.com"
+                               name="website" value="{{old('website') ? old('website') : $speaker->website}}">
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="form-label">Description</label>
+                        <textarea rows="4" class="form-control no-resize" name="description"
+                                  placeholder="Please type what you want...">{{old('description') ? old('description') : $speaker->description}}</textarea>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        <href href="{{route('speaker')}}" class="btn btn-secondary">Cancel</href>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

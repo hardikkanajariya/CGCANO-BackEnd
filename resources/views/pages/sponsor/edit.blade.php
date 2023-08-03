@@ -9,39 +9,34 @@
                     <div class="dropdown morphing scale-left">
                         <a href="#" class="card-fullscreen" data-bs-toggle="tooltip" title="Card Full-Screen"><i
                                 class="icon-size-fullscreen"></i></a>
-                        <a href="{{route('speaker')}}" class="more-icon dropdown-toggle"><i
+                        <a href="{{route('sponsor')}}" class="more-icon dropdown-toggle"><i
                                 class="fa fa-mail-reply"></i></a>
                     </div>
                 </div>
-                <form action="{{route('speaker.add')}}" method="post" enctype="multipart/form-data" class="card-body">
+                <form action="{{route('sponsor.edit', [$sponsor->id])}}" method="post" enctype="multipart/form-data" class="card-body">
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Name</label>
                         <input type="text" max="15" class="form-control form-control-lg" placeholder="@johndoe"
-                               name="name" value="{{old('name')}}" required>
-                    </div>
-                    <div class="col-sm-12">
-                        <label class="form-label">Title</label>
-                        <input type="text" class="form-control form-control-lg" placeholder="Speaker" name="title"
-                               required value="{{old('title')}}">
+                               name="name" value="{{old('name') ? old('name') : $sponsor->name}}" required>
                     </div>
                     <div class="col-sm-12 ">
-                        <label class="form-label">Image</label>
-                        <input type="file" class="form-control form-control-lg" name="image" required>
+                        <label class="form-label">Logo</label>
+                        <input type="file" class="form-control form-control-lg" name="image">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Website</label>
                         <input type="url" class="form-control form-control-lg" placeholder="www.example.com"
-                               name="website" value="{{old('website')}}">
+                               name="website" value="{{old('website') ? old('website') : $sponsor->website}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Description</label>
                         <textarea rows="4" class="form-control no-resize" name="description"
-                                  placeholder="Please type what you want...">{{old('description')}}</textarea>
+                                  placeholder="Please type what you want...">{{old('description') ? old('description') : $sponsor->description}}</textarea>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Add</button>
-                        <href href="{{route('speaker')}}" class="btn btn-secondary">Cancel</href>
+                        <href href="{{route('sponsor')}}" class="btn btn-secondary">Cancel</href>
                     </div>
                 </form>
             </div>

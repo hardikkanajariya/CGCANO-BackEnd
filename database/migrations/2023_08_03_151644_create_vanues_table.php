@@ -13,27 +13,24 @@ return new class extends Migration {
         Schema::create('venues', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('thumbnail')->nullable();
-            $table->json('gallery')->nullable();
-            $table->string('link')->nullable();
-            $table->string('description')->nullable();
-            $table->string('status')->nullable();
-            $table->string('address')->nullable();
-            $table->string('zip_code')->nullable();
-            $table->string('city')->nullable();
+            $table->text('description')->nullable();
+            $table->string('address');
+            $table->string('city');
             $table->string('state')->nullable();
-            $table->string('country')->nullable();
-            $table->string('lat')->nullable();
-            $table->string('lng')->nullable();
-
-            $table->json('amenities')->nullable();
-            $table->string('capacity')->nullable();
-            $table->string('price')->nullable();
-            $table->string('size')->nullable();
-
-            $table->string('seated_guests')->nullable();
-            $table->string('standing_guests')->nullable();
-            $table->string('availability')->nullable();
+            $table->string('country');
+            $table->string('longitude')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->boolean('wifi')->default(false);
+            $table->boolean('parking')->default(false);
+            $table->boolean('catering')->default(false);
+            $table->boolean('disabled_access')->default(false);
+            $table->boolean('projector')->default(false);
+            $table->boolean('microphone')->default(false);
+            $table->boolean('sound_system')->default(false);
+            $table->boolean('stage')->default(false);
+            $table->boolean('screen')->default(false);
+            $table->boolean('lighting')->default(false);
             $table->timestamps();
         });
     }

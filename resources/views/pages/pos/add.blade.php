@@ -16,34 +16,37 @@
                 <form action="{{route('pos.add')}}" method="post" enctype="multipart/form-data" class="card-body">
                     @csrf
                     <div class="col-sm-12">
+                        <label class="form-label">Volunteer Name</label>
+                        <input type="text" max="15" class="form-control form-control-lg" placeholder="john doe" required
+                               name="name">
+                    </div>
+                    <div class="col-sm-12">
                         <label class="form-label">Username</label>
-                        <input type="text" max="15" class="form-control form-control-lg" placeholder="@johndoe"
+                        <input name="username" type="text" max="15" class="form-control form-control-lg"
+                               placeholder="@johndoe"
                                required>
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control form-control-lg" placeholder="john@mail.com"
+                        <input name="email" type="email" class="form-control form-control-lg"
+                               placeholder="john@mail.com"
                                required>
                     </div>
                     <div class="col-sm-12 ">
                         <label class="form-label">Password</label>
-                        <input type="password" class="form-control form-control-lg">
+                        <input name="password" type="password" class="form-control form-control-lg">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Confirm Password</label>
-                        <input type="text" class="form-control form-control-lg" placeholder="Enter your Password"
+                        <input name="confirm_password" type="text" class="form-control form-control-lg"
+                               placeholder="Enter your Password"
                                required>
                     </div>
-                    <div class="col-sm-12">
-                        <label class="form-label">Notes</label>
-                        <textarea rows="4" class="form-control no-resize"
-                                  placeholder="Please type what you want..."></textarea>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        <href href="{{route('pos')}}" class="btn btn-secondary">Cancel</href>
                     </div>
                 </form>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Add</button>
-                    <href href="{{route('pos')}}" class="btn btn-secondary">Cancel</href>
-                </div>
             </div>
         </div>
     </div>

@@ -13,36 +13,15 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->string('img');
-            $table->string('code')->unique();
-            $table->string('name');
-            $table->string('price');
-            $table->string('description')->nullable();
-            $table->string('status')->nullable();
-            $table->string('type')->nullable();
-            $table->string('quantity')->nullable();
-            $table->string('event_id')->nullable();
-            $table->string('user_id')->nullable();
-            $table->string('order_id')->nullable();
-
-            // Barcode Details
-            $table->string('barcode_id')->unique();
-            $table->boolean('barcode_status')->default(true);
-            $table->string('barcode_data')->nullable();
-
-            // Payment Details
-            $table->string('payment_id')->nullable();
-            $table->string('payment_status')->nullable();
-            $table->string('payment_method')->nullable();
-            $table->string('payment_amount')->nullable();
-            $table->string('payment_currency')->nullable();
-            $table->string('payment_timestamp')->nullable();
-            $table->string('payment_receipt')->nullable();
-            $table->string('payment_description')->nullable();
-            $table->string('payment_request')->nullable();
-            $table->string('payment_response')->nullable();
-            $table->string('payment_error_message')->nullable();
-            $table->string('payment_error_code')->nullable();
+            $table->unsignedBigInteger('event_id');
+            $table->string('ticket_type');
+            $table->decimal('price', 10, 2);
+            $table->unsignedInteger('quantity');
+            $table->dateTime('available_from')->nullable();
+            $table->dateTime('available_to')->nullable();
+            $table->boolean('is_sold_out')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->timestamps();
         });
     }

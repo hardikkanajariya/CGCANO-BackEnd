@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PointOfSaleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Scanner;
+use App\Http\Controllers\SpeakerController;
+use App\Http\Controllers\SponsorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,7 +49,6 @@ Route::prefix('events')->middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-
 Route::prefix('scanner')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [Scanner::class, 'list'])->name('scanner');
     Route::get('/add', [Scanner::class, 'viewAdd'])->name('scanner.add');
@@ -64,6 +66,36 @@ Route::prefix('pos')->middleware(['auth', 'verified'])->group(function () {
     Route::post('/edit/{id}', [PointOfSaleController::class, 'doEdit'])->name('pos.doEdit');
     Route::get('/delete/{id}', [PointOfSaleController::class, 'doDelete'])->name('pos.delete');
 });
+
+Route::prefix('speaker')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [SpeakerController::class, 'list'])->name('speaker');
+    Route::get('/add', [SpeakerController::class, 'viewAdd'])->name('speaker.add');
+    Route::post('/add', [SpeakerController::class, 'doAdd'])->name('speaker.doAdd');
+    Route::get('/edit/{id}', [SpeakerController::class, 'viewEdit'])->name('speaker.edit');
+    Route::post('/edit/{id}', [SpeakerController::class, 'doEdit'])->name('speaker.doEdit');
+    Route::get('/delete/{id}', [SpeakerController::class, 'doDelete'])->name('speaker.delete');
+});
+
+Route::prefix('sponsor')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [SponsorController::class, 'list'])->name('sponsor');
+    Route::get('/add', [SponsorController::class, 'viewAdd'])->name('sponsor.add');
+    Route::post('/add', [SponsorController::class, 'doAdd'])->name('sponsor.doAdd');
+    Route::get('/edit/{id}', [SponsorController::class, 'viewEdit'])->name('sponsor.edit');
+    Route::post('/edit/{id}', [SponsorController::class, 'doEdit'])->name('sponsor.doEdit');
+    Route::get('/delete/{id}', [SponsorController::class, 'doDelete'])->name('sponsor.delete');
+});
+
+Route::prefix('peoples')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [PeopleController::class, 'list'])->name('people');
+//    Route::get('/add', [PeopleController::class, 'viewAdd'])->name('people.add');
+//    Route::post('/add', [PeopleController::class, 'doAdd'])->name('people.doAdd');
+//    Route::get('/edit/{id}', [PeopleController::class, 'viewEdit'])->name('people.edit');
+//    Route::post('/edit/{id}', [PeopleController::class, 'doEdit'])->name('people.doEdit');
+    Route::get('/delete/{id}', [PeopleController::class, 'doDelete'])->name('people.delete');
+});
+
+
+
 
 
 

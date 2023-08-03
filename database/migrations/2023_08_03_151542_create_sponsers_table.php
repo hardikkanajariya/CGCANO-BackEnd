@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sponsors', function (Blueprint $table) {
+        Schema::create('sponsor', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('event_id')->nullable();
             $table->string('name');
-            $table->string('img')->nullable();
-            $table->string('link')->nullable();
-            $table->string('description')->nullable();
-            $table->string('status')->nullable();
-            $table->string('type')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('website')->nullable();
+            $table->text('description')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sponsers');
+        Schema::dropIfExists('sponsor');
     }
 };

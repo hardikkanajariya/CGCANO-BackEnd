@@ -13,28 +13,20 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('type');
-            $table->string('category');
-            $table->string('description');
-            $table->string('location');
-            $table->string('date');
-            $table->string('time');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('venue_id')->nullable(); // New field for venue
+            $table->string('title');
+            $table->text('description');
+            $table->dateTime('time');
             $table->string('duration');
-            $table->string('img');
-            $table->string('link');
-            $table->string('status');
-            $table->string('price');
-            $table->string('capacity');
-            $table->boolean('show_attendees')->default(true);
-            $table->boolean('show_sponsors')->default(true);
-            $table->boolean('show_speakers')->default(true);
-            $table->boolean('show_venue')->default(true);
-            $table->boolean('show_map')->default(true);
-
-            $table->boolean('enable_registration')->default(true);
-            $table->boolean('enable_sponsors')->default(true);
-            $table->boolean('enable_reviews')->default(true);
+            $table->string('location');
+            $table->string('image')->nullable();
+            $table->json('gallery')->nullable();
+            $table->boolean('is_featured')->default(false);
+            $table->unsignedInteger('max_tickets_per_user')->nullable();
+            $table->boolean('is_published')->default(false);
+            $table->foreign('category_id')->references('id')->on('event_categories')->onDelete('cascade');
+            $table->foreign('venue_id')->references('id')->on('venues')->onDelete('set null');
             $table->timestamps();
         });
     }

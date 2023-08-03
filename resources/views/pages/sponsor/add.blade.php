@@ -5,28 +5,23 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h6 class="card-title m-0">Add New Speaker</h6>
+                    <h6 class="card-title m-0">Add New Sponsor</h6>
                     <div class="dropdown morphing scale-left">
                         <a href="#" class="card-fullscreen" data-bs-toggle="tooltip" title="Card Full-Screen"><i
                                 class="icon-size-fullscreen"></i></a>
-                        <a href="{{route('speaker')}}" class="more-icon dropdown-toggle"><i
+                        <a href="{{route('sponsor')}}" class="more-icon dropdown-toggle"><i
                                 class="fa fa-mail-reply"></i></a>
                     </div>
                 </div>
-                <form action="{{route('speaker.add')}}" method="post" enctype="multipart/form-data" class="card-body">
+                <form action="{{route('sponsor.add')}}" method="post" enctype="multipart/form-data" class="card-body">
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Name</label>
                         <input type="text" max="15" class="form-control form-control-lg" placeholder="@johndoe"
                                name="name" value="{{old('name')}}" required>
                     </div>
-                    <div class="col-sm-12">
-                        <label class="form-label">Title</label>
-                        <input type="text" class="form-control form-control-lg" placeholder="Speaker" name="title"
-                               required value="{{old('title')}}">
-                    </div>
                     <div class="col-sm-12 ">
-                        <label class="form-label">Image</label>
+                        <label class="form-label">Logo</label>
                         <input type="file" class="form-control form-control-lg" name="image" required>
                     </div>
                     <div class="col-sm-12">
@@ -41,7 +36,7 @@
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Add</button>
-                        <href href="{{route('speaker')}}" class="btn btn-secondary">Cancel</href>
+                        <href href="{{route('sponsor')}}" class="btn btn-secondary">Cancel</href>
                     </div>
                 </form>
             </div>

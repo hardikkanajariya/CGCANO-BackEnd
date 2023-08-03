@@ -33,14 +33,17 @@
                                value="{{$scanner->email}}" required>
                     </div>
                     <div class="mb-2 ">
+                        <label class="form-label">Old Password</label>
+                        <input type="password" name="old_password" class="form-control form-control-lg">
+                    </div>
+                    <div class="mb-2 ">
                         <label class="form-label">Password</label>
                         <input type="password" name="password" class="form-control form-control-lg">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Confirm Password</label>
                         <input type="text" class="form-control form-control-lg" placeholder="Enter your Password"
-                               name="password_confirmation"
-                               required>
+                               name="password_confirmation">
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Update</button>

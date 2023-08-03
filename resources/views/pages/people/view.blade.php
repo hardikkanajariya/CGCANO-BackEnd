@@ -1,131 +1,41 @@
 @extends('layouts.main')
 
 @section("content")
-    <div class="row g-3 row-deck">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="card-title m-0">POS Credentials</h6>
-                <div class="dropdown morphing scale-left">
-                    <a href="#" class="card-fullscreen btn" style="width: 100px" data-bs-toggle="tooltip"
-                       title="Card Full-Screen"><i class="icon-size-fullscreen"></i></a>
-                    <a href="{{route('pos.add')}}" class="btn btn-outline-primary" style="width: 100px"><i class="fa fa-add"></i></a>
-                </div>
-            </div>
-            <div class="card-body">
-                <table id="myTable" class="table myDataTable table-hover align-middle mb-0 card-table">
-                    <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="{{route('pos.edit', [1])}}" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="{{route('pos.edit', [1])}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>John Smith</td>
-                        <td>#2122109</td>
-                        <td>01-05-2020</td>
-                        <td><span class="badge  bg-success text-white">Paid</span></td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-success"><i
-                                    class="fa fa-pencil"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="col">
+        <table id="myDataTable_no_filter" class="table custom-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($users as $user)
+                <tr>
+                    <td>EVE-{{$user->id}}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="assets/img/xs/avatar1.jpg" class="rounded-circle sm avatar" alt="">
+                            <h6 class="ms-2 mb-0">{{$user->first_name}} {{$user->last_name}}</h6>
+                        </div>
+                    </td>
+                    <td>{{$user->phone}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>{{$user->address}}</td>
+                    <td>
+                        <button type="button" class="btn py-0 btn-link btn-sm text-muted" data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Send invoice"><i class="fa fa-envelope"></i></button>
+                        <button type="button" class="btn py-0 btn-link btn-sm text-muted" data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Download"><i class="fa fa-download"></i></button>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection
 @section('page-scripts')

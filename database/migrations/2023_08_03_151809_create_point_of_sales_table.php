@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pont_of_sales', function (Blueprint $table) {
+        Schema::create('point_of_sales', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('username')->unique();
             $table->string('password');
-            $table->boolean('status');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
