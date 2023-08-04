@@ -19,9 +19,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::get('/', function () {
-    return view('pages.dashboard');
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('events')->middleware(['auth', 'verified'])->group(function () {
@@ -93,11 +92,6 @@ Route::prefix('peoples')->middleware(['auth', 'verified'])->group(function () {
 //    Route::post('/edit/{id}', [PeopleController::class, 'doEdit'])->name('people.doEdit');
     Route::get('/delete/{id}', [PeopleController::class, 'doDelete'])->name('people.delete');
 });
-
-
-
-
-
 
 
 Route::middleware('auth')->group(function () {
