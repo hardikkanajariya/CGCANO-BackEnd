@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PointOfSaleController;
 use App\Http\Controllers\ProfileController;
@@ -22,6 +23,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::prefix('gallery')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [GalleryController::class, 'list'])->name('gallery');
+    Route::get('/add', [GalleryController::class, 'viewAdd'])->name('gallery.add');
+    Route::post('/add', [GalleryController::class, 'doAdd'])->name('gallery.doAdd');
+    Route::get('/delete/{id}', [GalleryController::class, 'doDelete'])->name('gallery.delete');
+});
+
 
 Route::prefix('events')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [EventController::class, 'list'])->name('event');
