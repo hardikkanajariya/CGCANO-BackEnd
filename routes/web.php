@@ -93,6 +93,8 @@ Route::prefix('peoples')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/delete/{id}', [PeopleController::class, 'doDelete'])->name('people.delete');
 });
 
+// Admin Profile Management
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
