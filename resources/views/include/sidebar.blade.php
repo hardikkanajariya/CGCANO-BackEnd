@@ -3,6 +3,11 @@
         <!-- sidebar: menu list -->
         <div class="main-menu flex-grow-1">
             <ul class="menu-list">
+                <li style="display: flex; justify-content: center; align-content: center;">
+                    <a href="/" class="brand-icon d-flex align-items-center mx-2 mx-sm-3 text-primary m-3">
+                        <img src="{{url('/')}}/assets/img/logo.png" class="mr-2" alt="logo" width="120">
+                    </a>
+                </li>
                 <li>
                     <a class="m-link active" href="{{url('/')}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewbox="0 0 16 16">
@@ -29,7 +34,8 @@
                     <ul class="sub-menu collapse" id="event-menu">
                         <li><a class="ms-link" href="{{route('event')}}">Events</a></li>
                         <li><a class="ms-link" href="{{route('event.categories')}}">Categories</a></li>
-                        <li><a class="ms-link" href="{{route('event.types')}}">Venues</a></li>
+                        <li><a class="ms-link" href="{{route('event.venues')}}">Venues</a></li>
+                        <li><a class="ms-link" href="{{route('event.venue.amenities')}}">Amenities</a></li>
                     </ul>
                 </li>
                 <li>

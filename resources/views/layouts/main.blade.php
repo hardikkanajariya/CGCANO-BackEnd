@@ -10,6 +10,8 @@
     <!-- Application vendor css url -->
     <link rel="stylesheet" href="{{url('/')}}/assets/cssbundle/dataTables.min.css">
     <link rel="stylesheet" href="{{url('/')}}/assets/cssbundle/daterangepicker.min.css">
+    <link rel="stylesheet" href="{{url('/')}}/assets/cssbundle/select2.min.css">
+
     <!-- project css file  -->
     <link rel="stylesheet" href="{{url('/')}}/assets/css/luno-style.css">
     <!-- Jquery Core Js -->
@@ -18,6 +20,7 @@
     <script src="https://kit.fontawesome.com/cabb64bd6b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     {{-- Scripts --}}
+
     @yield('head')
 </head>
 
@@ -38,10 +41,9 @@
 <!-- Plugin Js -->
 <script src="{{url('/')}}/assets/js/bundle/apexcharts.bundle.js"></script>
 <script src="{{url('/')}}/assets/js/bundle/dataTables.bundle.js"></script>
+<script src="{{url('/')}}/assets/js/bundle/select2.bundle.js"></script>
 <!-- Vendor Script -->
-<script src="{{url('/')}}/assets/js/bundle/apexcharts.bundle.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
 <script>
     @foreach($errors->all() as $error)
     Toastify({

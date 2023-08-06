@@ -42,7 +42,7 @@
                 </form>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Add</button>
-                    <href href="{{route('pos')}}" class="btn btn-secondary">Cancel</href>
+                    <a href="{{route('pos')}}" class="btn btn-secondary">Cancel</a>
                 </div>
             </div>
         </div>

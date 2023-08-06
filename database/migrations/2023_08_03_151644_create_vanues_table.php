@@ -21,16 +21,7 @@ return new class extends Migration {
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
             $table->string('postal_code')->nullable();
-            $table->boolean('wifi')->default(false);
-            $table->boolean('parking')->default(false);
-            $table->boolean('catering')->default(false);
-            $table->boolean('disabled_access')->default(false);
-            $table->boolean('projector')->default(false);
-            $table->boolean('microphone')->default(false);
-            $table->boolean('sound_system')->default(false);
-            $table->boolean('stage')->default(false);
-            $table->boolean('screen')->default(false);
-            $table->boolean('lighting')->default(false);
+            $table->json('amenities')->nullable();
             $table->timestamps();
         });
     }

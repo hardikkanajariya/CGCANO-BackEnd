@@ -34,17 +34,31 @@ Route::prefix('events')->middleware(['auth', 'verified'])->group(function () {
     // Event Categories
     Route::prefix('categories')->group(function () {
         Route::get('/', [EventController::class, 'listCategories'])->name('event.categories');
-        Route::post('/add', [EventController::class, 'doAddCategory'])->name('event.categories.doAdd');
-        Route::post('/edit/{id}', [EventController::class, 'doEditCategory'])->name('event.categories.doEdit');
-        Route::get('/delete/{id}', [EventController::class, 'doDeleteCategory'])->name('event.categories.delete');
+        Route::get('/add', [EventController::class, 'viewAddCategory'])->name('event.category.add');
+        Route::post('/add', [EventController::class, 'doAddCategory'])->name('event.category.add');
+        Route::get('/edit/{id}', [EventController::class, 'viewEditCategory'])->name('event.category.edit');
+        Route::post('/edit/{id}', [EventController::class, 'doEditCategory'])->name('event.category.edit');
+        Route::get('/delete/{id}', [EventController::class, 'doDeleteCategory'])->name('event.category.delete');
     });
 
-    // Event Types
-    Route::prefix('types')->group(function () {
-        Route::get('/', [EventController::class, 'listTypes'])->name('event.types');
-        Route::post('/add', [EventController::class, 'doAddType'])->name('event.types.doAdd');
-        Route::post('/edit/{id}', [EventController::class, 'doEditType'])->name('event.types.doEdit');
-        Route::get('/delete/{id}', [EventController::class, 'doDeleteType'])->name('event.types.delete');
+    // Event Venues
+    Route::prefix('venues')->group(function () {
+        Route::get('/', [EventController::class, 'listVenues'])->name('event.venues');
+        Route::get('/add', [EventController::class, 'viewAddVenue'])->name('event.venue.add');
+        Route::post('/add', [EventController::class, 'doAddVenue'])->name('event.venue.add');
+        Route::get('/edit/{id}', [EventController::class, 'viewEditVenue'])->name('event.venue.edit');
+        Route::post('/edit/{id}', [EventController::class, 'doEditVenue'])->name('event.venue.edit');
+        Route::get('/delete/{id}', [EventController::class, 'doDeleteVenue'])->name('event.venue.delete');
+
+        // Event Venue Amenities
+        Route::prefix('amenities')->group(function () {
+            Route::get('/', [EventController::class, 'listAmenities'])->name('event.venue.amenities');
+            Route::get('/add', [EventController::class, 'viewAddAmenities'])->name('event.venue.amenities.add');
+            Route::post('/add', [EventController::class, 'doAddAmenities'])->name('event.venue.amenities.add');
+            Route::get('/edit/{id}', [EventController::class, 'viewEditAmenities'])->name('event.venue.amenities.edit');
+            Route::post('/edit/{id}', [EventController::class, 'doEditAmenities'])->name('event.venue.amenities.edit');
+            Route::get('/delete/{id}', [EventController::class, 'doDeleteAmenities'])->name('event.venue.amenities.delete');
+        });
     });
 });
 
@@ -92,9 +106,6 @@ Route::prefix('peoples')->middleware(['auth', 'verified'])->group(function () {
 //    Route::post('/edit/{id}', [PeopleController::class, 'doEdit'])->name('people.doEdit');
     Route::get('/delete/{id}', [PeopleController::class, 'doDelete'])->name('people.delete');
 });
-
-// Admin Profile Management
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
