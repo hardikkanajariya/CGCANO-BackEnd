@@ -19,11 +19,11 @@
                     <td>EVE-{{$user->id}}</td>
                     <td>
                         <div class="d-flex align-items-center">
-                            <img src="assets/img/xs/avatar1.jpg" class="rounded-circle sm avatar" alt="">
+                            <img src="{{$user->img}}" class="rounded-circle sm avatar" alt="">
                             <h6 class="ms-2 mb-0">{{$user->first_name}} {{$user->last_name}}</h6>
                         </div>
                     </td>
-                    <td>{{$user->phone}}</td>
+                    <td>{{$user->mobile}}</td>
                     <td>{{$user->email}}</td>
                     <td>{{$user->address}}</td>
                     <td>
@@ -41,7 +41,7 @@
 @section('page-scripts')
     <script>
         $(document).ready(function () {
-            $('#myTable').addClass('nowrap').dataTable({
+            $('#myDataTable_no_filter').addClass('nowrap').dataTable({
                 responsive: true,
             });
         });

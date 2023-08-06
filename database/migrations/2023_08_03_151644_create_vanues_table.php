@@ -21,7 +21,8 @@ return new class extends Migration {
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
             $table->string('postal_code')->nullable();
-            $table->json('amenities')->nullable();
+            $table->unsignedBigInteger('amenities')->nullable();
+            $table->foreign('amenities')->references('id')->on('event_amenities')->onDelete('cascade');
             $table->timestamps();
         });
     }

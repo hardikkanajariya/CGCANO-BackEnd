@@ -14,19 +14,32 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('venue_id')->nullable(); // New field for venue
+            $table->unsignedBigInteger('venue_id')->nullable();
+            $table->unsignedBigInteger('speaker_id')->nullable();
             $table->string('title');
             $table->text('description');
-            $table->dateTime('time');
+            $table->dateTime('start');
+            $table->dateTime('end');
             $table->string('duration');
-            $table->string('location');
-            $table->string('image')->nullable();
+            $table->string('thumbnail')->nullable();
             $table->json('gallery')->nullable();
-            $table->boolean('is_featured')->default(false);
+            $table->string('tickets_available');
             $table->unsignedInteger('max_tickets_per_user')->nullable();
-            $table->boolean('is_published')->default(false);
+            $table->json('audience_type')->nullable();
+
+            // Socials and Links
+            $table->string('youtube')->nullable();
+            $table->string('website')->nullable();
+            $table->string('contact_phone')->nullable();
+            $table->string('contact_email')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('linkedin')->nullable();
+
             $table->foreign('category_id')->references('id')->on('event_categories')->onDelete('cascade');
             $table->foreign('venue_id')->references('id')->on('venues')->onDelete('set null');
+            $table->foreign('speaker_id')->references('id')->on('speakers')->onDelete('set null');
             $table->timestamps();
         });
     }

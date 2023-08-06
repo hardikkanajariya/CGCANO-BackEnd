@@ -37,14 +37,22 @@
 </div>
 {{--@include('include.modals')--}}
 {{-- Scripts --}}
+<script src="{{url('/')}}/assets/js/plugins.js"></script>
 <script src="{{url('/')}}/assets/js/theme.js"></script>
 <!-- Plugin Js -->
 <script src="{{url('/')}}/assets/js/bundle/apexcharts.bundle.js"></script>
 <script src="{{url('/')}}/assets/js/bundle/dataTables.bundle.js"></script>
-<script src="{{url('/')}}/assets/js/bundle/select2.bundle.js"></script>
 <!-- Vendor Script -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://parsleyjs.org/dist/parsley.js"></script>
+<script src="{{url('/')}}/assets/js/bundle/summernote.bundle.js"></script>
+
 <script>
+    // Add Parsley Validator to All Forms in the Page (For Validation)
+    $(document).ready(function () {
+        $('form').parsley();
+        $('#summernote').summernote();
+    });
     @foreach($errors->all() as $error)
     Toastify({
         text: "{{$error}}",
