@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PeopleController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Scanner;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
+use App\Http\Controllers\SubScribedController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,7 +32,6 @@ Route::prefix('gallery')->middleware(['auth', 'verified'])->group(function () {
     Route::post('/add', [GalleryController::class, 'doAdd'])->name('gallery.doAdd');
     Route::get('/delete/{id}', [GalleryController::class, 'doDelete'])->name('gallery.delete');
 });
-
 
 Route::prefix('events')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [EventController::class, 'list'])->name('event');
@@ -114,6 +115,20 @@ Route::prefix('peoples')->middleware(['auth', 'verified'])->group(function () {
 //    Route::get('/edit/{id}', [PeopleController::class, 'viewEdit'])->name('people.edit');
 //    Route::post('/edit/{id}', [PeopleController::class, 'doEdit'])->name('people.doEdit');
     Route::get('/delete/{id}', [PeopleController::class, 'doDelete'])->name('people.delete');
+});
+
+Route::prefix('contacts')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [ContactsController::class, 'list'])->name('contacts');
+    Route::get('/read/{id}', [ContactsController::class, 'markAsRead'])->name('contact.read');
+    Route::get('/unread/{id}', [ContactsController::class, 'markAsUnread'])->name('contact.unread');
+    Route::get('/delete/{id}', [ContactsController::class, 'doDelete'])->name('contact.delete');
+});
+
+Route::prefix('subscribers')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [SubScribedController::class, 'list'])->name('subscribers');
+    Route::get('/subscribe/{id}', [SubScribedController::class, 'subscribe'])->name('sub.true');
+    Route::get('/unsubscribe/{id}', [SubScribedController::class, 'unSubscribe'])->name('sub.false');
+    Route::get('/delete/{id}', [SubScribedController::class, 'doDelete'])->name('sub.delete');
 });
 
 Route::middleware('auth')->group(function () {

@@ -15,6 +15,7 @@ class Events extends Model
         'description',
         'category_id',
         'venue_id',
+        'speaker_id',
         'start_date',
         'end_date',
         'start_time',
@@ -36,9 +37,9 @@ class Events extends Model
         return $this->belongsTo('App\Models\Venues', 'venue_id');
     }
 
-    public function speakers()
+    public function speaker()
     {
-        return $this->hasMany('App\Models\Speakers', 'event_id');
+        return $this->belongsTo('App\Models\Speakers', 'speaker_id');
     }
 
     public function sponsors()

@@ -1,6 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\GalleryApiController;
+use App\Http\Controllers\Api\SpeakerApiController;
+use App\Http\Controllers\Api\SpeakerController;
+use App\Http\Controllers\Api\EventApiController;
+use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\SubScribedController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +21,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+// Open routes
+Route::prefix('events')->group(function () {
+    Route::get('all', [EventApiController::class, 'getAll']);
+    Route::get('{id}', [EventApiController::class, 'getEventDetail']);
+});
+
+Route::prefix('speaker')->group(function () {
+    Route::get('all', [SpeakerApiController::class, 'getAllSpeakers']);
+});
+
+Route::prefix('gallery')->group(function () {
+    Route::get('all', [GalleryApiController::class, 'getAllImages']);
+});
+
+Route::post('contact', [ContactsController::class, 'sendContact']);
+Route::post('subscribe', [SubScribedController::class, 'addSubscribed']);
+
+// Protected routes
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

@@ -4,11 +4,10 @@
     <div class="row g-3 row-deck">
         <div class="card">
             <div class="card-header">
-                <h6 class="card-title m-0">Events</h6>
+                <h6 class="card-title m-0">Subscribers</h6>
                 <div class="dropdown morphing scale-left">
                     <a href="#" class="card-fullscreen btn" style="width: 100px" data-bs-toggle="tooltip"
                        title="Card Full-Screen"><i class="icon-size-fullscreen"></i></a>
-                    <a href="{{route('event.add')}}" class="btn btn-outline-primary" style="width: 100px"><i class="fa fa-add"></i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -16,28 +15,34 @@
                     <thead>
                     <tr>
                         <th>#Id</th>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Venue</th>
-                        <th>Speaker</th>
-                        <th>Tickets</th>
+                        <th>Email</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($events as $data)
+                    @foreach($subscribed as $data)
                         <tr>
                             <td>#CGEVE-{{$data->id}}</td>
-                            <td>{{$data->title}}</td>
-                            <td>{{$data->start}} to {{$data->end}}</td>
-                            <td>{{$data->venue->address}}</td>
-                            <td>{{$data->speaker->name ? $data->speaker->name : "No speaker"}}</td>
-                            <td>43/{{$data->tickets_available}}</td>
-                            <td><span class="badge  bg-success text-white">Ticket Available</span></td>
+                            <td>{{$data->email}}</td>
                             <td>
-                                <a href="{{route('event.edit', [$data->id])}}" class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></a>
-                                <a href="{{route('event.edit', [$data->id])}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                @if($data->status == 1)
+                                    <span class="badge bg-success">Subscribed</span>
+                                @else
+                                    <span class="badge bg-danger">Unsubscribed</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if(!$data->status)
+                                    <a href="{{route('sub.true', [$data->id])}}" class="btn btn-sm btn-success">
+                                        Subscribe
+                                    </a>
+                                @else
+                                    <a href="{{route('sub.false', [$data->id])}}" class="btn btn-sm btn-success">
+                                        Unsubscribe
+                                    </a>
+                                @endif
+                                <a href="{{route('sub.delete', [$data->id])}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach

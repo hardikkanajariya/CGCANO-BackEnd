@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('venue_id')->nullable();
             $table->unsignedBigInteger('speaker_id')->nullable();
+            $table->boolean('status')->default(true);
             $table->string('title');
             $table->text('description');
             $table->dateTime('start');
