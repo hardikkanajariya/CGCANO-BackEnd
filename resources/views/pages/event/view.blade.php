@@ -8,7 +8,8 @@
                 <div class="dropdown morphing scale-left">
                     <a href="#" class="card-fullscreen btn" style="width: 100px" data-bs-toggle="tooltip"
                        title="Card Full-Screen"><i class="icon-size-fullscreen"></i></a>
-                    <a href="{{route('event.add')}}" class="btn btn-outline-primary" style="width: 100px"><i class="fa fa-add"></i></a>
+                    <a href="{{route('event.add')}}" class="btn btn-outline-primary" style="width: 100px"><i
+                            class="fa fa-add"></i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -16,7 +17,7 @@
                     <thead>
                     <tr>
                         <th>#Id</th>
-                        <th>Name</th>
+                        <th>Event Title</th>
                         <th>Date</th>
                         <th>Venue</th>
                         <th>Speaker</th>
@@ -30,14 +31,49 @@
                         <tr>
                             <td>#CGEVE-{{$data->id}}</td>
                             <td>{{$data->title}}</td>
-                            <td>{{$data->start}} to {{$data->end}}</td>
+                            @php
+                                $start = new DateTime($data->start);
+                                $end = new DateTime($data->end);
+                            @endphp
+                            <td>{{$start->format('M j, g:i A')}} to {{$end->format('M j, g:i A')}}</td>
                             <td>{{$data->venue->address}}</td>
                             <td>{{$data->speaker->name ? $data->speaker->name : "No speaker"}}</td>
-                            <td>43/{{$data->tickets_available}}</td>
-                            <td><span class="badge  bg-success text-white">Ticket Available</span></td>
+                            <td>{{$data->ticketsSold()}}/{{$data->tickets ? $data->tickets->quantity : 0}}</td>
                             <td>
-                                <a href="{{route('event.edit', [$data->id])}}" class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></a>
-                                <a href="{{route('event.edit', [$data->id])}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                @if($data->ticketsSold() < $data->tickets_available)
+                                    @if($data->tickets)
+                                        @if($data->tickets->is_sold_out)
+                                            <span class="badge bg-danger">
+                                                Tickets Sold Out
+                                            </span>
+                                        @else
+                                            <span class="badge bg-success">
+                                                Tickets Available
+                                            </span>
+                                        @endif
+                                    @else
+                                        <span class="badge bg-success">
+                                            Tickets Available
+                                        </span>
+                                    @endif
+                                @else
+                                    <span class="badge bg-danger">
+                                        Tickets Sold Out
+                                    </span>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{route('event.edit', [$data->id])}}" class="btn btn-sm btn-success"><i
+                                        class="fa fa-pencil"></i></a>
+                                <a href="{{route('event.delete', [$data->id])}}" class="btn btn-sm btn-danger"><i
+                                        class="fa fa-trash"></i></a>
+                                @if($data->tickets)
+                                    <a href="{{route('ticket.edit', [$data->tickets->id])}}"
+                                       class="btn btn-sm btn-primary">View Ticket</a>
+                                @else
+                                    <a href="{{route('ticket.add', [$data->slug])}}" class="btn btn-sm btn-primary">Add
+                                        New Ticket</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

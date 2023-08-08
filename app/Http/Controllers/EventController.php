@@ -6,6 +6,7 @@ use App\Models\EventAmenities;
 use App\Models\EventCategory;
 use App\Models\Events;
 use App\Models\Speakers;
+use App\Models\Tickets;
 use App\Models\Venues;
 use Exception;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ class EventController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'slug' => 'required|unique:events',
             'description' => 'required',
             'category' => 'required|exists:event_categories,id',
             'venue' => 'required|exists:venues,id',
@@ -43,7 +45,6 @@ class EventController extends Controller
             'gallery' => 'required|array',
             'gallery.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'tickets_available' => 'required|numeric',
-            'max_tickets_per_person' => 'required|numeric',
             'audience_type' => 'nullable|array',
             'youtube' => 'nullable|url',
             'website' => 'nullable|url',
@@ -57,6 +58,13 @@ class EventController extends Controller
         try {
             $event = new Events();
             $event->title = $request->title;
+
+            // generate slug from title if slug is empty
+            if ($request->slug == null) {
+                $event->slug = strtolower(str_replace(' ', '-', $request->title));
+            } else {
+                $event->slug = $request->slug;
+            }
             $event->description = $request->description;
             $event->category_id = $request->category;
             $event->venue_id = $request->venue;
@@ -76,12 +84,9 @@ class EventController extends Controller
             }
             $event->gallery = json_encode($gallery);
             $event->tickets_available = $request->tickets_available;
-            $event->max_tickets_per_user = $request->max_tickets_per_person;
             // If audience type is null, set it to empty array
             if ($request->audience_type == null) {
                 $request->audience_type = [];
-            } else {
-
             }
             $event->audience_type = json_encode($request->audience_type);
             $event->youtube = $request->youtube;
@@ -126,6 +131,7 @@ class EventController extends Controller
         $request->validate([
             'id' => 'required|exists:events,id',
             'title' => 'required',
+            'slug' => 'required|unique:events,slug,' . $id,
             'description' => 'required',
             'category' => 'required|exists:event_categories,id',
             'venue' => 'required|exists:venues,id',
@@ -137,8 +143,6 @@ class EventController extends Controller
             'gallery' => 'nullable|array',
             'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'tickets_available' => 'required|numeric',
-            'max_tickets_per_person' => 'required|numeric',
-            'audience_type' => 'nullable|array',
             'youtube' => 'nullable|url',
             'website' => 'nullable|url',
             'contact_phone' => 'nullable',
@@ -150,8 +154,13 @@ class EventController extends Controller
         ]);
 
         try {
-
             $event->title = $request->title;
+            // generate slug from title if slug is empty
+            if ($request->slug == null) {
+                $event->slug = strtolower(str_replace(' ', '-', $request->title));
+            } else {
+                $event->slug = $request->slug;
+            }
             $event->description = $request->description;
             $event->category_id = $request->category;
             $event->venue_id = $request->venue;
@@ -189,12 +198,11 @@ class EventController extends Controller
             }
 
             $event->tickets_available = $request->tickets_available;
-            $event->max_tickets_per_user = $request->max_tickets_per_person;
-
-            if ($request->audience_type == null) {
-                $request->audience_type = [];
-            }
-            $event->audience_type = json_encode($request->audience_type);
+//
+//            if ($request->audience_type == null) {
+//                $request->audience_type = [];
+//            }
+//            $event->audience_type = json_encode($request->audience_type);
             $event->youtube = $request->youtube;
             $event->website = $request->website;
             $event->contact_phone = $request->phone;
@@ -241,6 +249,12 @@ class EventController extends Controller
                 if (file_exists($image_path)) {
                     @unlink($image_path);
                 }
+            }
+
+            // Delete event tickets
+            $tickets = Tickets::where('event_id', $id)->get();
+            foreach ($tickets as $key => $value) {
+                $value->delete();
             }
             $event->delete();
             return redirect()->route('event')->with('success', 'Event deleted successfully.');

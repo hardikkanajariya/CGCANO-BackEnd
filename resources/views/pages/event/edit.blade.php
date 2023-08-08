@@ -25,6 +25,10 @@
                         <input type="text" class="form-control form-control-lg" required name="title" value="{{old('title') ? old('title') : $event->title}}">
                     </div>
                     <div class="col-sm-12">
+                        <label class="form-label">Slug</label>
+                        <input type="text" class="form-control form-control-lg" name="slug" value="{{old('slug') ? old('slug') : $event->slug}}">
+                    </div>
+                    <div class="col-sm-12">
                         <label class="form-label">Description</label>
                         <textarea id="summernote" rows="10" class="form-control no-resize" name="description" placeholder="Please type what you want...">{{old('description') ? old('description') : $event->description}}</textarea>
                     </div>
@@ -76,34 +80,30 @@
                         <label class="form-label">Ticket Available</label>
                         <input type="number" class="form-control form-control-lg" required name="tickets_available" value="{{old('tickets_available') ? old('tickets_available') : $event->tickets_available}}">
                     </div>
-                    <div class="col-sm-12">
-                        <label class="form-label">Max Ticket Per User</label>
-                        <input type="number" class="form-control form-control-lg" required name="max_tickets_per_person" value="{{old('max_tickets_per_person') ? old('max_tickets_per_person') : $event->max_tickets_per_user}}">
-                    </div>
-                    <div class="col-sm-12 mt-3">
-                        <label class="form-label">Allowed Audiences &nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="flexCheckDefault">Adults</label>
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="audience_type[]">
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="flexCheckDefault2">Family</label>
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault2" name="audience_type[]">
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="flexCheckDefault3">Group</label>
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault3" name="audience_type[]">
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="flexCheckDefault3">Children</label>
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault3" name="audience_type[]">
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="flexCheckDefault3">Youth</label>
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault3" name="audience_type[]">
-                        </div>
-                        <p id="error-checkbox"></p>
-                    </div>
+{{--                    <div class="col-sm-12 mt-3">--}}
+{{--                        <label class="form-label">Allowed Audiences &nbsp;&nbsp;&nbsp;&nbsp;</label>--}}
+{{--                        <div class="form-check form-check-inline">--}}
+{{--                            <label class="form-check-label" for="flexCheckDefault">Adults</label>--}}
+{{--                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="audience_type[]">--}}
+{{--                        </div>--}}
+{{--                        <div class="form-check form-check-inline">--}}
+{{--                            <label class="form-check-label" for="flexCheckDefault2">Family</label>--}}
+{{--                            <input class="form-check-input" type="checkbox" id="flexCheckDefault2" name="audience_type[]">--}}
+{{--                        </div>--}}
+{{--                        <div class="form-check form-check-inline">--}}
+{{--                            <label class="form-check-label" for="flexCheckDefault3">Group</label>--}}
+{{--                            <input class="form-check-input" type="checkbox" id="flexCheckDefault3" name="audience_type[]">--}}
+{{--                        </div>--}}
+{{--                        <div class="form-check form-check-inline">--}}
+{{--                            <label class="form-check-label" for="flexCheckDefault3">Children</label>--}}
+{{--                            <input class="form-check-input" type="checkbox" id="flexCheckDefault3" name="audience_type[]">--}}
+{{--                        </div>--}}
+{{--                        <div class="form-check form-check-inline">--}}
+{{--                            <label class="form-check-label" for="flexCheckDefault3">Youth</label>--}}
+{{--                            <input class="form-check-input" type="checkbox" id="flexCheckDefault3" name="audience_type[]">--}}
+{{--                        </div>--}}
+{{--                        <p id="error-checkbox"></p>--}}
+{{--                    </div>--}}
                     <div class="col-sm-12">
                         <label class="form-label">Youtube Video URL</label>
                         <input type="url" class="form-control form-control-lg" name="youtube" value="{{old('youtube') ? old('youtube') : $event->youtube}}">

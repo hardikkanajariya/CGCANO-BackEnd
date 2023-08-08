@@ -16,15 +16,7 @@ class Events extends Model
         'category_id',
         'venue_id',
         'speaker_id',
-        'start_date',
-        'end_date',
-        'start_time',
-        'end_time',
         'status',
-        'created_by',
-        'updated_by',
-        'created_at',
-        'updated_at',
     ];
 
     public function category()
@@ -47,5 +39,30 @@ class Events extends Model
         return $this->hasMany('App\Models\Sponsors', 'event_id');
     }
 
+    public function tickets()
+    {
+        return $this->hasOne('App\Models\Tickets', 'event_id');
+    }
 
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Orders', 'event_id');
+    }
+
+    // Count the number of tickets sold
+    public function ticketsSold()
+    {
+        // get All Tickets for this event
+        $tickets = $this->tickets()->get();
+        $ticketsSold = 0;
+
+        // get the order list for each ticket
+        foreach ($tickets as $ticket) {
+            $orders = Orders::where('ticket_id', $ticket->id)->get();
+            foreach ($orders as $order) {
+                $ticketsSold += $order->quantity;
+            }
+        }
+        return $ticketsSold;
+    }
 }

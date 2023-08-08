@@ -43,8 +43,12 @@
                                 <div class="card-body border-bottom d-flex">
                                     <img class="avatar rounded-circle" src="{{url('/')}}/assets/img/logo.png" alt="">
                                     <div class="flex-fill ms-3">
-                                        <h6 class="card-title mb-0">Allie Grater</h6>
-                                        <span class="text-muted">alliegrater@luno.com</span>
+                                        <h6 class="card-title mb-0">
+                                            {{auth()->user()->name}}
+                                        </h6>
+                                        <span class="text-muted">
+                                            {{auth()->user()->email}}
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="list-group m-2 mb-3">

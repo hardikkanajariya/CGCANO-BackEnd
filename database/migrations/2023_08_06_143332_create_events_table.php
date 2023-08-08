@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('venue_id')->nullable();
             $table->unsignedBigInteger('speaker_id')->nullable();
             $table->boolean('status')->default(true);
+            $table->boolean('featured')->default(false);
             $table->string('title');
             $table->text('description');
             $table->dateTime('start');
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->string('thumbnail')->nullable();
             $table->json('gallery')->nullable();
             $table->string('tickets_available');
-            $table->unsignedInteger('max_tickets_per_user')->nullable();
+            $table->string('slug')->unique();
             $table->json('audience_type')->nullable();
 
             // Socials and Links

@@ -10,6 +10,7 @@ use App\Http\Controllers\Scanner;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\SubScribedController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,7 +51,6 @@ Route::prefix('events')->middleware(['auth', 'verified'])->group(function () {
         Route::post('/edit/{id}', [EventController::class, 'doEditCategory'])->name('event.category.edit');
         Route::get('/delete/{id}', [EventController::class, 'doDeleteCategory'])->name('event.category.delete');
     });
-
     // Event Venues
     Route::prefix('venues')->group(function () {
         Route::get('/', [EventController::class, 'listVenues'])->name('event.venues');
@@ -71,6 +71,16 @@ Route::prefix('events')->middleware(['auth', 'verified'])->group(function () {
         });
     });
 });
+
+Route::prefix('tickets')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/add/{event}', [TicketController::class, 'viewAdd'])->name('ticket.add');
+    Route::post('/add/{event}', [TicketController::class, 'doAdd'])->name('ticket.doAdd');
+    Route::get('/edit/{id}', [TicketController::class, 'viewEdit'])->name('ticket.edit');
+    Route::get('/mark-as-sold/{id}', [TicketController::class, 'doSoldOut'])->name('ticket.markAsSold');
+    Route::post('/edit/{id}', [TicketController::class, 'doEdit'])->name('ticket.doEdit');
+    Route::get('/delete/{id}', [TicketController::class, 'doDelete'])->name('ticket.delete');
+});
+
 
 Route::prefix('scanner')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [Scanner::class, 'list'])->name('scanner');

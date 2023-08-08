@@ -17,7 +17,6 @@ class SpeakersFactory extends Factory
     public function definition(): array
     {
         return [
-            'event_id' => null,
             'name' => $this->faker->name,
             'title' => $this->faker->jobTitle,
             'description' => $this->faker->paragraph,

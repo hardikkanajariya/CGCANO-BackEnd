@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GalleryApiController;
+use App\Http\Controllers\Api\OrderApiController;
 use App\Http\Controllers\Api\SpeakerApiController;
-use App\Http\Controllers\Api\SpeakerController;
 use App\Http\Controllers\Api\EventApiController;
+use App\Http\Controllers\Api\TicketApiController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\SubScribedController;
 use Illuminate\Http\Request;
@@ -27,6 +28,10 @@ Route::prefix('events')->group(function () {
     Route::get('all', [EventApiController::class, 'getAll']);
     Route::get('{id}', [EventApiController::class, 'getEventDetail']);
 });
+
+Route::get('ticket/{slug}', [TicketApiController::class, 'getTicketDetails']);
+Route::post('place-order', [OrderApiController::class, 'createOrder']);
+Route::post('payment', [OrderApiController::class, 'paymentDetails']);
 
 Route::prefix('speaker')->group(function () {
     Route::get('all', [SpeakerApiController::class, 'getAllSpeakers']);
