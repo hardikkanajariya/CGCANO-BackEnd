@@ -35,7 +35,7 @@ class Tickets extends Model
 
     public function order()
     {
-        return $this->hasOne(Orders::class, 'ticket_id');
+        return $this->hasOne(Invoice::class, 'ticket_id');
     }
 
     // Count the number of tickets sold

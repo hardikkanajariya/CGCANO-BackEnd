@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GalleryApiController;
-use App\Http\Controllers\Api\OrderApiController;
+use App\Http\Controllers\Api\InvoiceApiController;
 use App\Http\Controllers\Api\SpeakerApiController;
 use App\Http\Controllers\Api\EventApiController;
 use App\Http\Controllers\Api\TicketApiController;
@@ -30,8 +30,12 @@ Route::prefix('events')->group(function () {
 });
 
 Route::get('ticket/{slug}', [TicketApiController::class, 'getTicketDetails']);
-Route::post('place-order', [OrderApiController::class, 'createOrder']);
-Route::post('payment', [OrderApiController::class, 'paymentDetails']);
+
+Route::post('create-order', [InvoiceApiController::class, 'createOrder']);
+Route::post('payment', [InvoiceApiController::class, 'paymentDetails']);
+
+// update Order Status
+Route::post('update-order-status/{status}', [InvoiceApiController::class, 'updateOrderStatus']);
 
 Route::prefix('speaker')->group(function () {
     Route::get('all', [SpeakerApiController::class, 'getAllSpeakers']);
@@ -44,14 +48,15 @@ Route::prefix('gallery')->group(function () {
 Route::post('contact', [ContactsController::class, 'sendContact']);
 Route::post('subscribe', [SubScribedController::class, 'addSubscribed']);
 
-// Protected routes
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Authentication
+Route::prefix('oauth')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
 });
 
-Route::controller(AuthController::class)->group(function () {
-    Route::post('login', 'login');
-    Route::post('register', 'register');
-    Route::post('logout', 'logout');
-    Route::post('refresh', 'refresh');
-});
+//Route::controller(AuthController::class)->group(function () {
+//    Route::post('login', 'login');
+//    Route::post('register', 'register');
+//    Route::post('logout', 'logout');
+//    Route::post('refresh', 'refresh');
+//});

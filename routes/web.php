@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PointOfSaleController;
 use App\Http\Controllers\ProfileController;
@@ -81,6 +82,12 @@ Route::prefix('tickets')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/delete/{id}', [TicketController::class, 'doDelete'])->name('ticket.delete');
 });
 
+Route::prefix('order')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [InvoiceController::class, 'list'])->name('orders');
+    Route::get('/edit/{id}', [InvoiceController::class, 'viewEdit'])->name('order.edit');
+    Route::get('/delete/{id}', [InvoiceController::class, 'doDelete'])->name('order.delete');
+    Route::get('/{id}/payment', [InvoiceController::class, 'viewPayment'])->name('payment');
+});
 
 Route::prefix('scanner')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [Scanner::class, 'list'])->name('scanner');

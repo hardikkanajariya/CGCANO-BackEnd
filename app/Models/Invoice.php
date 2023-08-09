@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Orders extends Model
+class Invoice extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders';
+    protected $table = 'invoices';
 
     protected $primaryKey = 'id';
 
@@ -17,7 +17,7 @@ class Orders extends Model
         'user_id',
         'ticket_id',
         'quantity',
-        'total_price',
+        'total_amount',
         'is_paid',
     ];
 
@@ -28,6 +28,7 @@ class Orders extends Model
 
     public function ticket()
     {
+        // get event of this ticket
         return $this->belongsTo(Tickets::class, 'ticket_id');
     }
 

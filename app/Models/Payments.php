@@ -26,6 +26,6 @@ class Payments extends Model
 
     public function order()
     {
-        return $this->belongsTo(Orders::class, 'order_id');
+        return $this->belongsTo(Invoice::class, 'order_id');
     }
 }

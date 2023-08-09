@@ -19,7 +19,7 @@ class UserFactory extends Factory
     {
         return [
             'role' => 'user',
-            'name' => $this->faker->name(),
+            'username' => $this->faker->userName(),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail(),
@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'dob' => $this->faker->date(),
             'img' => $this->faker->imageUrl(640, 480),
             'address' => $this->faker->address(),
-            'zip_code' => $this->faker->postcode(),
+            'postal_code' => $this->faker->postcode(),
             'city' => $this->faker->city(),
             'state' => $this->faker->state(),
             'country' => $this->faker->country(),
