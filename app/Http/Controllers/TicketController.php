@@ -35,6 +35,7 @@ class TicketController extends Controller
         $ticket = $event->tickets()->create([
             'price' => $request->price,
             'quantity' => $request->quantity,
+            'tickets_left' => $request->quantity,
         ]);
 
         // Redirect to the event page

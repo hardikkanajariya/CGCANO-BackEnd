@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('barcodes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('ticket_id');
+            $table->unsignedBigInteger('invoice_id');
             $table->string('barcode_img');
             $table->string('barcode_id')->unique();
             $table->json('data')->nullable();
             $table->boolean('is_used')->default(false);
             $table->boolean('is_expired')->default(false);
-            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
             $table->timestamps();
         });
     }

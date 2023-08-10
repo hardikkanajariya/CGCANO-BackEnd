@@ -14,6 +14,7 @@ class Tickets extends Model
         'event_id',
         'price',
         'quantity',
+        'tickets_left',
         'is_sold_out',
         'is_active',
     ];

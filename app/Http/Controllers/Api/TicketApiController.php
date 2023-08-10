@@ -29,6 +29,8 @@ class TicketApiController extends Controller
             'id' => $ticket->id,
             'price' => $ticket->price,
             'quantity' => $ticket->quantity,
+            'is_sold_out' => $ticket->is_sold_out,
+            'tickets_left' => $ticket->tickets_left,
         ];
         return response()->json($response);
     }

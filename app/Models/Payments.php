@@ -17,11 +17,16 @@ class Payments extends Model
 
     protected $fillable = [
         'order_id',
-        'payment_method',
-        'payment_status',
+        'billing_token',
         'payment_amount',
-        'payment_date',
-        'status',
+        'facilitator_access_token',
+        'paypal_order_id',
+        'payer_id',
+        'payer_name',
+        'payer_email',
+        'payer_address',
+        'gross_amount',
+        'status'
     ];
 
     public function order()

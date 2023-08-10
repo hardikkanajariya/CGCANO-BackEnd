@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('event_id');
             $table->decimal('price', 10, 2);
             $table->unsignedInteger('quantity');
+            $table->unsignedInteger('tickets_left')->default(0);
             $table->boolean('is_sold_out')->default(false);
             $table->boolean('is_active')->default(true);
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');

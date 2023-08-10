@@ -1,14 +1,13 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ApiAuthController;
+use App\Http\Controllers\Api\EventApiController;
 use App\Http\Controllers\Api\GalleryApiController;
 use App\Http\Controllers\Api\InvoiceApiController;
 use App\Http\Controllers\Api\SpeakerApiController;
-use App\Http\Controllers\Api\EventApiController;
 use App\Http\Controllers\Api\TicketApiController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\SubScribedController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,9 +48,9 @@ Route::post('contact', [ContactsController::class, 'sendContact']);
 Route::post('subscribe', [SubScribedController::class, 'addSubscribed']);
 
 // Authentication
-Route::prefix('oauth')->group(function () {
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
+Route::prefix('auth')->group(function () {
+    Route::post('login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+    Route::post('register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
 });
 
 //Route::controller(AuthController::class)->group(function () {
