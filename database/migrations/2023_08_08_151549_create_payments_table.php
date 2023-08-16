@@ -26,7 +26,6 @@ return new class extends Migration
             $table->string('paypal_fee')->nullable();
             $table->string('net_amount')->nullable();
             $table->string('status');
-            $table->foreign('order_id')->references('id')->on('orders');
             $table->softDeletes();
             $table->timestamps();
         });
