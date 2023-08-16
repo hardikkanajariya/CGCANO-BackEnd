@@ -18,11 +18,11 @@ class TicketEmail extends Mailable
      * Create a new message instance.
      */
     public $invoice_path;
-    public $username;
-    public function __construct($path, $username)
+    public $fullname;
+    public function __construct($path, $fullname)
     {
         $this->invoice_path = $path;
-        $this->username = $username;
+        $this->fullname = $fullname;
     }
 
     /**

@@ -16,7 +16,7 @@
                 <form action="{{route('pos.add')}}" method="post" enctype="multipart/form-data" class="card-body">
                     @csrf
                     <div class="col-sm-12">
-                        <label class="form-label">Username</label>
+                        <label class="form-label">fullname</label>
                         <input type="text" class="form-control form-control-lg" placeholder="@johndoe"
                                required>
                     </div>

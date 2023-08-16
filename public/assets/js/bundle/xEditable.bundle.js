@@ -295,7 +295,7 @@ onDOMContentLoaded(() => {
 
                         @example
                         $('#form-div').on('save'), function(e, params){
-                            if(params.newValue === 'username') {...}
+                            if(params.newValue === 'fullname') {...}
                         });
                         **/
                         this.$div.triggerHandler('save', {newValue: newValue, submitValue: submitValue, response: response});
@@ -419,7 +419,7 @@ onDOMContentLoaded(() => {
         @example
         var $form = $('&lt;div&gt;').editableform({
             type: 'text',
-            name: 'username',
+            name: 'fullname',
             url: '/post',
             value: 'vitaliy'
         });
@@ -1099,7 +1099,7 @@ onDOMContentLoaded(() => {
                         @event shown
                         @param {Object} event event object
                         @example
-                        $('#username').on('shown', function(e, editable) {
+                        $('#fullname').on('shown', function(e, editable) {
                             editable.input.$input.val('overwriting value of input..');
                         });
                         **/
@@ -1194,7 +1194,7 @@ onDOMContentLoaded(() => {
                 @param {object} event event object
                 @param {string} reason Reason caused hiding. Can be <code>save|cancel|onblur|nochange|manual</code>
                 @example
-                $('#username').on('hidden', function(e, reason) {
+                $('#fullname').on('hidden', function(e, reason) {
                     if(reason === 'save' || reason === 'cancel') {
                         //auto-open next editable
                         $(this).closest('tr').next().find('.editable').editable('show');
@@ -1245,7 +1245,7 @@ onDOMContentLoaded(() => {
                 @param {mixed} params.newValue submitted value
                 @param {Object} params.response ajax response
                 @example
-                $('#username').on('save', function(e, params) {
+                $('#fullname').on('save', function(e, params) {
                     //assuming server response: '{success: true}'
                     var pk = $(this).data('editableContainer').options.pk;
                     if(params.response && params.response.success) {
@@ -1637,10 +1637,10 @@ onDOMContentLoaded(() => {
                    @param {Object} editable editable instance (as here it cannot accessed via data('editable'))
                    @since 1.2.0
                    @example
-                   $('#username').on('init', function(e, editable) {
+                   $('#fullname').on('init', function(e, editable) {
                        alert('initialized ' + editable.options.name);
                    });
-                   $('#username').editable();
+                   $('#fullname').editable();
                    **/
                     this.$element.triggerHandler('init', this);
                 }, this));
@@ -1932,7 +1932,7 @@ onDOMContentLoaded(() => {
                 @param {mixed} params.newValue submitted value
                 @param {Object} params.response ajax response
                 @example
-                $('#username').on('save', function(e, params) {
+                $('#fullname').on('save', function(e, params) {
                     alert('Saved value: ' + params.newValue);
                 });
                 **/
@@ -2010,7 +2010,7 @@ onDOMContentLoaded(() => {
         @method $().editable(options)
         @params {Object} options
         @example
-        $('#username').editable({
+        $('#fullname').editable({
             type: 'text',
             url: '/post',
             pk: 1
@@ -2026,10 +2026,10 @@ onDOMContentLoaded(() => {
                 @method validate()
                 @returns {Object} validation errors map
                 @example
-                $('#username, #fullname').editable('validate');
+                $('#fullname, #fullname').editable('validate');
                 // possible result:
                 {
-                  username: "username is required",
+                  fullname: "fullname is required",
                   fullname: "fullname should be minimum 3 letters length"
                 }
                 **/
@@ -2052,14 +2052,14 @@ onDOMContentLoaded(() => {
                 @param {bool} isSingle whether to return just value of single element
                 @returns {Object} object of element names and values
                 @example
-                $('#username, #fullname').editable('getValue');
+                $('#fullname, #fullname').editable('getValue');
                 //result:
                 {
-                username: "superuser",
+                fullname: "superuser",
                 fullname: "John"
                 }
                 //isSingle = true
-                $('#username').editable('getValue', true);
+                $('#fullname').editable('getValue', true);
                 //result "superuser"
                 **/
                 case 'getValue':
@@ -2080,7 +2080,7 @@ onDOMContentLoaded(() => {
                 Internally it runs client-side validation for all fields and submits only in case of success.
                 See <a href="#newrecord">creating new records</a> for details.
                 Since 1.5.1 `submit` can be applied to single element to send data programmatically. In that case
-                `url`, `success` and `error` is taken from initial options and you can just call `$('#username').editable('submit')`.
+                `url`, `success` and `error` is taken from initial options and you can just call `$('#fullname').editable('submit')`.
 
                 @method submit(options)
                 @param {object} options
@@ -2223,7 +2223,7 @@ onDOMContentLoaded(() => {
             @example
             $('#edit-button').click(function(e) {
                 e.stopPropagation();
-                $('#username').editable('toggle');
+                $('#fullname').editable('toggle');
             });
 
             @property toggle
@@ -2341,7 +2341,7 @@ onDOMContentLoaded(() => {
             @example
             <div id="user">
               <!-- empty -->
-              <a href="#" data-name="username" data-type="text" class="editable-click editable-empty" data-value="" title="Username">Empty</a>
+              <a href="#" data-name="fullname" data-type="text" class="editable-click editable-empty" data-value="" title="fullname">Empty</a>
               <!-- non-empty -->
               <a href="#" data-name="group" data-type="select" data-source="/groups" data-value="1" class="editable-click" title="Group">Operator</a>
             </div>
@@ -2932,12 +2932,12 @@ onDOMContentLoaded(() => {
     @extends abstractinput
     @final
     @example
-    <a href="#" id="username" data-type="text" data-pk="1">awesome</a>
+    <a href="#" id="fullname" data-type="text" data-pk="1">awesome</a>
     <script>
     $(function(){
-        $('#username').editable({
+        $('#fullname').editable({
             url: '/post',
-            title: 'Enter username'
+            title: 'Enter fullname'
         });
     });
     </script>

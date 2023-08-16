@@ -38,7 +38,7 @@ class UserAuthentication extends Controller
     // Function to Register User
     public function register(Request $request){
         $request->validate([
-            'username' => 'required|min:3|unique:users',
+            'fullname' => 'required',
             'email' => 'required|email|unique:users',
             'mobile' => 'required',
             'password' => 'required|min:6|confirmed'
@@ -46,7 +46,7 @@ class UserAuthentication extends Controller
 
         // Create user
         $user = User::create([
-            'username' => $request->username,
+            'fullname' => $request->fullname,
             'email' => $request->email,
             'mobile' => $request->mobile,
             'password' => Hash::make($request->password)

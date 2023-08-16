@@ -37,7 +37,7 @@ class PointOfSaleController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'username' => 'required|unique:point_of_sales',
+            'fullname' => 'required|unique:point_of_sales',
             'email' => 'required|unique:point_of_sales|email',
             'password' => 'required',
             'confirm_password' => 'required|same:password',
@@ -46,7 +46,7 @@ class PointOfSaleController extends Controller
         try{
             $pos = new PontOfSale();
             $pos->name = $request->name;
-            $pos->username = $request->username;
+            $pos->fullname = $request->fullname;
             $pos->email = $request->email;
             $pos->password = Hash::make($request->password);
             $pos->save();
@@ -61,7 +61,7 @@ class PointOfSaleController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'username' => 'required|unique:point_of_sales,username,'.$id,
+            'fullname' => 'required|unique:point_of_sales,fullname,'.$id,
             'email' => 'required|unique:point_of_sales,email,'.$id.'|email',
             'old_password' => 'nullable',
         ]);
@@ -80,7 +80,7 @@ class PointOfSaleController extends Controller
                 }
             }
             $pos->name = $request->name;
-            $pos->username = $request->username;
+            $pos->fullname = $request->fullname;
             $pos->email = $request->email;
             $pos->save();
             return redirect()->route('pos')->with('success', 'POS has been updated successfully');

@@ -21,9 +21,9 @@
                                name="name">
                     </div>
                     <div class="col-sm-12">
-                        <label class="form-label">Username</label>
+                        <label class="form-label">fullname</label>
                         <input type="text" class="form-control form-control-lg" placeholder="@johndoe"
-                               name="username"
+                               name="fullname"
                                required>
                     </div>
                     <div class="col-sm-12">

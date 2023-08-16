@@ -23,9 +23,9 @@
                                name="name">
                     </div>
                     <div class="col-sm-12">
-                        <label class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control form-control-lg"
-                               value="{{$scanner->username}}" required>
+                        <label class="form-label">fullname</label>
+                        <input type="text" name="fullname" class="form-control form-control-lg"
+                               value="{{$scanner->fullname}}" required>
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Email</label>

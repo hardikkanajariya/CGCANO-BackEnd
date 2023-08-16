@@ -27,7 +27,7 @@
                     @foreach($invoices as $data)
                         <tr>
                             <td>{{$data->id}}</td>
-                            <td>{{$data->user->username}}</td>
+                            <td>{{$data->user->fullname}}</td>
                             <td>
                                 <a href="{{route('ticket.edit',$data->ticket->id)}}">View Ticket</a>
                             </td>

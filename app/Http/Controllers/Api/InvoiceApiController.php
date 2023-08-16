@@ -30,7 +30,7 @@ class InvoiceApiController extends Controller
             'ticket_id' => 'required|exists:tickets,id',
             'quantity' => 'required|numeric|min:1',
             'total_amount' => 'required|numeric|min:1',
-            'username' => 'required|min:3|max:255|alpha_dash',
+            'fullname' => 'required|min:3|max:255|alpha_dash',
             'email' => 'required|email',
             'phone' => 'required',
         ]);
@@ -158,7 +158,7 @@ class InvoiceApiController extends Controller
         $invoiceData = [
             'invoiceNumber' => "INV" . $request->order_id,
             'amount' => $request->payment_amount,
-            'name' => $order->user->username,
+            'name' => $order->user->fullname,
             'time' => $order->ticket->event->event_date,
             'title' => $order->ticket->event->title,
         ];
@@ -173,11 +173,11 @@ class InvoiceApiController extends Controller
         $pdfPath = public_path("invoices/$barcodeValue.pdf"); // Change the path and filename as needed
         file_put_contents($pdfPath, $pdf->output());
 
-        // Get the username
-        $username = $order->user->username;
+        // Get the fullname
+        $fullname = $order->user->fullname;
 
         // Send Email To The User With Barcode Image Attached
-        Mail::to($order->user->email)->send(new TicketEmail("invoices/$barcodeValue.pdf", $username));
+        Mail::to($order->user->email)->send(new TicketEmail("invoices/$barcodeValue.pdf", $fullname));
 
         // Update ticket quantity
         $ticket = Tickets::find($order->ticket_id);

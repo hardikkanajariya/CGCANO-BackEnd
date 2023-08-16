@@ -15,7 +15,7 @@
                 <table id="myTable" class="table myDataTable table-hover align-middle mb-0 card-table">
                     <thead>
                     <tr>
-                        <th>Username</th>
+                        <th>fullname</th>
                         <th>Email</th>
                         <th>Date</th>
                         <th>Status</th>

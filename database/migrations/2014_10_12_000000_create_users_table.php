@@ -14,9 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('role')->default('user');
-            $table->string('username')->unique()->nullable();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
+            $table->string('fullname');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('mobile')->nullable();
@@ -36,9 +34,7 @@ return new class extends Migration
         // Create Admin User
         DB::table('users')->insert([
             'role' => 'admin',
-            'username' => 'admin',
-            'first_name' => 'Admin',
-            'last_name' => 'User',
+            'fullname' => 'admin',
             'email' => 'admin@mail.com',
             'password' => Hash::make('admin'),
         ]);

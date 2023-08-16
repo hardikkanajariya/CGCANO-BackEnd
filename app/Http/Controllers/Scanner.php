@@ -36,7 +36,7 @@ class Scanner extends Controller
     public function doAdd(Request $request)
     {
         $request->validate([
-            'username' => 'required',
+            'fullname' => 'required',
             'email' => 'required|email|unique:scanners,email',
             'password' => 'required|confirmed',
             'password_confirmation' => 'required'
@@ -44,7 +44,7 @@ class Scanner extends Controller
         try {
             $scanner = new \App\Models\Scanner();
             $scanner->name = $request->name;
-            $scanner->username = $request->username;
+            $scanner->fullname = $request->fullname;
             $scanner->email = $request->email;
             $scanner->password = Hash::make($request->password);
             $scanner->save();
@@ -58,7 +58,7 @@ class Scanner extends Controller
     public function doEdit(Request $request, $id)
     {
         $request->validate([
-            'username' => 'required',
+            'fullname' => 'required',
             'email' => 'required|email|unique:scanners,email,'.$id,
             'password' => 'nullable|min:8|confirmed',
             'password_confirmation' => 'nullable|min:8'
@@ -67,7 +67,7 @@ class Scanner extends Controller
             $scanner = \App\Models\Scanner::find($id);
             if ($scanner) {
                 $scanner->name = $request->name;
-                $scanner->username = $request->username;
+                $scanner->fullname = $request->fullname;
                 $scanner->email = $request->email;
                 if ($request->old_password != null) {
                     $request->validate([
