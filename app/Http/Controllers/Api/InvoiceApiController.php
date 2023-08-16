@@ -6,17 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Mail\TicketEmail;
 use App\Models\Barcodes;
 use App\Models\Invoice;
-use App\Models\Orders;
 use App\Models\Tickets;
-use App\Models\User;
 use Dompdf\Dompdf;
-use Hash;
 use Illuminate\Http\Request;
 use Mail;
-use PhpParser\Node\Expr\Cast\String_;
 use Picqer\Barcode\BarcodeGeneratorPNG;
-use Ramsey\Uuid\Uuid;
 use View;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
+
 
 class InvoiceApiController extends Controller
 {
@@ -170,19 +168,20 @@ class InvoiceApiController extends Controller
         $pdf->render();
 
         // Save the PDF to a public path or return as response
-        $pdfPath = public_path("invoices/$barcodeValue.pdf"); // Change the path and filename as needed
+        $randomString = md5($barcodeValue); // Using md5 for URL-safe hash
+        $pdfPath = public_path("invoices/$randomString.pdf"); // Change the path and filename as needed
         file_put_contents($pdfPath, $pdf->output());
 
         // Get the fullname
         $fullname = $order->user->fullname;
 
         // Send Email To The User With Barcode Image Attached
-        Mail::to($order->user->email)->send(new TicketEmail("invoices/$barcodeValue.pdf", $fullname));
+        Mail::to($order->user->email)->send(new TicketEmail("invoices/$randomString.pdf", $fullname));
 
         // Update ticket quantity
         $ticket = Tickets::find($order->ticket_id);
         $quantity = $ticket->tickets_left - $order->quantity;
-        if($quantity <= 0){
+        if ($quantity <= 0) {
             $ticket->is_sold_out = true;
         }
         $ticket->tickets_left = $quantity < 0 ? 0 : $quantity;

@@ -8,6 +8,8 @@ use App\Models\Events;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Hash;
 
 class TicketApiController extends Controller
 {
@@ -17,10 +19,10 @@ class TicketApiController extends Controller
         $event = Events::where('slug', $slug)->first();
 
         // Get the ticket details
-        if(!$event){
+        if (!$event) {
             return response()->json(['message' => 'Ticket is not available'], 404);
         }
-        if(!$event->tickets){
+        if (!$event->tickets) {
             return response()->json(['message' => 'Ticket is not available'], 404);
         }
         $ticket = $event->tickets;
@@ -43,16 +45,18 @@ class TicketApiController extends Controller
     {
         $user_invoice = Invoice::where('user_id', $id)->get();
 
-        if(!$user_invoice){
+        if (!$user_invoice) {
             return response()->json(['message' => 'No tickets found'], 404);
         }
 
         $response = [];
-        foreach($user_invoice as $invoice){
+        foreach ($user_invoice as $invoice) {
             // Get the Ticket Details
             $ticket = $invoice->ticket;
             $event = $ticket->event;
             $barcode = Barcodes::where('invoice_id', $invoice->id)->first();
+            $hash = md5($barcode->barcode_id); // Using md5 for URL-safe hash
+            $downloadUrl = URL::to('/invoices/' . $hash . '.pdf');
             $response[] = [
                 'id' => $invoice->id,
                 'title' => $event->title,
@@ -63,7 +67,7 @@ class TicketApiController extends Controller
                 'total_amount' => $invoice->total_amount,
                 'is_paid' => $invoice->is_paid,
                 'purchased_at' => $invoice->created_at,
-                'download_url' => url('/invoices/'. $barcode->barcode_id . '.pdf'),
+                'download_url' => $downloadUrl,
             ];
         }
         return response()->json($response);
