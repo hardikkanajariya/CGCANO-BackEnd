@@ -13,9 +13,18 @@ class InvoiceController extends Controller
         return view('pages.invoice.view', compact('invoices'));
     }
 
-    public function viewPayment()
+    public function viewPayment($id)
     {
-        return view('pages.invoice.payment');
+        // Get the payment Details from Invoice ID
+        $invoice = Invoice::find($id);
+        if (!$invoice) {
+            return redirect()->back()->with('error', 'Invoice not found');
+        }
+        $paymentDetails = $invoice->payment;
+        if (!$paymentDetails) {
+            return redirect()->back()->with('error', 'Payment not found');
+        }
+        return view('pages.invoice.payment', compact('paymentDetails'));
     }
 
     // Function to view Edit Invoice

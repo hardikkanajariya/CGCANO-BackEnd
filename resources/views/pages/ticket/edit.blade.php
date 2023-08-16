@@ -24,7 +24,7 @@
                         <input type="number" min="1" required class="form-control form-control-lg" placeholder="99" name="quantity" value="{{old('quantity')? old('quantity') : $ticket->quantity}}">
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-light-primary">Add</button>
+                        <button type="submit" class="btn btn-light-primary">Update</button>
                         <a href="{{route('event')}}" class="btn btn-light-secondary">Cancel</a>
                         <a href="{{route('ticket.markAsSold', [$ticket->id])}}" class="btn btn-light-warning">Mark as Sold</a>
                         <a href="{{route('ticket.delete', [$ticket->id])}}" class="btn btn-light-danger" onclick="cofirm('Are you sure?')">Delete Ticket</a>

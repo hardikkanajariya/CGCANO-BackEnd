@@ -17,7 +17,7 @@
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Name</label>
-                        <input type="text" max="15" class="form-control form-control-lg" placeholder="@johndoe"
+                        <input type="text" class="form-control form-control-lg" placeholder="@johndoe"
                                name="name" value="{{old('name')}}" required>
                     </div>
                     <div class="col-sm-12 ">

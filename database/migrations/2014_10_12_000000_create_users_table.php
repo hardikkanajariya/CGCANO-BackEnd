@@ -32,6 +32,16 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        // Create Admin User
+        DB::table('users')->insert([
+            'role' => 'admin',
+            'username' => 'admin',
+            'first_name' => 'Admin',
+            'last_name' => 'User',
+            'email' => 'admin@mail.com',
+            'password' => Hash::make('admin'),
+        ]);
     }
 
     /**

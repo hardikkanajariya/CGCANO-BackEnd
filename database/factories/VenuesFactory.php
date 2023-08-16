@@ -27,7 +27,7 @@ class VenuesFactory extends Factory
             'longitude' => $this->faker->longitude,
             'latitude' => $this->faker->latitude,
             'postal_code' => $this->faker->postcode,
-            'amenities' => $this->faker->randomElement(EventAmenities::all()->pluck('id')->toArray()),
+            'amenities' => json_encode(EventAmenities::all()->random(5)->pluck('id')->toArray()),
         ];
     }
 }

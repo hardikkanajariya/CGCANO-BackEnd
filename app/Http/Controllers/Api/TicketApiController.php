@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Barcodes;
 use App\Models\Events;
+use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TicketApiController extends Controller
@@ -32,6 +35,37 @@ class TicketApiController extends Controller
             'is_sold_out' => $ticket->is_sold_out,
             'tickets_left' => $ticket->tickets_left,
         ];
+        return response()->json($response);
+    }
+
+    // Function to get the user tickets
+    public function getUserTickets($id)
+    {
+        $user_invoice = Invoice::where('user_id', $id)->get();
+
+        if(!$user_invoice){
+            return response()->json(['message' => 'No tickets found'], 404);
+        }
+
+        $response = [];
+        foreach($user_invoice as $invoice){
+            // Get the Ticket Details
+            $ticket = $invoice->ticket;
+            $event = $ticket->event;
+            $barcode = Barcodes::where('invoice_id', $invoice->id)->first();
+            $response[] = [
+                'id' => $invoice->id,
+                'title' => $event->title,
+                'slug' => $event->slug,
+                'date' => Carbon::parse($event->start)->format('M d Y h:i A'),
+                'price' => $ticket->price,
+                'tickets' => $invoice->quantity,
+                'total_amount' => $invoice->total_amount,
+                'is_paid' => $invoice->is_paid,
+                'purchased_at' => $invoice->created_at,
+                'download_url' => url('/invoices/'. $barcode->barcode_id . '.pdf'),
+            ];
+        }
         return response()->json($response);
     }
 }

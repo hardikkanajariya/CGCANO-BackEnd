@@ -19,12 +19,12 @@
                     <input type="hidden" name="id" value="{{$scanner->id}}">
                     <div class="col-sm-12">
                         <label class="form-label">Scanner Name</label>
-                        <input type="text" max="15" class="form-control form-control-lg" placeholder="john doe" required value="{{$scanner->name}}"
+                        <input type="text" class="form-control form-control-lg" placeholder="john doe" required value="{{$scanner->name}}"
                                name="name">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Username</label>
-                        <input type="text" name="username" max="15" class="form-control form-control-lg"
+                        <input type="text" name="username" class="form-control form-control-lg"
                                value="{{$scanner->username}}" required>
                     </div>
                     <div class="col-sm-12">

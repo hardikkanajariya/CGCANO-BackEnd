@@ -18,7 +18,7 @@
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Venue Name</label>
-                        <input type="text" max="15" class="form-control form-control-lg"
+                        <input type="text" class="form-control form-control-lg"
                                placeholder="Enter Category name" name="name" required value="{{old('name') ?old('name') : $venue->name}}">
                     </div>
                     <div class="col-sm-12">
@@ -33,28 +33,28 @@
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">City</label>
-                        <input type="text" max="15" class="form-control form-control-lg" placeholder="Enter city" name="city" required value="{{old('city') ? old('city'): $venue->city}}">
+                        <input type="text" class="form-control form-control-lg" placeholder="Enter city" name="city" required value="{{old('city') ? old('city'): $venue->city}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">State</label>
-                        <input type="text" max="15" class="form-control form-control-lg"
+                        <input type="text" class="form-control form-control-lg"
                                placeholder="Enter Category name" name="state" required value="{{old('state') ?old('state') : $venue->state}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Country</label>
-                        <input type="text" max="15" class="form-control form-control-lg"
+                        <input type="text" class="form-control form-control-lg"
                                placeholder="Enter Category name" name="country" required value="{{old('country') ?old('country') : $venue->country}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Postal Code</label>
-                        <input type="text" max="15" class="form-control form-control-lg"
+                        <input type="text" class="form-control form-control-lg"
                                placeholder="Enter Category name" name="zip_code" required value="{{old('zip_code') ?old('zip_code') : $venue->postal_code}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Amenities</label>
                         <select name="amenities[]" class="form-control show-tick ms select2" multiple="" data-placeholder="Select">
                             @foreach($amenities as $amenity)
-                                <option value="{{$amenity}}" {{in_array($amenity, $venue->amenities->toArray()) ? 'selected' : ''}}>{{$amenity->name}}</option>
+                                <option value="{{$amenity->id}}">{{$amenity->name}}</option>
                             @endforeach
                         </select>
                     </div>

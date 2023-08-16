@@ -18,7 +18,6 @@
                         <th>#Id</th>
                         <th>Thumbnail</th>
                         <th>Name</th>
-                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -30,7 +29,6 @@
                                 <td>
                                     <img src="{{url('/images/event/category/'.$cat->image)}}" alt="" width="50px" height="50px">
                                 </td>
-                                <td><span class="badge  bg-success text-white">Paid</span></td>
                                 <td>
                                     <a href="{{route('event.category.edit', [$cat->id])}}" class="btn btn-sm btn-success"><i
                                             class="fa fa-pencil"></i></a>

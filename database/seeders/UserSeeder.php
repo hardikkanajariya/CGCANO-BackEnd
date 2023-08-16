@@ -15,13 +15,5 @@ class UserSeeder extends Seeder
         \App\Models\User::factory()
             ->count(50)
             ->create();
-
-        // Create an admin user
-        \App\Models\User::factory()->create([
-            'username' => 'Admin User',
-            'email' => 'admin@example.com',
-            'role' => 'admin',
-            'password' => 'admin',
-        ]);
     }
 }

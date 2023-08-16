@@ -17,12 +17,12 @@
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Volunteer Name</label>
-                        <input type="text" max="15" class="form-control form-control-lg" placeholder="john doe" required
+                        <input type="text" class="form-control form-control-lg" placeholder="john doe" required
                                name="name">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Username</label>
-                        <input name="username" type="text" max="15" class="form-control form-control-lg"
+                        <input name="username" type="text" class="form-control form-control-lg"
                                placeholder="@johndoe"
                                required>
                     </div>

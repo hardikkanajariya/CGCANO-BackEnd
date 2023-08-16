@@ -18,9 +18,11 @@ class TicketEmail extends Mailable
      * Create a new message instance.
      */
     public $invoice_path;
-    public function __construct($path)
+    public $username;
+    public function __construct($path, $username)
     {
         $this->invoice_path = $path;
+        $this->username = $username;
     }
 
     /**
@@ -50,9 +52,6 @@ class TicketEmail extends Mailable
      */
     public function attachments(): array
     {
-        // attech barcode image to email
-
-        return [
-        ];
+        return [];
     }
 }

@@ -18,7 +18,7 @@
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Category name</label>
-                        <input type="text" max="15" class="form-control form-control-lg" placeholder="Enter Category name" value="{{old('name') ? old('name') :$category->name}}" name="name" required>
+                        <input type="text" class="form-control form-control-lg" placeholder="Enter Category name" value="{{old('name') ? old('name') :$category->name}}" name="name" required>
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Thumbnail</label>

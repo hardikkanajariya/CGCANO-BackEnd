@@ -19,7 +19,7 @@
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Venue Name</label>
-                        <input type="text" max="15" class="form-control form-control-lg"
+                        <input type="text" class="form-control form-control-lg"
                                placeholder="Enter Category name" name="name" required value="{{old('name')}}">
                     </div>
                     <div class="col-sm-12">
@@ -34,21 +34,21 @@
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">City</label>
-                        <input type="text" max="15" class="form-control form-control-lg" placeholder="Enter city" name="city" required value="{{old('city')}}">
+                        <input type="text" class="form-control form-control-lg" placeholder="Enter city" name="city" required value="{{old('city')}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">State</label>
-                        <input type="text" max="15" class="form-control form-control-lg"
+                        <input type="text" class="form-control form-control-lg"
                                placeholder="Enter Category name" name="state" required value="{{old('state')}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Country</label>
-                        <input type="text" max="15" class="form-control form-control-lg"
+                        <input type="text" class="form-control form-control-lg"
                                placeholder="Enter Category name" name="country" required value="{{old('country')}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Postal Code</label>
-                        <input type="text" max="15" class="form-control form-control-lg"
+                        <input type="text" class="form-control form-control-lg"
                                placeholder="Enter Category name" name="postal_code" required value="{{old('zip_code')}}">
                     </div>
                     <div class="col-sm-12">

@@ -75,10 +75,10 @@
                         <label class="form-label">Gallery</label>
                         <input type="file" class="form-control form-control-lg" multiple name="gallery[]">
                     </div>
-                    <div class="col-sm-12">
-                        <label class="form-label">Ticket Available</label>
-                        <input type="number" class="form-control form-control-lg" required name="tickets_available" value="{{old('tickets_available')}}" placeholder="Number of tickets available to purchase">
-                    </div>
+{{--                    <div class="col-sm-12">--}}
+{{--                        <label class="form-label">Ticket Available</label>--}}
+{{--                        <input type="number" class="form-control form-control-lg" required name="tickets_available" value="{{old('tickets_available')}}" placeholder="Number of tickets available to purchase">--}}
+{{--                    </div>--}}
 {{--                    <div class="col-sm-12 mt-3">--}}
 {{--                        <label class="form-label">Allowed Audiences &nbsp;&nbsp;&nbsp;&nbsp;</label>--}}
 {{--                        <div class="form-check form-check-inline">--}}

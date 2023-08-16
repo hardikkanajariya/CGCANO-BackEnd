@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Events;
-use http\Client\Request;
 use Illuminate\Support\Carbon;
 
 class EventApiController extends Controller
@@ -19,11 +18,11 @@ class EventApiController extends Controller
                 'id' => $event->id,
                 'title' => $event->title,
                 'event_date' => Carbon::parse($event->event_date)->format('d M Y'),
-//                'event_thumbnail' => url('images/event/thumbnail/' . $event->thumbnail),
-                'event_thumbnail' => $event->thumbnail,
+                'event_thumbnail' => url('images/event/thumbnail/' . $event->thumbnail),
+//                'event_thumbnail' => $event->thumbnail,
                 'speaker_name' => $event->speaker->name,
-                // 'speaker_image' => url('images/speaker/'.$event->speaker->image),
-                'speaker_image' => $event->speaker->image,
+                'speaker_image' => url('images/speaker/' . $event->speaker->image),
+//                'speaker_image' => $event->speaker->image,
                 'slug' => $event->slug,
             ];
         }
@@ -36,17 +35,9 @@ class EventApiController extends Controller
         $event = Events::where('slug', $slug)->first();
         $urls = [];
         foreach (json_decode($event->gallery) as $gallery) {
-            // If $gallery is start with http, then use $gallery as it is
-            if (strpos($gallery, 'http') === 0) {
-                $urls[] = $gallery;
-                continue;
-            }
             $urls[] = url('images/event/gallery/' . $gallery);
         }
-        // if event thumbnail is start with http, then use $event->thumbnail as it is
-        if (strpos($event->thumbnail, 'http') != 0) {
-            $event->thumbnail = url('images/event/thumbnail/' . $event->thumbnail);
-        }
+        $event->thumbnail = url('images/event/thumbnail/' . $event->thumbnail);
         $response = [
             'id' => $event->id,
             'title' => $event->title,

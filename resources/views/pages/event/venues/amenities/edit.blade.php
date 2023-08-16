@@ -18,7 +18,7 @@
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Name</label>
-                        <input type="text" max="15" class="form-control form-control-lg" placeholder="Enter Category name" value="{{old('name') ? old('name') :$amenities->name}}" name="name" required>
+                        <input type="text" class="form-control form-control-lg" placeholder="Enter Category name" value="{{old('name') ? old('name') :$amenities->name}}" name="name" required>
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Image</label>

@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 // Open routes
 Route::prefix('events')->group(function () {
     Route::get('all', [EventApiController::class, 'getAll']);
@@ -30,7 +29,10 @@ Route::prefix('events')->group(function () {
 
 Route::get('ticket/{slug}', [TicketApiController::class, 'getTicketDetails']);
 
+Route::get('user/ticket/{id}', [TicketApiController::class, 'getUserTickets']);
+
 Route::post('create-order', [InvoiceApiController::class, 'createOrder']);
+Route::post('validate-order/{id}', [InvoiceApiController::class, 'validateOrder']);
 Route::post('payment', [InvoiceApiController::class, 'paymentDetails']);
 
 // update Order Status
@@ -49,8 +51,8 @@ Route::post('subscribe', [SubScribedController::class, 'addSubscribed']);
 
 // Authentication
 Route::prefix('auth')->group(function () {
-    Route::post('login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
-    Route::post('register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
+    Route::post('login', [\App\Http\Controllers\Api\UserAuthentication::class, 'login']);
+    Route::post('register', [\App\Http\Controllers\Api\UserAuthentication::class, 'register']);
 });
 
 //Route::controller(AuthController::class)->group(function () {

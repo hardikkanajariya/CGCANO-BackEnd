@@ -28,7 +28,7 @@ class SpeakerController extends Controller
             'title' => 'required|min:5',
             'description' => 'required|min:10',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-            'website' => 'required|url'
+            'website' => 'nullable|url'
         ]);
 
         try{
@@ -37,7 +37,6 @@ class SpeakerController extends Controller
             $speaker->title = $request->title;
             $speaker->description = $request->description;
             $speaker->website = $request->website;
-            $speaker->event_id = null;
             $imageName = time().'.'.$request->image->extension();
             $request->image->move(public_path('images/speaker'), $imageName);
             $speaker->image = $imageName;
@@ -72,7 +71,6 @@ class SpeakerController extends Controller
             $speaker->title = $request->title;
             $speaker->description = $request->description;
             $speaker->website = $request->website;
-            $speaker->event_id = 1;
             if($request->image){
                 // Delete Old Image
                 $image_path = public_path('images/speaker/'.$speaker->image);

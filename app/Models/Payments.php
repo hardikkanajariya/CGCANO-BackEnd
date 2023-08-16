@@ -33,4 +33,5 @@ class Payments extends Model
     {
         return $this->belongsTo(Invoice::class, 'order_id');
     }
+
 }

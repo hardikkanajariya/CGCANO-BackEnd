@@ -44,7 +44,7 @@ class EventController extends Controller
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'gallery' => 'required|array',
             'gallery.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'tickets_available' => 'required|numeric',
+//            'tickets_available' => 'required|numeric',
             'audience_type' => 'nullable|array',
             'youtube' => 'nullable|url',
             'website' => 'nullable|url',
@@ -83,7 +83,7 @@ class EventController extends Controller
                 $gallery[] = $galleryName;
             }
             $event->gallery = json_encode($gallery);
-            $event->tickets_available = $request->tickets_available;
+            $event->tickets_available = '1';
             // If audience type is null, set it to empty array
             if ($request->audience_type == null) {
                 $request->audience_type = [];
@@ -142,7 +142,7 @@ class EventController extends Controller
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'gallery' => 'nullable|array',
             'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'tickets_available' => 'required|numeric',
+//            'tickets_available' => 'required|numeric',
             'youtube' => 'nullable|url',
             'website' => 'nullable|url',
             'contact_phone' => 'nullable',
@@ -197,7 +197,7 @@ class EventController extends Controller
                 $event->gallery = json_encode($gallery);
             }
 
-            $event->tickets_available = $request->tickets_available;
+            $event->tickets_available = '1';
 //
 //            if ($request->audience_type == null) {
 //                $request->audience_type = [];
@@ -379,14 +379,14 @@ class EventController extends Controller
             $venue->save();
             return redirect()->route('event.venues')->with('success', 'Venue added successfully.');
         } catch (Exception $e) {
-            return redirect()->route('event.venue.add')->with('error', 'Failed to add venue.');
+            return redirect()->route('event.venue.add')->with('error', $e->getMessage());
         }
     }
 
     public function viewEditVenue($id)
     {
         $venue = Venues::find($id);
-        $amenities = json_decode($venue->amenities);
+        $amenities = EventAmenities::all();
         return view('pages.event.venues.edit', ['venue' => $venue, 'amenities' => $amenities]);
     }
 

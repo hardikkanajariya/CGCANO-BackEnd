@@ -64,10 +64,13 @@ class TicketController extends Controller
 
         // Get the ticket
         $ticket = Tickets::where('id', $id)->firstOrFail();
+
         // Update the ticket
         $ticket->update([
             'price' => $request->price,
             'quantity' => $request->quantity,
+            'tickets_left' => $request->quantity,
+            'is_sold_out' => $request->quantity == 0,
         ]);
 
         // Redirect to the event page

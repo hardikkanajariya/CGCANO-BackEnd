@@ -7,10 +7,13 @@ use App\Mail\TicketEmail;
 use App\Models\Barcodes;
 use App\Models\Invoice;
 use App\Models\Orders;
+use App\Models\Tickets;
 use App\Models\User;
 use Dompdf\Dompdf;
 use Hash;
 use Illuminate\Http\Request;
+use Mail;
+use PhpParser\Node\Expr\Cast\String_;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Ramsey\Uuid\Uuid;
 use View;
@@ -22,6 +25,7 @@ class InvoiceApiController extends Controller
     {
         // Validate the request
         $request->validate([
+            'user_id' => 'required|exists:users,id',
             'order_id' => 'nullable',
             'ticket_id' => 'required|exists:tickets,id',
             'quantity' => 'required|numeric|min:1',
@@ -31,34 +35,23 @@ class InvoiceApiController extends Controller
             'phone' => 'required',
         ]);
 
+        // check if ticket is available or not
+        $ticket = Tickets::find($request->ticket_id);
+        if ($ticket->is_sold_out) {
+            return response()->json([
+                'message' => 'Ticket is not available',
+            ], 400);
+        }
+
         // check if order_id is already exists or not if exists then return the response
         if ($request->order_id != null) {
             $order = Invoice::find($request->order_id);
             if ($order) {
                 return response()->json([
                     'message' => 'Order Already Exists',
-                    'order' => $order,
                 ]);
             }
         }
-
-        // check if user_id is null
-        if ($request->user_id == null) {
-            // Find user by email
-            $user = User::where('email', $request->email)->first();
-            // If user not found then create new user
-            if (!$user) {
-                $user = User::create([
-                    'username' => $request->username,
-                    'email' => $request->email,
-                    'mobile' => $request->phone,
-                    'password' => Hash::make('password'),
-                ]);
-            }
-            // Assign user_id
-            $request->user_id = $user->id;
-        }
-
         // Create Order
         $order = Invoice::create([
             'user_id' => $request->user_id,
@@ -75,8 +68,28 @@ class InvoiceApiController extends Controller
         ]);
     }
 
+    // Function to validate order id
+    public function validateOrder($id)
+    {
+        // Find order by order_id
+        $order = Invoice::find($id);
+
+        // If order not found then return the response
+        if (!$order) {
+            return response()->json([
+                'message' => 'Order Not Found',
+            ], 404);
+        }
+
+        // Return the response
+        return response()->json([
+            'message' => 'Order Found',
+            'order' => $order,
+        ]);
+    }
+
     // Function to update order status
-    public function updateOrderStatus($status, Request $request)
+    public function updateOrderStatus(Request $request, $status)
     {
         // Validate the request
         $request->validate([
@@ -129,55 +142,56 @@ class InvoiceApiController extends Controller
             'status' => $request->status,
         ]);
 
-        // Generate A Barcode For The Order
-        // Create a new BarcodeGenerator instance for PNG images
-        $barcodeGenerator = new BarcodeGeneratorPNG();
-        // generate a unique barcode value using GUID library
-        $barcodeValue = Uuid::uuid4()->toString();
-        // Generate the barcode image based on the provided value
-        $barcodeImage = $barcodeGenerator->getBarcode($barcodeValue, $barcodeGenerator::TYPE_CODE_128);
-
-        // Save the barcode image to the public directory
-        $imagePath = 'barcodes/' . $barcodeValue . '.png';
-        file_put_contents(public_path($imagePath), $barcodeImage);
-
-        /* QR Code is not working  */
-        // $qrCode = QrCode::size(300)->generate($barcodeValue);
-        // $qrCodePath = 'qrcodes/' . $barcodeValue . '.png';
-        // Storage::disk('public')->put($qrCodePath, $qrCode);
-        // file_put_contents(public_path($qrCodePath), $qrCode);
-
-        // Insert Barcode Details
-        $barcode = Barcodes::create([
-            'invoice_id' => $request->order_id,
-            'barcode_id' => $barcodeValue,
-            'barcode_img' => $imagePath,
-        ]);
-
-        // Generate A Invoice For The Order
-        // Data for the invoice and barcode
-        $invoiceData = ['invoiceNumber' => 'INV12345', 'amount' => '$100.00'];
-        $barcodeValue = $invoiceData['invoiceNumber'];
+        $barcodeValue = "INV-" . $request->order_id . "-" . rand(1000, 9999);
 
         // Create a BarcodeGenerator instance for PNG images
         $barcodeGenerator = new BarcodeGeneratorPNG();
         $barcodeImage = $barcodeGenerator->getBarcode($barcodeValue, $barcodeGenerator::TYPE_CODE_128);
 
+        // Insert Barcode Details
+        $barcode = Barcodes::create([
+            'invoice_id' => $request->order_id,
+            'barcode_id' => $barcodeValue,
+            'barcode_img' => '',
+        ]);
+
+        $invoiceData = [
+            'invoiceNumber' => "INV" . $request->order_id,
+            'amount' => $request->payment_amount,
+            'name' => $order->user->username,
+            'time' => $order->ticket->event->event_date,
+            'title' => $order->ticket->event->title,
+        ];
+
         // Load the PDF template with data
         $pdf = new Dompdf();
         $pdf->loadHtml(View::make('pdf.invoice', compact('invoiceData', 'barcodeImage')));
-        $pdf->setPaper('A4', 'portrait'); // Set paper size and orientation
+        $pdf->setPaper('A4', 'horizontal'); // Set paper size and orientation
         $pdf->render();
 
         // Save the PDF to a public path or return as response
         $pdfPath = public_path("invoices/$barcodeValue.pdf"); // Change the path and filename as needed
         file_put_contents($pdfPath, $pdf->output());
 
-        // Send Email To The User With Barcode Image Attached
-         \Mail::to($order->user->email)->send(new TicketEmail("invoices/$barcodeValue.pdf"));
+        // Get the username
+        $username = $order->user->username;
 
-        // Update Order Status
-        $order->status = '1';
+        // Send Email To The User With Barcode Image Attached
+        Mail::to($order->user->email)->send(new TicketEmail("invoices/$barcodeValue.pdf", $username));
+
+        // Update ticket quantity
+        $ticket = Tickets::find($order->ticket_id);
+        $quantity = $ticket->tickets_left - $order->quantity;
+        if($quantity <= 0){
+            $ticket->is_sold_out = true;
+        }
+        $ticket->tickets_left = $quantity < 0 ? 0 : $quantity;
+        $ticket->save();
+
+        // update invoice status
+        $order->is_paid = true;
+        $order->status = "1";
+        $order->save();
 
         // Return the response
         return response()->json([

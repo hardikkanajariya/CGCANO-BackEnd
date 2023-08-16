@@ -28,9 +28,9 @@
                                 <td>{{$data->name}}</td>
                                 <td>{{$data->address}}</td>
                                 <td>
-                                    <a href="{{route('event.category.edit', [$data->id])}}" class="btn btn-sm btn-success"><i
+                                    <a href="{{route('event.venue.edit', [$data->id])}}" class="btn btn-sm btn-success"><i
                                             class="fa fa-pencil"></i></a>
-                                    <a href="{{route('event.category.delete', [$data->id])}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a href="{{route('event.venue.delete', [$data->id])}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         @endforeach
