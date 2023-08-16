@@ -35,7 +35,7 @@ Route::post('create-order', [InvoiceApiController::class, 'createOrder']);
 Route::post('validate-order/{id}', [InvoiceApiController::class, 'validateOrder']);
 Route::post('payment', [InvoiceApiController::class, 'paymentDetails']);
 
-// update Order Status
+// Order Status Update Route
 Route::post('update-order-status', [InvoiceApiController::class, 'updateOrderStatus']);
 
 Route::prefix('speaker')->group(function () {
