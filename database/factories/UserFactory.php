@@ -20,8 +20,6 @@ class UserFactory extends Factory
         return [
             'role' => 'user',
             'fullname' => $this->faker->fullname(),
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'mobile' => $this->faker->phoneNumber(),

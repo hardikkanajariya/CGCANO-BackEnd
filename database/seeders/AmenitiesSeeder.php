@@ -12,6 +12,6 @@ class AmenitiesSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\EventAmenities::factory()->count(20)->create();
+        \App\Models\EventAmenities::factory()->count(5)->create();
     }
 }

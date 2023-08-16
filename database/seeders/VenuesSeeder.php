@@ -12,6 +12,6 @@ class VenuesSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Venues::factory()->count(10)->create();
+        \App\Models\Venues::factory()->count(5)->create();
     }
 }

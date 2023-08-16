@@ -59,7 +59,7 @@
             Invoice Number: <span class="invoice-data">{{ $invoiceData['invoiceNumber'] }}</span><br>
             Amount: <span class="invoice-data">${{ $invoiceData['amount'] }}</span><br>
             Name: <span class="invoice-data">{{ $invoiceData['name'] }}</span><br>
-            Time: <span class="invoice-data">{{ $invoiceData['time'] }}</span><br>
+            {{-- Time: <span class="invoice-data">{{ $invoiceData['time'] }}</span><br> --}}
             Title: <span class="invoice-data">{{ $invoiceData['title'] }}</span>
         </div>
     </div>

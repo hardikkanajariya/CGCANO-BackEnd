@@ -17,7 +17,7 @@
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Price</label>
-                        <input type="number" min="0" required class="form-control form-control-lg" placeholder="$299"
+                        <input type="number" required class="form-control form-control-lg" placeholder="$299"
                                name="price" value="{{old('price')}}">
                     </div>
                     <div class="col-sm-12">

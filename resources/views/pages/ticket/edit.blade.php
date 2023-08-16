@@ -17,7 +17,7 @@
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Price</label>
-                        <input type="number" min="0" required class="form-control form-control-lg" placeholder="$299" name="price" value="{{old('price') ? old('price') : $ticket->price}}">
+                        <input type="number" required class="form-control form-control-lg" placeholder="$299" name="price" value="{{old('price') ? old('price') : $ticket->price}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Available Tickets</label>
@@ -27,7 +27,7 @@
                         <button type="submit" class="btn btn-light-primary">Update</button>
                         <a href="{{route('event')}}" class="btn btn-light-secondary">Cancel</a>
                         <a href="{{route('ticket.markAsSold', [$ticket->id])}}" class="btn btn-light-warning">Mark as Sold</a>
-                        <a href="{{route('ticket.delete', [$ticket->id])}}" class="btn btn-light-danger" onclick="cofirm('Are you sure?')">Delete Ticket</a>
+                        <a href="{{route('ticket.delete', [$ticket->id])}}" class="btn btn-light-danger" onclick="confirm('Are you sure?')">Delete Ticket</a>
                     </div>
                 </form>
             </div>

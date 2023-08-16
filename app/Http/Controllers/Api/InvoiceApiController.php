@@ -30,7 +30,7 @@ class InvoiceApiController extends Controller
             'ticket_id' => 'required|exists:tickets,id',
             'quantity' => 'required|numeric|min:1',
             'total_amount' => 'required|numeric|min:1',
-            'fullname' => 'required|min:3|max:255|alpha_dash',
+            'fullname' => 'required|min:3|max:255',
             'email' => 'required|email',
             'phone' => 'required',
         ]);
@@ -43,15 +43,6 @@ class InvoiceApiController extends Controller
             ], 400);
         }
 
-        // check if order_id is already exists or not if exists then return the response
-        if ($request->order_id != null) {
-            $order = Invoice::find($request->order_id);
-            if ($order) {
-                return response()->json([
-                    'message' => 'Order Already Exists',
-                ]);
-            }
-        }
         // Create Order
         $order = Invoice::create([
             'user_id' => $request->user_id,
@@ -65,6 +56,8 @@ class InvoiceApiController extends Controller
         return response()->json([
             'message' => 'Order Created Successfully',
             'order_id' => $order->id,
+            'order' => $order,
+            'ticket_price' => $ticket->price,
         ]);
     }
 
@@ -89,16 +82,17 @@ class InvoiceApiController extends Controller
     }
 
     // Function to update order status
-    public function updateOrderStatus(Request $request, $status)
+    public function updateOrderStatus(Request $request)
     {
         // Validate the request
         $request->validate([
             'order_id' => 'required',
+            'status' => 'required',
         ]);
 
         // Update Order Status
         $order = Invoice::find($request->order_id);
-        $order->status = $status;
+        $order->status = $request->status;
         $order->save();
 
         // Return the response
@@ -155,11 +149,17 @@ class InvoiceApiController extends Controller
             'barcode_img' => '',
         ]);
 
+        // Get the ticket details
+        $ticket = Tickets::find($order->ticket_id);
+
+        // Get the event details
+        $event = $ticket->event;
+
         $invoiceData = [
             'invoiceNumber' => "INV" . $request->order_id,
-            'amount' => $request->payment_amount,
+            'amount' => $request->total_price ? $request->total_price : $request->gross_amount,
             'name' => $order->user->fullname,
-            'time' => $order->ticket->event->event_date,
+            'time' => $event->start,
             'title' => $order->ticket->event->title,
         ];
 

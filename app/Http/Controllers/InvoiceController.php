@@ -9,7 +9,7 @@ class InvoiceController extends Controller
 {
     // Function to view All Invoices
     public function list(){
-        $invoices = Invoice::all();
+        $invoices = Invoice::all(); 
         return view('pages.invoice.view', compact('invoices'));
     }
 
