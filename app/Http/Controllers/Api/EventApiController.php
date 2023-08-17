@@ -42,7 +42,7 @@ class EventApiController extends Controller
             'id' => $event->id,
             'title' => $event->title,
             'slug' => $event->slug,
-            'event_date' => Carbon::parse($event->event_date)->format('d M Y'),
+            'event_date' => Carbon::parse($event->start)->format('d M Y'),
             'event_thumbnail' => $event->thumbnail,
             'speaker' => $event->speaker,
             'description' => $event->description,

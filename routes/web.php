@@ -30,7 +30,7 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('test', function () {
-    Mail::to("yoxane5317@viperace.com")->send(new TicketEmail("invoices/123.pdf", "Test fullname"));
+    Mail::to("hcollege0@gmail.com")->send(new TicketEmail("invoices/123.pdf", "Test fullname"));
     return "Email Sent";
 });
 

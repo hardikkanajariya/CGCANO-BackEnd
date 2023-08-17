@@ -61,7 +61,7 @@ class TicketApiController extends Controller
                 'id' => $invoice->id,
                 'title' => $event->title,
                 'slug' => $event->slug,
-                'date' => Carbon::parse($event->start)->format('M d Y h:i A'),
+                'date' => Carbon::parse($invoice->created_at)->format('M d Y h:i A'),
                 'price' => $ticket->price,
                 'tickets' => $invoice->quantity,
                 'total_amount' => $invoice->total_amount,

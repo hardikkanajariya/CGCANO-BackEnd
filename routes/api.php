@@ -53,7 +53,7 @@ Route::post('subscribe', [SubScribedController::class, 'addSubscribed']);
 Route::prefix('auth')->group(function () {
     Route::post('login', [\App\Http\Controllers\Api\UserAuthentication::class, 'login']);
     Route::post('register', [\App\Http\Controllers\Api\UserAuthentication::class, 'register']);
-});
+}); 
 
 //Route::controller(AuthController::class)->group(function () {
 //    Route::post('login', 'login');
