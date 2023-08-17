@@ -17,11 +17,11 @@
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Price</label>
-                        <input type="number" required class="form-control form-control-lg" placeholder="$299" name="price" value="{{old('price') ? old('price') : $ticket->price}}">
+                        <input type="text" required class="form-control form-control-lg" placeholder="$299" name="price" value="{{old('price') ? old('price') : $ticket->price}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Available Tickets</label>
-                        <input type="number" min="1" required class="form-control form-control-lg" placeholder="99" name="quantity" value="{{old('quantity')? old('quantity') : $ticket->quantity}}">
+                        <input type="number" required class="form-control form-control-lg" placeholder="99" name="quantity" value="{{old('quantity')? old('quantity') : $ticket->quantity}}">
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-light-primary">Update</button>

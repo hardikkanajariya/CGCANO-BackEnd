@@ -20,8 +20,8 @@ class TicketController extends Controller
     {
         // Validate the form
         $request->validate([
-            'price' => 'required|numeric|min:1',
-            'quantity' => 'required|numeric|min:1',
+            'price' => 'required|numeric',
+            'quantity' => 'required|numeric',
         ]);
         // Get the event
         $event = Events::where('slug', $event)->firstOrFail();
@@ -58,8 +58,8 @@ class TicketController extends Controller
     {
         // Validate the form
         $request->validate([
-            'price' => 'required|numeric|min:1',
-            'quantity' => 'required|numeric|min:1',
+            'price' => 'required|numeric',
+            'quantity' => 'required|numeric',
         ]);
 
         // Get the ticket

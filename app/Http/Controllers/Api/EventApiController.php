@@ -17,7 +17,7 @@ class EventApiController extends Controller
             $response[] = [
                 'id' => $event->id,
                 'title' => $event->title,
-                'event_date' => Carbon::parse($event->event_date)->format('d M Y'),
+                'event_date' => Carbon::parse($event->start)->format('d M Y'),
                 'event_thumbnail' => url('images/event/thumbnail/' . $event->thumbnail),
 //                'event_thumbnail' => $event->thumbnail,
                 'speaker_name' => $event->speaker->name,

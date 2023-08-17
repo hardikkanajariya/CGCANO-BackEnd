@@ -9,11 +9,9 @@ use App\Models\Invoice;
 use App\Models\Tickets;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
-use Mail;
 use Picqer\Barcode\BarcodeGeneratorPNG;
-use View;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 
 
 class InvoiceApiController extends Controller
@@ -27,7 +25,7 @@ class InvoiceApiController extends Controller
             'order_id' => 'nullable',
             'ticket_id' => 'required|exists:tickets,id',
             'quantity' => 'required|numeric|min:1',
-            'total_amount' => 'required|numeric|min:1',
+            'total_amount' => 'required|numeric',
             'fullname' => 'required|min:3|max:255',
             'email' => 'required|email',
             'phone' => 'required',

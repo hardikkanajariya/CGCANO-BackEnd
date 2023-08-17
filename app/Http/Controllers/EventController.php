@@ -363,7 +363,7 @@ class EventController extends Controller
             'city' => 'required|alpha',
             'state' => 'required|alpha',
             'country' => 'required|alpha',
-            'postal_code' => 'required|numeric',
+            'postal_code' => 'required',
             'amenities' => 'required|array',
         ]);
         try {
