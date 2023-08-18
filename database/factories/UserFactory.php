@@ -19,19 +19,18 @@ class UserFactory extends Factory
     {
         return [
             'role' => 'user',
-            'fullname' => $this->faker->fullname(),
+            'fullname' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'mobile' => $this->faker->phoneNumber(),
             'dob' => $this->faker->date(),
-            'img' => $this->faker->imageUrl(640, 480),
+            'img' => "avatar" . rand(1,9).".jpg",
             'address' => $this->faker->address(),
             'postal_code' => $this->faker->postcode(),
             'city' => $this->faker->city(),
             'state' => $this->faker->state(),
             'country' => $this->faker->country(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
         ];
     }
 

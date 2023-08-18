@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\EventApiController;
 use App\Http\Controllers\Api\GalleryApiController;
+use App\Http\Controllers\Api\CommonApiController;
 use App\Http\Controllers\Api\InvoiceApiController;
+use App\Http\Controllers\Api\PosController;
 use App\Http\Controllers\Api\SpeakerApiController;
 use App\Http\Controllers\Api\TicketApiController;
+use App\Http\Controllers\Api\UserAuthentication;
 use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\Scanner;
 use App\Http\Controllers\SubScribedController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,43 +24,59 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Open routes
+// Route for getting all events and event details by id [Now it's getting from slug]
 Route::prefix('events')->group(function () {
-    Route::get('all', [EventApiController::class, 'getAll']);
     Route::get('{id}', [EventApiController::class, 'getEventDetail']);
 });
 
-Route::get('ticket/{slug}', [TicketApiController::class, 'getTicketDetails']);
-
-Route::get('user/ticket/{id}', [TicketApiController::class, 'getUserTickets']);
-
-Route::post('create-order', [InvoiceApiController::class, 'createOrder']);
-Route::post('validate-order/{id}', [InvoiceApiController::class, 'validateOrder']);
-Route::post('payment', [InvoiceApiController::class, 'paymentDetails']);
-
-// Order Status Update Route
-Route::post('update-order-status', [InvoiceApiController::class, 'updateOrderStatus']);
-
-Route::prefix('speaker')->group(function () {
-    Route::get('all', [SpeakerApiController::class, 'getAllSpeakers']);
+// Get All Data
+Route::prefix('all')->group(function () {
+    Route::get('speakers', [CommonApiController::class, 'getAllSpeakers']);
+    Route::get('galleries', [CommonApiController::class, 'getAllGalleries']);
+    Route::get('categories', [CommonApiController::class, 'getAllCategories']);
+    Route::get('sponsors', [CommonApiController::class, 'getAllSponsors']);
+    Route::get('events', [CommonApiController::class, 'getAllEvents']);
 });
 
-Route::prefix('gallery')->group(function () {
-    Route::get('all', [GalleryApiController::class, 'getAllImages']);
+// Handle Tickets
+Route::prefix('tickets')->group(function () {
+    Route::get('{slug}', [TicketApiController::class, 'getTicketDetails']);
+    Route::get('all', [TicketApiController::class, 'getAllTickets']);
+    Route::get('user/{id}', [TicketApiController::class, 'getUserTickets']);
 });
 
+// Handle Orders
+Route::prefix('orders')->group(function () {
+    Route::post('create', [InvoiceApiController::class, 'createOrder']);
+    Route::post('status', [InvoiceApiController::class, 'updateOrderStatus']);
+});
+
+// Handle Payment
+Route::prefix('payment')->group(function () {
+    Route::post('create', [InvoiceApiController::class, 'paymentDetails']);
+});
+
+// Handle Contact and Subscribe form submission
 Route::post('contact', [ContactsController::class, 'sendContact']);
 Route::post('subscribe', [SubScribedController::class, 'addSubscribed']);
 
 // Authentication
 Route::prefix('auth')->group(function () {
-    Route::post('login', [\App\Http\Controllers\Api\UserAuthentication::class, 'login']);
-    Route::post('register', [\App\Http\Controllers\Api\UserAuthentication::class, 'register']);
-}); 
+    Route::post('login', [UserAuthentication::class, 'login']);
+    Route::post('register', [UserAuthentication::class, 'register']);
+});
 
-//Route::controller(AuthController::class)->group(function () {
-//    Route::post('login', 'login');
-//    Route::post('register', 'register');
-//    Route::post('logout', 'logout');
-//    Route::post('refresh', 'refresh');
-//});
+// Routes for handling Scanner Application
+Route::prefix('scanner')->group(function () {
+    Route::post('login', [Scanner::class, 'login']);
+    Route::post('scan', [Scanner::class, 'scanTicket']);
+});
+
+// Routes for handling POS Application
+Route::prefix('pos')->group(function () {
+    Route::post('login', [PosController::class, 'login']);
+    Route::post('scan', [PosController::class, 'scanTicket']);
+    Route::post('create', [PosController::class, 'createOrder']);
+    Route::post('status', [PosController::class, 'updateOrderStatus']);
+    Route::post('payment', [PosController::class, 'paymentDetails']);
+});

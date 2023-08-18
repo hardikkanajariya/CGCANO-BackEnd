@@ -8,27 +8,6 @@ use Illuminate\Support\Carbon;
 
 class EventApiController extends Controller
 {
-    // Function to get All Event List
-    public function getAll()
-    {
-        $events = Events::where('status', 1)->get();
-        $response = [];
-        foreach ($events as $event) {
-            $response[] = [
-                'id' => $event->id,
-                'title' => $event->title,
-                'event_date' => Carbon::parse($event->start)->format('d M Y'),
-                'event_thumbnail' => url('images/event/thumbnail/' . $event->thumbnail),
-//                'event_thumbnail' => $event->thumbnail,
-                'speaker_name' => $event->speaker->name,
-                'speaker_image' => url('images/speaker/' . $event->speaker->image),
-//                'speaker_image' => $event->speaker->image,
-                'slug' => $event->slug,
-            ];
-        }
-        return response()->json($response);
-    }
-
     // Function to get Event Detail by ID
     public function getEventDetail($slug)
     {

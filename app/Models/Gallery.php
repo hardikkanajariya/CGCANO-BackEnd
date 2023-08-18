@@ -13,15 +13,4 @@ class Gallery extends Model
     protected $fillable = [
         'path',
     ];
-
-    public function getPathAttribute($value)
-    {
-        return asset('images/gallery/' . $value);
-    }
-
-    public function setPathAttribute($value)
-    {
-        $this->attributes['path'] = time() . '_' . $value->getClientOriginalName();
-        $value->move(public_path('images/gallery'), $this->attributes['path']);
-    }
 }

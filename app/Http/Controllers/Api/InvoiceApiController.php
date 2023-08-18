@@ -138,11 +138,15 @@ class InvoiceApiController extends Controller
         $barcodeGenerator = new BarcodeGeneratorPNG();
         $barcodeImage = $barcodeGenerator->getBarcode($barcodeValue, $barcodeGenerator::TYPE_CODE_128);
 
+        // save barcode image
+        $barcodePath = public_path("barcodes/$barcodeValue.png");
+        file_put_contents($barcodePath, $barcodeImage);
+
         // Insert Barcode Details
         $barcode = Barcodes::create([
             'invoice_id' => $request->order_id,
             'barcode_id' => $barcodeValue,
-            'barcode_img' => '',
+            'barcode_img' => $barcodeValue . ".png",
         ]);
 
         // Get the ticket details
@@ -191,6 +195,7 @@ class InvoiceApiController extends Controller
         // update invoice status
         $order->is_paid = true;
         $order->status = "1";
+        $order->pdf = $randomString . ".pdf";
         $order->save();
 
         // Return the response

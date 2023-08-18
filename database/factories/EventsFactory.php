@@ -17,29 +17,6 @@ class EventsFactory extends Factory
      */
     public function definition(): array
     {
-        /* Fields
-        * 'title' => 'required',
-            'slug' => 'required|unique:events,slug,' . $id,
-            'description' => 'required',
-            'category' => 'required|exists:event_categories,id',
-            'venue' => 'required|exists:venues,id',
-            'speaker' => 'required|exists:speakers,id',
-            'start' => 'required|date|after:today',
-            'end' => 'required|after:start',
-            'duration' => 'required',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'gallery' => 'nullable|array',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'tickets_available' => 'required|numeric',
-            'youtube' => 'nullable|url',
-            'website' => 'nullable|url',
-            'contact_phone' => 'nullable',
-            'contact_email' => 'nullable|email',
-            'twitter' => 'nullable|url',
-            'instagram' => 'nullable|url',
-            'facebook' => 'nullable|url',
-            'linkedin' => 'nullable|url',
-        */
         return [
             'title' => $this->faker->sentence(6),
             'slug' => $this->faker->slug(),
@@ -50,12 +27,12 @@ class EventsFactory extends Factory
             'start' => $this->faker->dateTimeBetween('now', '+1 days'),
             'end' => $this->faker->dateTimeBetween('now', '+1 days'),
             'duration' => $this->faker->numberBetween(1, 5),
-            'thumbnail' => $this->faker->imageUrl(640, 480, 'events', true),
+            'thumbnail' => rand(1,14).".jpg",
             'gallery' => json_encode([
-                $this->faker->imageUrl(640, 480, 'events', true),
-                $this->faker->imageUrl(640, 480, 'events', true),
-                $this->faker->imageUrl(640, 480, 'events', true),
-                $this->faker->imageUrl(640, 480, 'events', true),
+                rand(1,14).".jpg",
+                rand(1,14).".jpg",
+                rand(1,14).".jpg",
+                rand(1,14).".jpg",
             ]),
             'tickets_available' => $this->faker->numberBetween(1, 255),
             'youtube' => $this->faker->url(),

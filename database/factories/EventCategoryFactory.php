@@ -19,7 +19,7 @@ class EventCategoryFactory extends Factory
         return [
             'name' => $this->faker->word,
             'description' => $this->faker->paragraph,
-            'image' => $this->faker->imageUrl(640, 480),
+            'image' => rand(1,14).".jpg",
             'status' => true,
         ];
     }

@@ -20,7 +20,7 @@ class SpeakersFactory extends Factory
             'name' => $this->faker->name,
             'title' => $this->faker->jobTitle,
             'description' => $this->faker->paragraph,
-            'image' => $this->faker->imageUrl(640, 480),
+            'image' => "avatar" . rand(1,9).".jpg",
             'website' => $this->faker->url,
             'is_active' => true,
         ];

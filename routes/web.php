@@ -4,6 +4,7 @@ use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PointOfSaleController;
 use App\Http\Controllers\ProfileController;
@@ -35,9 +36,9 @@ Route::get('test', function () {
     return "Email Sent";
 });
 
-// Miscellanous Routes
-Route::prefix('miscellanoues')->middleware(['auth', 'verified'])->group(function(){
-    Route::get('/', [\App\Http\Controllers\MiscellaneousController::class, 'list'])->name('resend.ticket');
+// Miscellaneous Routes
+Route::prefix('miscellaneous')->middleware(['auth', 'verified'])->group(function(){
+    Route::get('/', [MiscellaneousController::class, 'resendTicket'])->name('resend.ticket');
 });
 
 Route::prefix('gallery')->middleware(['auth', 'verified'])->group(function () {
@@ -139,10 +140,7 @@ Route::prefix('sponsor')->middleware(['auth', 'verified'])->group(function () {
 
 Route::prefix('peoples')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [PeopleController::class, 'list'])->name('people');
-//    Route::get('/add', [PeopleController::class, 'viewAdd'])->name('people.add');
-//    Route::post('/add', [PeopleController::class, 'doAdd'])->name('people.doAdd');
-//    Route::get('/edit/{id}', [PeopleController::class, 'viewEdit'])->name('people.edit');
-//    Route::post('/edit/{id}', [PeopleController::class, 'doEdit'])->name('people.doEdit');
+    Route::get('/edit/{id}', [PeopleController::class, 'viewEdit'])->name('people.edit');
     Route::get('/delete/{id}', [PeopleController::class, 'doDelete'])->name('people.delete');
 });
 

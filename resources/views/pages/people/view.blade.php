@@ -20,17 +20,20 @@
                     <td>
                         <div class="d-flex align-items-center">
                             <img src="{{$user->img}}" class="rounded-circle sm avatar" alt="">
-                            <h6 class="ms-2 mb-0">{{$user->first_name}} {{$user->last_name}}</h6>
+                            <h6 class="ms-2 mb-0">{{$user->fullname}}</h6>
                         </div>
                     </td>
                     <td>{{$user->mobile}}</td>
                     <td>{{$user->email}}</td>
                     <td>{{$user->address}}</td>
                     <td>
-                        <button type="button" class="btn py-0 btn-link btn-sm text-muted" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Send invoice"><i class="fa fa-envelope"></i></button>
-                        <button type="button" class="btn py-0 btn-link btn-sm text-muted" data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Download"><i class="fa fa-download"></i></button>
+                        <a href="{{route('people.edit', [$user->id])}}" class="btn py-0 btn-link btn-sm text-muted" data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Send invoice"><i class="fa fa-eye"></i></a>
+                        <a href="{{route('people.edit', [$user->id])}}" class="btn py-0 btn-link btn-sm text-muted" data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
+                        <a href="{{route('people.edit', [$user->id])}}" class="btn py-0 btn-link btn-sm text-muted" data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+
                     </td>
                 </tr>
             @endforeach

@@ -11,7 +11,18 @@ class PeopleController extends Controller
     public function list()
     {
         $users = User::where('role', 'user')->get();
+        foreach ($users as $user) {
+            $user->img = url('images/user/' . $user->img);
+        }
         return view('pages.people.view', ['users' => $users]);
+    }
+
+    // View Person Details
+    public function viewEdit($id)
+    {
+        $user = User::find($id);
+        $user->img = url('images/user/' . $user->img);
+        return view('pages.people.edit', ['user' => $user]);
     }
 
     // Delete a person

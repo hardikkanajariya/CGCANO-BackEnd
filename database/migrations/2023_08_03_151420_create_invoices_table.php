@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('total_amount');
             $table->boolean('is_paid')->default(false);
             $table->integer('status')->default(0);
+            $table->string('pdf')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('ticket_id')->references('id')->on('tickets');
             $table->timestamps();
