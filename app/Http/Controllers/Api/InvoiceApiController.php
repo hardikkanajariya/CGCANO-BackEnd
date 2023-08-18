@@ -176,7 +176,7 @@ class InvoiceApiController extends Controller
         // Send Email To The User With Barcode Image Attached
         try {
             Mail::to($order->user->email)->send(new TicketEmail("invoices/$randomString.pdf", $fullname));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Do Something
         }
         // Update ticket quantity
