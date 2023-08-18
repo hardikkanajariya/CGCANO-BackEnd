@@ -33,7 +33,12 @@ Route::get('/', function () {
 Route::get('test', function () {
     Mail::to("hcollege0@gmail.com")->send(new TicketEmail("invoices/123.pdf", "Test fullname"));
     return "Email Sent";
-}); 
+});
+
+// Miscellanous Routes
+Route::prefix('miscellanoues')->middleware(['auth', 'verified'])->group(function(){
+    Route::get('/', [\App\Http\Controllers\MiscellaneousController::class, 'list'])->name('resend.ticket');
+});
 
 Route::prefix('gallery')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [GalleryController::class, 'list'])->name('gallery');

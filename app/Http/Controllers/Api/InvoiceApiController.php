@@ -174,8 +174,11 @@ class InvoiceApiController extends Controller
         $fullname = $order->user->fullname;
 
         // Send Email To The User With Barcode Image Attached
-        Mail::to($order->user->email)->send(new TicketEmail("invoices/$randomString.pdf", $fullname));
-
+        try {
+            Mail::to($order->user->email)->send(new TicketEmail("invoices/$randomString.pdf", $fullname));
+        } catch (Exception $e) {
+            // Do Something
+        }
         // Update ticket quantity
         $ticket = Tickets::find($order->ticket_id);
         $quantity = $ticket->tickets_left - $order->quantity;

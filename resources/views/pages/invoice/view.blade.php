@@ -29,7 +29,7 @@
                             <td>{{$data->id}}</td>
                             <td>{{$data->user->fullname}}</td>
                             <td>
-                                <a href="{{route('ticket.edit',$data->ticket->id)}}">View Ticket</a>
+                                <a href="{{route('resend.ticket',$data->ticket->id)}}">Resent Ticket</a>
                             </td>
                             <td>{{$data->quantity}}</td>
                             <td>{{$data->total_amount}}</td>
