@@ -18,6 +18,7 @@ class UserAuthentication extends Controller
 
         // Get the user details
         $user = User::where('email', $request->email)->first();
+        $user->image = url('images/user/' . $user->image);
 
         // Check if the password is correct
         if(Hash::check($request->password, $user->password)){

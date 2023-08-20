@@ -24,6 +24,6 @@ class Barcodes extends Model
 
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class, 'invoice_id');
+        return $this->belongsTo(InvoiceTicket::class, 'invoice_id');
     }
 }

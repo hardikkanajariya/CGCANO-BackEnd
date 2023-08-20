@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{url('/')}}/assets/cssbundle/dataTables.min.css">
     <link rel="stylesheet" href="{{url('/')}}/assets/cssbundle/daterangepicker.min.css">
     <link rel="stylesheet" href="{{url('/')}}/assets/cssbundle/select2.min.css">
+    <link rel="stylesheet" href="{{url('/')}}/assets/css/summernote.min.css"/>
 
     <!-- project css file  -->
     <link rel="stylesheet" href="{{url('/')}}/assets/css/luno-style.css">
@@ -19,7 +20,9 @@
     {{-- Styles --}}
     <script src="https://kit.fontawesome.com/cabb64bd6b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    {{-- Scripts --}}
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     @yield('head')
 </head>
@@ -35,10 +38,8 @@
     </div>
     @include('include.footer')
 </div>
-{{--@include('include.modals')--}}
 {{-- Scripts --}}
 <script src="{{url('/')}}/assets/js/plugins.js"></script>
-<script src="{{url('/')}}/assets/js/theme.js"></script>
 <!-- Plugin Js -->
 <script src="{{url('/')}}/assets/js/bundle/apexcharts.bundle.js"></script>
 <script src="{{url('/')}}/assets/js/bundle/dataTables.bundle.js"></script>
@@ -50,8 +51,18 @@
 <script>
     // Add Parsley Validator to All Forms in the Page (For Validation)
     $(document).ready(function () {
-        $('form').parsley();
-        $('#summernote').summernote();
+        try {
+            $('form').parsley();
+        } catch (e) {
+        }
+        try {
+            $('.select2').select2();
+        } catch (e) {
+        }
+        try {
+            $('#summernote').summernote();
+        } catch (e) {
+        }
     });
     @foreach($errors->all() as $error)
     Toastify({

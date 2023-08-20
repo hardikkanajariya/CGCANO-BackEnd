@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ComboTicket;
 use App\Models\EventCategory;
 use App\Models\Events;
 use App\Models\Gallery;
+use App\Models\MemberShipPackage;
 use App\Models\Speakers;
 use App\Models\Sponsors;
 use Illuminate\Support\Carbon;
@@ -48,7 +50,7 @@ class CommonApiController extends Controller
     {
         $sponsors = Sponsors::all();
         foreach ($sponsors as $sponsor) {
-            $sponsor->image = url('images/sponsor/' . $sponsor->image);
+            $sponsor->logo = url('images/sponsor/' . $sponsor->logo);
         }
         return response()->json($sponsors);
     }
@@ -70,6 +72,67 @@ class CommonApiController extends Controller
             ];
         }
         return response()->json($response);
+    }
+
+    // Function to get all offers
+    public function getAllOffers()
+    {
+        $offers = ComboTicket::all();
+        $response = [];
+        foreach($offers as $offer) {
+            $response[] = [
+                'id' => $offer->id,
+                'name' => $offer->name,
+                'description' => $offer->description,
+                'price' => $offer->price,
+                'image' => url('images/combos/' . $offer->image),
+                'date' => Carbon::parse($offer->created_at)->format('d M Y'),
+            ];
+        }
+        return response()->json($response);
+    }
+
+    // Function to get offer details by id
+    public function getOfferDetails($id)
+    {
+        $offer = ComboTicket::find($id);
+        if (!$offer) {
+            return response()->json(['error' => 'Offer not found'], 404);
+        }
+
+        $events = [];
+        foreach(json_decode($offer->event_id) as $event) {
+            $event = Events::find($event);
+            if (!$event){
+                continue;
+            }
+            $events[] = [
+                'id' => $event->id,
+                'title' => $event->title,
+                'event_date' => Carbon::parse($event->start)->format('d M Y'),
+                'event_thumbnail' => url('images/event/thumbnail/' . $event->thumbnail),
+                'speaker_name' => $event->speaker->name,
+                'speaker_image' => url('images/speaker/' . $event->speaker->image),
+                'slug' => $event->slug,
+            ];
+        }
+        $response = [
+            'id' => $offer->id,
+            'name' => $offer->name,
+            'description' => $offer->description,
+            'price' => $offer->price,
+            'image' => url('images/combos/' . $offer->image),
+            'date' => Carbon::parse($offer->created_at)->format('d M Y'),
+            'events' => $events,
+        ];
+        return response()->json($response);
+    }
+
+    // Function to get all packages
+    public function getAllPackages()
+    {
+        $packages = MemberShipPackage::where('status', 1)->get();
+        return response()->json($packages);
     }
 
 }

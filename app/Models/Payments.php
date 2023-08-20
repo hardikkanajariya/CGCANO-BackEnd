@@ -31,7 +31,7 @@ class Payments extends Model
 
     public function order()
     {
-        return $this->belongsTo(Invoice::class, 'order_id');
+        return $this->belongsTo(InvoiceTicket::class, 'order_id');
     }
 
 }

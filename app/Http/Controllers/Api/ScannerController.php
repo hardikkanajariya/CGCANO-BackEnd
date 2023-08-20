@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Scanner;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Invoice;
+use App\Models\InvoiceTicket;
 
 class ScannerController extends Controller
 {
@@ -48,8 +48,8 @@ class ScannerController extends Controller
             'invoice_id' => 'required'
         ]);
 
-        // Check if Invoice Exists
-        $invoice = Invoice::where('id', $request->invoice_id)->first();
+        // Check if InvoiceTicket Exists
+        $invoice = InvoiceTicket::where('id', $request->invoice_id)->first();
 
         if(!$invoice){
             return response()->json([

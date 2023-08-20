@@ -4,6 +4,7 @@ use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\MemberShipPackageController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PointOfSaleController;
@@ -87,19 +88,60 @@ Route::prefix('events')->middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::prefix('tickets')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [TicketController::class, 'list'])->name('ticket');
     Route::get('/add/{event}', [TicketController::class, 'viewAdd'])->name('ticket.add');
     Route::post('/add/{event}', [TicketController::class, 'doAdd'])->name('ticket.doAdd');
     Route::get('/edit/{id}', [TicketController::class, 'viewEdit'])->name('ticket.edit');
     Route::get('/mark-as-sold/{id}', [TicketController::class, 'doSoldOut'])->name('ticket.markAsSold');
     Route::post('/edit/{id}', [TicketController::class, 'doEdit'])->name('ticket.doEdit');
     Route::get('/delete/{id}', [TicketController::class, 'doDelete'])->name('ticket.delete');
+
+    // Routes for handling combo tickets
+    Route::prefix('combo')->group(function () {
+        Route::get('/', [TicketController::class, 'listCombo'])->name('ticket.combo');
+        Route::get('/add', [TicketController::class, 'viewAddCombo'])->name('ticket.combo.add');
+        Route::post('/add', [TicketController::class, 'doAddCombo'])->name('ticket.combo.doAdd');
+        Route::get('/edit/{id}', [TicketController::class, 'viewEditCombo'])->name('ticket.combo.edit');
+        Route::post('/edit/{id}', [TicketController::class, 'doEditCombo'])->name('ticket.combo.doEdit');
+        Route::get('/delete/{id}', [TicketController::class, 'doDeleteCombo'])->name('ticket.combo.delete');
+//        Route::get('/mark-as-sold/{id}', [TicketController::class, 'doSoldOutCombo'])->name('ticket.combo.markAsSold');
+    });
 });
 
-Route::prefix('order')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', [InvoiceController::class, 'list'])->name('orders');
+Route::prefix('invoice')->middleware(['auth', 'verified'])->group(function () {
+    // Ticket Invoices
+    Route::get('/ticket', [InvoiceController::class, 'list'])->name('orders.ticket');
     Route::get('/edit/{id}', [InvoiceController::class, 'viewEdit'])->name('order.edit');
     Route::get('/delete/{id}', [InvoiceController::class, 'doDelete'])->name('order.delete');
     Route::get('/{id}/payment', [InvoiceController::class, 'viewPayment'])->name('payment');
+
+    // Combo Invoices
+    Route::get('/combo', [InvoiceController::class, 'listCombo'])->name('orders.combo');
+    Route::get('/combo/edit/{id}', [InvoiceController::class, 'viewEditCombo'])->name('order.combo.edit');
+    Route::get('/combo/delete/{id}', [InvoiceController::class, 'doDeleteCombo'])->name('order.combo.delete');
+    Route::get('/combo/{id}/payment', [InvoiceController::class, 'viewPaymentCombo'])->name('payment.combo');
+
+    // Package Invoices
+    Route::get('/package', [InvoiceController::class, 'listPackage'])->name('orders.package');
+    Route::get('/package/edit/{id}', [InvoiceController::class, 'viewEditPackage'])->name('order.package.edit');
+    Route::get('/package/delete/{id}', [InvoiceController::class, 'doDeletePackage'])->name('order.package.delete');
+    Route::get('/package/{id}/payment', [InvoiceController::class, 'viewPaymentPackage'])->name('payment.package');
+
+    // Donation Invoices
+    Route::get('/donation', [InvoiceController::class, 'listDonation'])->name('orders.donation');
+    Route::get('/donation/edit/{id}', [InvoiceController::class, 'viewEditDonation'])->name('order.donation.edit');
+    Route::get('/donation/delete/{id}', [InvoiceController::class, 'doDeleteDonation'])->name('order.donation.delete');
+    Route::get('/donation/{id}/payment', [InvoiceController::class, 'viewPaymentDonation'])->name('payment.donation');
+});
+
+// Routes For Handling Membership Packages
+Route::prefix('membership')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [MemberShipPackageController::class, 'listPackage'])->name('membership');
+    Route::get('/add', [MemberShipPackageController::class, 'viewAddPackage'])->name('membership.add');
+    Route::post('/add', [MemberShipPackageController::class, 'doAddPackage'])->name('membership.doAdd');
+    Route::get('/edit/{id}', [MemberShipPackageController::class, 'viewEditPackage'])->name('membership.edit');
+    Route::post('/edit/{id}', [MemberShipPackageController::class, 'doEditPackage'])->name('membership.doEdit');
+    Route::get('/delete/{id}', [MemberShipPackageController::class, 'doDeletePackage'])->name('membership.delete');
 });
 
 Route::prefix('scanner')->middleware(['auth', 'verified'])->group(function () {

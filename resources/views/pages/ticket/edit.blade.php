@@ -26,7 +26,7 @@
                     <div class="card-footer">
                         <button type="submit" class="btn btn-light-primary">Update</button>
                         <a href="{{route('event')}}" class="btn btn-light-secondary">Cancel</a>
-                        <a href="{{route('ticket.markAsSold', [$ticket->id])}}" class="btn btn-light-warning">Mark as Sold</a>
+{{--                        <a href="{{route('ticket.markAsSold', [$ticket->id])}}" class="btn btn-light-warning">Mark as Sold</a>--}}
                         <a href="{{route('ticket.delete', [$ticket->id])}}" class="btn btn-light-danger" onclick="confirm('Are you sure?')">Delete Ticket</a>
                     </div>
                 </form>

@@ -19,7 +19,7 @@ class SponsorsFactory extends Factory
         return [
             'event_id' => null,
             'name' => $this->faker->company,
-            'logo' => $this->faker->imageUrl(640, 480),
+            'logo' => rand(1,9).".png",
             'website' => $this->faker->url,
             'description' => $this->faker->paragraph,
             'is_active' => true,

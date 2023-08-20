@@ -46,7 +46,7 @@ class Events extends Model
 
     public function orders()
     {
-        return $this->hasMany('App\Models\Invoice', 'event_id');
+        return $this->hasMany('App\Models\InvoiceTicket', 'event_id');
     }
 
     // Count the number of tickets sold
@@ -58,7 +58,7 @@ class Events extends Model
 
         // get the order list for each ticket
         foreach ($tickets as $ticket) {
-            $orders = Invoice::where('ticket_id', $ticket->id)->get();
+            $orders = InvoiceTicket::where('ticket_id', $ticket->id)->get();
             foreach ($orders as $order) {
                 $ticketsSold += $order->quantity;
             }

@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ComboTicket;
 use App\Models\Events;
 use App\Models\Tickets;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
+    // Function to view All Tickets
+    public function list()
+    {
+        // Get all the tickets
+        $tickets = Tickets::all();
+
+        // Return the view
+        return view('pages.ticket.view', compact('tickets'));
+    }
+
     // Function to show the ticket form
     public function viewAdd($event)
     {
@@ -41,6 +52,7 @@ class TicketController extends Controller
         // Redirect to the event page
         return redirect()->route('event')->with('success', 'Ticket added successfully');
     }
+
     // Function to view the edit ticket form
     public function viewEdit($id)
     {
@@ -50,7 +62,7 @@ class TicketController extends Controller
         // get the event
         $event = $ticket->event()->firstOrFail();
         // Return the view
-        return view('pages.ticket.edit', compact( 'ticket', 'event'));
+        return view('pages.ticket.edit', compact('ticket', 'event'));
     }
 
     // Function to update a ticket
@@ -100,5 +112,182 @@ class TicketController extends Controller
 
         // Redirect to the event page
         return redirect()->route('event')->with('success', 'Ticket marked as sold out successfully');
+    }
+
+    /* Handle Combo Tickets */
+    // Function to view All Combo Tickets
+    public function listCombo()
+    {
+        // Get all the combo tickets
+        $tickets = ComboTicket::all();
+
+        // Return the view
+        return view('pages.ticket.combo.view', compact('tickets'));
+    }
+
+    // Function to show the combo ticket form
+    public function viewAddCombo()
+    {
+        $events = Events::where('status', '1')->get();
+        return view('pages.ticket.combo.add', compact('events'));
+    }
+
+    // Function to add a combo ticket
+    public function doAddCombo(Request $request)
+    {
+        // Validate the form
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'image' => 'required|image',
+            'quantity' => 'required|numeric',
+            'events' => 'required|array',
+        ]);
+
+        // Get The Ticket Details From Event id
+        foreach ($request->events as $event) {
+            $ticket = Tickets::where('event_id', $event)->first();
+            if (!$ticket) {
+                $event = Events::where('id', $event)->first();
+                return redirect()->back()->with('error', 'No Ticket Found For This Event' . $event->title . 'Please Add Ticket First');
+            }
+
+            if ($ticket->is_sold_out) {
+                $event = Events::where('id', $event)->first();
+                return redirect()->back()->with('error', 'Ticket For This Event' . $event->title . 'Is Sold Out');
+            }
+
+            if ($ticket->tickets_left < $request->quantity) {
+                $event = Events::where('id', $event)->first();
+                return redirect()->back()->with('error', 'Not Enough Tickets Left For This Event' . $event->title . 'Please Reduce The Quantity or Add More Tickets');
+            }
+
+            if ($ticket->is_active == false) {
+                $event = Events::where('id', $event)->first();
+                return redirect()->back()->with('error', 'Ticket For This Event' . $event->title . 'Is Not Active');
+            }
+        }
+
+        // Upload the image
+        $image = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images/event/category'), $image);
+
+        // Create the combo ticket
+        $ticket = ComboTicket::create([
+            'name' => $request->name ?? 'Combo Ticket', // Default name is 'Combo Ticket
+            'description' => $request->description ?? 'Combo Ticket', // Default description is 'Combo Ticket
+            'price' => $request->price,
+            'image' => $image,
+            'quantity' => $request->quantity,
+            'event_id' => json_encode($request->events),
+            'status' => 1, // Default status is 1
+        ]);
+
+        // Redirect to the event page
+        return redirect()->route('ticket.combo')->with('success', 'Combo Ticket added successfully');
+    }
+
+
+    // Function to view the edit combo ticket form
+    public function viewEditCombo($id)
+    {
+        // Get the combo ticket
+        $ticket = ComboTicket::where('id', $id)->firstOrFail();
+
+        // Get the events
+        $events = Events::where('status', '1')->get();
+
+        // Return the view
+        return view('pages.ticket.combo.edit', compact('ticket', 'events'));
+    }
+
+    // Function to update a combo ticket
+    public function doEditCombo(Request $request, $id)
+    {
+        // Validate the form
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'image' => 'image',
+            'quantity' => 'required|numeric',
+            'events' => 'required|array',
+        ]);
+
+        // Get The Ticket Details From Event id
+        foreach ($request->events as $event) {
+            $ticket = Tickets::where('event_id', $event)->first();
+            if (!$ticket) {
+                $event = Events::where('id', $event)->first();
+                return redirect()->back()->with('error', 'No Ticket Found For This Event' . $event->title . 'Please Add Ticket First');
+            }
+
+            if ($ticket->is_sold_out) {
+                $event = Events::where('id', $event)->first();
+                return redirect()->back()->with('error', 'Ticket For This Event' . $event->title . 'Is Sold Out');
+            }
+
+            if ($ticket->tickets_left < $request->quantity) {
+                $event = Events::where('id', $event)->first();
+                return redirect()->back()->with('error', 'Not Enough Tickets Left For This Event' . $event->title . 'Please Reduce The Quantity or Add More Tickets');
+            }
+
+            if ($ticket->is_active == false) {
+                $event = Events::where('id', $event)->first();
+                return redirect()->back()->with('error', 'Ticket For This Event' . $event->title . 'Is Not Active');
+            }
+        }
+
+        // Get the combo ticket
+        $ticket = ComboTicket::where('id', $id)->firstOrFail();
+
+        // Upload the image
+        if ($request->hasFile('image')) {
+            // $image = $request->file('image')->store('public/images/combos');
+            $image = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/combos'), $image);
+        } else {
+            $image = $ticket->image;
+        }
+
+        // Update the combo ticket
+        $ticket->update([
+            'name' => $request->name ?? 'Combo Ticket', // Default name is 'Combo Ticket
+            'description' => $request->description ?? 'Combo Ticket', // Default description is 'Combo Ticket
+            'price' => $request->price,
+            'image' => $image,
+            'quantity' => $request->quantity,
+            'event_id' => json_encode($request->events),
+            'status' => 1, // Default status is 1
+        ]);
+
+        // Redirect to the event page
+        return redirect()->back()->with('success', 'Combo Ticket updated successfully');
+    }
+
+    // Function to delete a combo ticket
+    public function doDeleteCombo($id)
+    {
+        // Get the combo ticket
+        $ticket = ComboTicket::where('id', $id)->firstOrFail();
+        // Delete the combo ticket
+        $ticket->delete();
+        // Redirect to the event page
+        return redirect()->back()->with('success', 'Combo Ticket deleted successfully');
+    }
+
+    // Function to mark a combo ticket as sold out
+    public function doSoldOutCombo($id)
+    {
+        // Get the combo ticket
+        $ticket = ComboTicket::where('id', $id)->firstOrFail();
+        // Update the combo ticket
+        $ticket->update([
+            'status' => false,
+        ]);
+
+        // Redirect to the event page
+        return redirect()->back()->with('success', 'Combo Ticket marked as sold out successfully');
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Barcodes;
 use App\Models\Events;
-use App\Models\Invoice;
+use App\Models\InvoiceTicket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -43,7 +43,7 @@ class TicketApiController extends Controller
     // Function to get the user tickets
     public function getUserTickets($id)
     {
-        $user_invoice = Invoice::where('user_id', $id)->get();
+        $user_invoice = InvoiceTicket::where('user_id', $id)->get();
 
         if (!$user_invoice) {
             return response()->json(['message' => 'No tickets found'], 404);

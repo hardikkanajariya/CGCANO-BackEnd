@@ -1,9 +1,5 @@
 @extends('layouts.main')
 
-@section('head')
-    <link rel="stylesheet" href="{{url('/')}}/assets/css/summernote.min.css"/>
-@endsection
-
 @section("content")
     <div class="row g-3 row-deck">
         <div class="col-12">
@@ -36,7 +32,12 @@
                         <label class="form-label">Category</label>
                         <select class="form-select" name="category" required>
                             @foreach($categories as $data)
-                                <option value="{{$data->id}}" {{old('category') == $data->id || $data->id == $event->category_id ? "selected" : ""}}>{{$data->name}}</option>
+                                @if(old('category') == $data->id || $data->id == $event->category_id)
+                                    <option value="{{$data->id}}" selected>{{$data->name}}</option>
+                                    @continue
+                                @else
+                                    <option value="{{$data->id}}">{{$data->name}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -44,7 +45,12 @@
                         <label class="form-label">Venue</label>
                         <select class="form-select" name="venue" required>
                             @foreach($venues as $data)
-                                <option value="{{$data->id}}" {{old('venue') == $data->id || $data->id == $event->venue_id ? "selected" : ""}}>{{$data->name}}</option>
+                                @if(old('venue') == $data->id || $data->id == $event->venue_id)
+                                    <option value="{{$data->id}}" selected>{{$data->name}}</option>
+                                    @continue
+                                @else
+                                    <option value="{{$data->id}}">{{$data->name}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -76,34 +82,6 @@
                         <label class="form-label">Gallery</label>
                         <input type="file" class="form-control form-control-lg" multiple name="gallery[]">
                     </div>
-{{--                    <div class="col-sm-12">--}}
-{{--                        <label class="form-label">Ticket Available</label>--}}
-{{--                        <input type="number" class="form-control form-control-lg" required name="tickets_available" value="{{old('tickets_available') ? old('tickets_available') : $event->tickets_available}}">--}}
-{{--                    </div>--}}
-{{--                    <div class="col-sm-12 mt-3">--}}
-{{--                        <label class="form-label">Allowed Audiences &nbsp;&nbsp;&nbsp;&nbsp;</label>--}}
-{{--                        <div class="form-check form-check-inline">--}}
-{{--                            <label class="form-check-label" for="flexCheckDefault">Adults</label>--}}
-{{--                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="audience_type[]">--}}
-{{--                        </div>--}}
-{{--                        <div class="form-check form-check-inline">--}}
-{{--                            <label class="form-check-label" for="flexCheckDefault2">Family</label>--}}
-{{--                            <input class="form-check-input" type="checkbox" id="flexCheckDefault2" name="audience_type[]">--}}
-{{--                        </div>--}}
-{{--                        <div class="form-check form-check-inline">--}}
-{{--                            <label class="form-check-label" for="flexCheckDefault3">Group</label>--}}
-{{--                            <input class="form-check-input" type="checkbox" id="flexCheckDefault3" name="audience_type[]">--}}
-{{--                        </div>--}}
-{{--                        <div class="form-check form-check-inline">--}}
-{{--                            <label class="form-check-label" for="flexCheckDefault3">Children</label>--}}
-{{--                            <input class="form-check-input" type="checkbox" id="flexCheckDefault3" name="audience_type[]">--}}
-{{--                        </div>--}}
-{{--                        <div class="form-check form-check-inline">--}}
-{{--                            <label class="form-check-label" for="flexCheckDefault3">Youth</label>--}}
-{{--                            <input class="form-check-input" type="checkbox" id="flexCheckDefault3" name="audience_type[]">--}}
-{{--                        </div>--}}
-{{--                        <p id="error-checkbox"></p>--}}
-{{--                    </div>--}}
                     <div class="col-sm-12">
                         <label class="form-label">Youtube Video URL</label>
                         <input type="url" class="form-control form-control-lg" name="youtube" value="{{old('youtube') ? old('youtube') : $event->youtube}}">

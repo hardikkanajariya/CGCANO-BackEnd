@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Mail\TicketEmail;
 use App\Models\Barcodes;
-use App\Models\Invoice;
+use App\Models\InvoiceTicket;
 use App\Models\Tickets;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
@@ -40,7 +40,7 @@ class InvoiceApiController extends Controller
         }
 
         // Create Order
-        $order = Invoice::create([
+        $order = InvoiceTicket::create([
             'user_id' => $request->user_id,
             'ticket_id' => $request->ticket_id,
             'quantity' => $request->quantity,
@@ -61,7 +61,7 @@ class InvoiceApiController extends Controller
     public function validateOrder($id)
     {
         // Find order by order_id
-        $order = Invoice::find($id);
+        $order = InvoiceTicket::find($id);
 
         // If order not found then return the response
         if (!$order) {
@@ -87,7 +87,7 @@ class InvoiceApiController extends Controller
         ]);
 
         // Update Order Status
-        $order = Invoice::find($request->order_id);
+        $order = InvoiceTicket::find($request->order_id);
         $order->status = $request->status;
         $order->save();
 
@@ -117,7 +117,7 @@ class InvoiceApiController extends Controller
         ]);
 
         // Insert Payment Details
-        $order = Invoice::find($request->order_id);
+        $order = InvoiceTicket::find($request->order_id);
         $order->payment()->create([
             'order_id' => $request->order_id,
             'billing_token' => $request->billing_token,

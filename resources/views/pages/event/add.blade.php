@@ -1,9 +1,4 @@
 @extends('layouts.main')
-
-@section('head')
-    <link rel="stylesheet" href="{{url('/')}}/assets/css/summernote.min.css"/>
-@endsection
-
 @section("content")
     <div class="row g-3 row-deck">
         <div class="col-12">

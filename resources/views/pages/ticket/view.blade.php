@@ -5,40 +5,44 @@
         <div class="card">
             <div class="card-header">
                 <h6 class="card-title m-0">Event Tickets</h6>
-                <div class="dropdown morphing scale-left">
-                    <a href="#" class="card-fullscreen btn" style="width: 100px" data-bs-toggle="tooltip"
-                       title="Card Full-Screen"><i class="icon-size-fullscreen"></i></a>
-                    <a href="{{route('sponsor.add')}}" class="btn btn-outline-primary" style="width: 100px"><i class="fa fa-add"></i></a>
-                </div>
+{{--                <div class="dropdown morphing scale-left">--}}
+{{--                    <a href="#" class="card-fullscreen btn" style="width: 100px" data-bs-toggle="tooltip"--}}
+{{--                       title="Card Full-Screen"><i class="icon-size-fullscreen"></i></a>--}}
+{{--                    <a href="{{route('ticket')}}" class="btn btn-outline-primary" style="width: auto"><i class="fa fa-add mx-2"></i>Add Combo Ticket</a>--}}
+{{--                </div>--}}
             </div>
             <div class="card-body">
                 <table id="myTable" class="table myDataTable table-hover align-middle mb-0 card-table">
                     <thead>
                     <tr>
-                        <th>Img</th>
+                        <th>Id</th>
                         <th>Name</th>
-                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Tickets Left</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($sponsors as $data)
+                    @foreach($tickets as $data)
                         <tr>
-                            <td><img src="{{url('/images/sponsor')}}/{{$data->logo}}" alt="" class="avatar avatar-md"></td>
-                            <td>{{$data->name}}</td>
-                            <td>{{$data->title}}</td>
+                            <td>{{$data->id}}</td>
+                            <td>{{$data->event->title}}</td>
+                            <td>{{$data->price}}</td>
+                            <td>{{$data->quantity}}</td>
+                            <td>{{$data->tickets_left}}</td>
                             <td>
-                                @if($data->is_active == 1)
+                                @if($data->is_sold_out == 0)
                                     <span class="badge bg-success text-white">Active</span>
                                 @else
-                                    <span class="badge bg-danger text-white">Inactive</span>
+                                    <span class="badge bg-danger text-white">Sold Out</span>
                                 @endif
                             </td>
                             <td>
-                                <a href="{{route('sponsor.edit', [$data->id])}}" class="btn btn-sm btn-success"><i
+                                <a href="{{route('ticket.edit', [$data->id])}}" class="btn btn-sm btn-success"><i
                                         class="fa fa-pencil"></i></a>
-                                <a href="{{route('sponsor.delete', [$data->id])}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                <a href="{{route('ticket.delete', [$data->id])}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach

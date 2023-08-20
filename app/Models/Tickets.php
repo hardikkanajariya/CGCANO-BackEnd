@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tickets extends Model
 {
     use HasFactory;
+
     protected $table = 'tickets';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -36,7 +37,7 @@ class Tickets extends Model
 
     public function order()
     {
-        return $this->hasOne(Invoice::class, 'ticket_id');
+        return $this->hasOne(InvoiceTicket::class, 'ticket_id');
     }
 
     // Count the number of tickets sold

@@ -4,7 +4,7 @@
     <div class="row g-3 row-deck">
         <div class="card">
             <div class="card-header">
-                <h6 class="card-title m-0">Invoices </h6>
+                <h6 class="card-title m-0">Donation Invoices</h6>
                 <div class="dropdown morphing scale-left">
                     <a href="#" class="card-fullscreen btn" style="width: 100px" data-bs-toggle="tooltip"
                        title="Card Full-Screen"><i class="icon-size-fullscreen"></i></a>

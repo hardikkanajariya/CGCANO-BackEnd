@@ -17,13 +17,15 @@ class EventApiController extends Controller
             $urls[] = url('images/event/gallery/' . $gallery);
         }
         $event->thumbnail = url('images/event/thumbnail/' . $event->thumbnail);
+        $speaker = $event->speaker;
+        $speaker->image = url('images/speaker/' . $speaker->image);
         $response = [
             'id' => $event->id,
             'title' => $event->title,
             'slug' => $event->slug,
             'event_date' => Carbon::parse($event->start)->format('d M Y'),
             'event_thumbnail' => $event->thumbnail,
-            'speaker' => $event->speaker,
+            'speaker' => $speaker,
             'description' => $event->description,
             'address' => $event->venue->address,
             'gallery' => $urls,

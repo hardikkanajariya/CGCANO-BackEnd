@@ -29,6 +29,11 @@ Route::prefix('events')->group(function () {
     Route::get('{id}', [EventApiController::class, 'getEventDetail']);
 });
 
+// Get Offer Details by id
+Route::prefix('offer')->group(function () {
+    Route::get('{id}', [CommonApiController::class, 'getOfferDetails']);
+});
+
 // Get All Data
 Route::prefix('all')->group(function () {
     Route::get('speakers', [CommonApiController::class, 'getAllSpeakers']);
@@ -36,6 +41,8 @@ Route::prefix('all')->group(function () {
     Route::get('categories', [CommonApiController::class, 'getAllCategories']);
     Route::get('sponsors', [CommonApiController::class, 'getAllSponsors']);
     Route::get('events', [CommonApiController::class, 'getAllEvents']);
+    Route::get('offers', [CommonApiController::class, 'getAllOffers']);
+    Route::get('packages', [CommonApiController::class, 'getAllPackages']);
 });
 
 // Handle Tickets
