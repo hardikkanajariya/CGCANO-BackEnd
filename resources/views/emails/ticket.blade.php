@@ -1,1 +1,33 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ticket Details</title><script src="https://cdn.tailwindcss.com"></script></head><body class="bg-gray-100"><div class="container mx-auto p-6 bg-white shadow-lg rounded-lg max-w-md mt-10"><header class="text-center bg-blue-500 text-white py-4 rounded-t-lg"><h1 class="text-2xl font-bold">Your Event Ticket</h1></header><img src="https://admin.gcanorthernontario.com/flyer/temp.jpg" alt="Ticket Flyer" class="w-full rounded-md shadow-md mt-6"><div class="event-details p-6 bg-gray-200 rounded-b-lg"><p class="mb-2">Hello,<strong>{{$fullname}}</strong></p><p class="mb-4">Thank you for being part of our exciting event! 😄</p><p class="mb-2">Event Date: September 23, 2023</p><p class="mb-2">Venue: Sudbury Community Arena</p><p class="mb-2">Address: 240 Elgin St, Sudbury, ON P3E 3N6N</p><p class="mb-4">Get ready for an unforgettable experience!</p><p><a href="https://admin.gcanorthernontario.com/{{$invoice_path}}" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-full">Download Ticket</a></p></div><hr class="border-t my-6"><div class="contact-details"><p class="mb-2">For inquiries, contact us:</p><p class="mb-2">Phone: +1 (705) 923-2799</p><p class="mb-2">Email: Info@gcanorthernontario.com</p><p class="mb-2">Website:<a href="http://www.gcanorthernontario.com" class="text-blue-500">www.gcanorthernontario.com</a></p><p class="mb-2">Location: 39 Teravista Way, Sudbury ON, P3E 0H9, Canada</p></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Ticket Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto p-6 bg-white shadow-lg rounded-lg max-w-md mt-10">
+    <header class="text-center bg-blue-500 text-white py-4 rounded-t-lg"><h1 class="text-2xl font-bold">Your Event
+            Ticket</h1></header>
+    <img src="https://admin.gcanorthernontario.com/flyer/temp.jpg" alt="Ticket Flyer"
+         class="w-full rounded-md shadow-md mt-6">
+    <div class="event-details p-6 bg-gray-200 rounded-b-lg"><p class="mb-2">Hello,<strong>{{$fullname}}</strong></p>
+        <p class="mb-4">Thank you for being part of our exciting event! 😄</p>
+        <p class="mb-2">Event Date: {{ \Carbon\Carbon::parse($event->start)->format('d F Y') }}</p>
+        <p class="mb-2">Venue: {{$venue->name}}</p>
+        <p class="mb-2">Address: {{$address}}</p>
+        <p class="mb-4">Get ready for an unforgettable experience!</p>
+        <p><a href="https://admin.gcanorthernontario.com/{{$invoice_path}}"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-full">Download</a>
+        </p></div>
+    <hr class="border-t my-6">
+    <div class="contact-details"><p class="mb-2">For inquiries, contact us:</p>
+        <p class="mb-2">Phone: +1 (705) 923-2799</p>
+        <p class="mb-2">Email: Info@gcanorthernontario.com</p>
+        <p class="mb-2">Website:<a href="http://www.gcanorthernontario.com" class="text-blue-500">www.gcanorthernontario.com</a>
+        </p>
+        <p class="mb-2">Location: 39 Teravista Way, Sudbury ON, P3E 0H9, Canada</p></div>
+</div>
+</body>
+</html>

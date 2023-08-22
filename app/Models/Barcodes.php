@@ -19,7 +19,10 @@ class Barcodes extends Model
         'barcode_id',
         'data',
         'is_used',
-        'is_expired'
+        'is_expired',
+        'type',
+        'scan_remaining',
+        'valid_till'
     ];
 
     public function invoice()

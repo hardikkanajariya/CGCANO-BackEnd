@@ -23,6 +23,13 @@
                         <label class="form-label">Available Tickets</label>
                         <input type="number" required class="form-control form-control-lg" placeholder="99" name="quantity" value="{{old('quantity')? old('quantity') : $ticket->quantity}}">
                     </div>
+                    <div  class="col-sm-12">
+                        <label class="form-label">Food Available</label>
+                        <select name="food" class="form-control form-control-lg" name="food" required>
+                            <option @if($ticket->food) selected @endif value="1">Yes</option>
+                            <option @if($ticket->food) selected @endif value="0">No</option>
+                        </select>
+                    </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-light-primary">Update</button>
                         <a href="{{route('event')}}" class="btn btn-light-secondary">Cancel</a>

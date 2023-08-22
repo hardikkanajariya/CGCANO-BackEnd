@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Events;
+use App\Models\InvoiceTicket;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,6 +11,7 @@ use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
 
 class TicketEmail extends Mailable
 {
@@ -19,10 +22,17 @@ class TicketEmail extends Mailable
      */
     public $invoice_path;
     public $fullname;
+    public $event;
+    public $venue;
+    public $address;
     public function __construct($path, $fullname)
     {
         $this->invoice_path = $path;
         $this->fullname = $fullname;
+        $invoice = InvoiceTicket::where('pdf', Str::after($path, 'invoices/'))->first();
+        $this->event = $invoice->ticket->event;
+        $this->venue = $this->event->venue;
+        $this->address = $this->venue->address;
     }
 
     /**

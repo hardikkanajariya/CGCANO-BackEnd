@@ -24,6 +24,9 @@ class UserAuthentication extends Controller
         if(Hash::check($request->password, $user->password)){
             // Generate token
             $token = $user->createToken('auth_token')->accessToken;
+
+            // get the user image url
+            $user->image = url('images/user/' . $user->image);
             return response()->json([
                 'message' => 'Logged in successfully',
                 'token' => $token,
@@ -55,6 +58,9 @@ class UserAuthentication extends Controller
 
         // Generate token
         $token = $user->createToken('auth_token')->accessToken;
+
+        // get the user image url
+        $user->image = url('images/user/' . $user->image);
         return response()->json([
             'message' => 'User Registered Successfully',
             'token' => $token,

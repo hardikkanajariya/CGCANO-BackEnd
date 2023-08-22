@@ -19,6 +19,7 @@
                         <th>#Id</th>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Discount</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -29,6 +30,7 @@
                             <td>{{$data->id}}</td>
                             <td>{{$data->name}}</td>
                             <td>{{$data->price}}</td>
+                            <td>{{$data->percentage}}%</td>
                             <td>
                                 @if($data->status == 0)
                                     <span class="badge bg-warning">In Active</span>

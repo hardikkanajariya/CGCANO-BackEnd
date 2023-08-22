@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->unsignedInteger('quantity');
             $table->unsignedInteger('tickets_left')->default(0);
             $table->boolean('is_sold_out')->default(false);
+            $table->boolean('is_food_available')->default(true);
             $table->boolean('is_active')->default(true);
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->timestamps();

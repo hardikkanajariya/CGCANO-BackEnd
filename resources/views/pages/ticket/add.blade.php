@@ -25,6 +25,13 @@
                         <input type="number" required class="form-control form-control-lg" placeholder="X"
                                name="quantity" value="{{old('quantity')}}">
                     </div>
+                    <div  class="col-sm-12">
+                        <label class="form-label">Food Available</label>
+                        <select name="food" class="form-control form-control-lg" name="food" required>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Add</button>
                         <a href="{{route('event')}}" class="btn btn-secondary">Cancel</a>

@@ -19,6 +19,9 @@ class InvoiceTicket extends Model
         'quantity',
         'total_amount',
         'is_paid',
+        'full_name',
+        'email',
+        'phone',
     ];
 
     public function user()
@@ -36,6 +39,8 @@ class InvoiceTicket extends Model
     {
         return $this->hasOne(Payments::class, 'order_id');
     }
+
+
 
 
 }

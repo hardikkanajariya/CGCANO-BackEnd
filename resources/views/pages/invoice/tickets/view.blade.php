@@ -21,6 +21,7 @@
                         <th>Total Amount</th>
                         <th>Status</th>
                         <th>Action</th>
+                        <th>Details</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -29,7 +30,7 @@
                             <td>{{$data->id}}</td>
                             <td>{{$data->user->fullname}}</td>
                             <td>
-                                <a href="{{route('resend.ticket',$data->ticket->id)}}">Resent Ticket</a>
+                                <a href="{{route('resend.ticket',["id" => $data->id])}}">Resent Ticket</a>
                             </td>
                             <td>{{$data->quantity}}</td>
                             <td>{{$data->total_amount}}</td>
@@ -45,8 +46,21 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{route('payment',[$data->id])}}"
-                                   class="btn btn-sm btn-outline-success">View Payment Details</a>
+                                @if($data->payment)
+                                    <a href="{{route('payment.ticket',[$data->id])}}"
+                                       class="btn btn-sm btn-outline-success">View Payment Details</a>
+                                @else
+                                    <a href="{{route('orders.combo')}}" class="btn btn-sm btn-outline-primary text-black">View Combo Invoice</a>
+                                @endif
+
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Full Name: {{$data->full_name}}</li>
+                                    <li>Email: {{$data->email}}</li>
+                                    <li>Phone: {{$data->phone}}</li>
+                                    <li>View Ticket: <a href="{{url('/')}}/invoices/{{$data->pdf}}">View Ticket</a></li>
+                                </ul>
                             </td>
                         </tr>
                     @endforeach

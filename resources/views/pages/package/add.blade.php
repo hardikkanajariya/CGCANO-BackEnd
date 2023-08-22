@@ -27,6 +27,16 @@
                         <label class="form-label">Amount</label>
                         <input type="text" class="form-control form-control-lg" placeholder="$99xx" name="price" value="{{old('price')}}" required>
                     </div>
+                    <div class="col-sm-12 p-4">
+                        <div class="form-check">
+                            <input class="form-check-input p-1" type="checkbox" value="1" id="discount" onchange="toggleDiscount()" name="discount" @if(old('discount')) checked @endif>
+                            <label class="form-check-label" for="discount">Discount</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="form-label">Percentage</label>
+                        <input id="percentage" type="text" class="form-control form-control-lg" placeholder="100%" disabled name="percentage" value="{{old('percentage')}}">
+                    </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Add</button>
                         <a href="{{route('membership')}}" class="btn btn-secondary">Cancel</a>
@@ -37,4 +47,15 @@
     </div>
 @endsection
 @section('page-scripts')
+    <script>
+    function toggleDiscount() {
+        // using vanilla javascript
+        const element = document.getElementById('percentage');
+        if (element.hasAttribute('disabled')) {
+            element.removeAttribute('disabled');
+        } else {
+            element.setAttribute('disabled', '');
+        }
+    }
+    </script>
 @endsection

@@ -128,7 +128,20 @@ class TicketController extends Controller
     // Function to show the combo ticket form
     public function viewAddCombo()
     {
-        $events = Events::where('status', '1')->get();
+        $allEvents = Events::where('status', '1')->get();
+        $events= [];
+        foreach ($allEvents as $event) {
+            $ticket = Tickets::where('event_id', $event->id)->first();
+            if ($ticket) {
+                if ($ticket->is_sold_out) {
+                    continue;
+                }
+                if ($ticket->is_active == false) {
+                    continue;
+                }
+                $events[] = $event;
+            }
+        }
         return view('pages.ticket.combo.add', compact('events'));
     }
 
@@ -171,7 +184,7 @@ class TicketController extends Controller
 
         // Upload the image
         $image = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('images/event/category'), $image);
+        $request->image->move(public_path('images/combos'), $image);
 
         // Create the combo ticket
         $ticket = ComboTicket::create([
@@ -192,11 +205,23 @@ class TicketController extends Controller
     // Function to view the edit combo ticket form
     public function viewEditCombo($id)
     {
+
+        $allEvents = Events::where('status', '1')->get();
+        $events= [];
+        foreach ($allEvents as $event) {
+            $ticket = Tickets::where('event_id', $event->id)->first();
+            if ($ticket) {
+                if ($ticket->is_sold_out) {
+                    continue;
+                }
+                if ($ticket->is_active == false) {
+                    continue;
+                }
+                $events[] = $event;
+            }
+        }
         // Get the combo ticket
         $ticket = ComboTicket::where('id', $id)->firstOrFail();
-
-        // Get the events
-        $events = Events::where('status', '1')->get();
 
         // Return the view
         return view('pages.ticket.combo.edit', compact('ticket', 'events'));
