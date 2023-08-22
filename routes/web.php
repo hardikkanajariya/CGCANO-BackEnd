@@ -39,7 +39,12 @@ Route::get('test', function () {
 
 // Miscellaneous Routes
 Route::prefix('miscellaneous')->middleware(['auth', 'verified'])->group(function(){
-    Route::get('/', [MiscellaneousController::class, 'resendTicket'])->name('resend.ticket');
+    Route::prefix('/resend-invoice')->group(function(){
+        Route::get('/ticket/{id}', [MiscellaneousController::class, 'resendInvoiceEmail'])->name('resend.ticket');
+        Route::get('/combo/{id}', [MiscellaneousController::class, 'resendInvoiceEmailCombo'])->name('resend.combo');
+        Route::get('/package/{id}', [MiscellaneousController::class, 'resendInvoiceEmailPackage'])->name('resend.package');
+        Route::get('/donation/{id}', [MiscellaneousController::class, 'resendInvoiceEmailDonation'])->name('resend.donation');
+    });
 });
 
 Route::prefix('gallery')->middleware(['auth', 'verified'])->group(function () {
@@ -110,27 +115,19 @@ Route::prefix('tickets')->middleware(['auth', 'verified'])->group(function () {
 
 Route::prefix('invoice')->middleware(['auth', 'verified'])->group(function () {
     // Ticket Invoices
-    Route::get('/ticket', [InvoiceController::class, 'list'])->name('orders.ticket');
-    Route::get('/edit/{id}', [InvoiceController::class, 'viewEdit'])->name('order.edit');
-    Route::get('/delete/{id}', [InvoiceController::class, 'doDelete'])->name('order.delete');
-    Route::get('/{id}/payment', [InvoiceController::class, 'viewPayment'])->name('payment');
+    Route::get('/ticket', [InvoiceController::class, 'listTicket'])->name('orders.ticket');
+    Route::get('/{id}/payment', [InvoiceController::class, 'viewTicketPayment'])->name('payment.ticket');
 
     // Combo Invoices
     Route::get('/combo', [InvoiceController::class, 'listCombo'])->name('orders.combo');
-    Route::get('/combo/edit/{id}', [InvoiceController::class, 'viewEditCombo'])->name('order.combo.edit');
-    Route::get('/combo/delete/{id}', [InvoiceController::class, 'doDeleteCombo'])->name('order.combo.delete');
     Route::get('/combo/{id}/payment', [InvoiceController::class, 'viewPaymentCombo'])->name('payment.combo');
 
     // Package Invoices
     Route::get('/package', [InvoiceController::class, 'listPackage'])->name('orders.package');
-    Route::get('/package/edit/{id}', [InvoiceController::class, 'viewEditPackage'])->name('order.package.edit');
-    Route::get('/package/delete/{id}', [InvoiceController::class, 'doDeletePackage'])->name('order.package.delete');
     Route::get('/package/{id}/payment', [InvoiceController::class, 'viewPaymentPackage'])->name('payment.package');
 
     // Donation Invoices
     Route::get('/donation', [InvoiceController::class, 'listDonation'])->name('orders.donation');
-    Route::get('/donation/edit/{id}', [InvoiceController::class, 'viewEditDonation'])->name('order.donation.edit');
-    Route::get('/donation/delete/{id}', [InvoiceController::class, 'doDeleteDonation'])->name('order.donation.delete');
     Route::get('/donation/{id}/payment', [InvoiceController::class, 'viewPaymentDonation'])->name('payment.donation');
 });
 

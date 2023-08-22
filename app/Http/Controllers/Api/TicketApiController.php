@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barcodes;
+use App\Models\ComboTicket;
 use App\Models\Events;
+use App\Models\InvoiceComboTicket;
 use App\Models\InvoiceTicket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,11 +41,10 @@ class TicketApiController extends Controller
         ];
         return response()->json($response);
     }
-
     // Function to get the user tickets
     public function getUserTickets($id)
     {
-        $user_invoice = InvoiceTicket::where('user_id', $id)->get();
+        $user_invoice = InvoiceTicket::where('user_id', $id)->where('status', true)->get();
 
         if (!$user_invoice) {
             return response()->json(['message' => 'No tickets found'], 404);
@@ -54,9 +55,56 @@ class TicketApiController extends Controller
             // Get the Ticket Details
             $ticket = $invoice->ticket;
             $event = $ticket->event;
-            $barcode = Barcodes::where('invoice_id', $invoice->id)->first();
-            $hash = md5($barcode->barcode_id); // Using md5 for URL-safe hash
-            $downloadUrl = URL::to('/invoices/' . $hash . '.pdf');
+            $downloadUrl = URL::to('/invoices/' . $invoice->pdf);
+            $response[] = [
+                'id' => $invoice->id,
+                'title' => $event->title,
+                'slug' => $event->slug,
+                'date' => Carbon::parse($invoice->created_at)->format('M d Y h:i A'),
+                'price' => $ticket->price,
+                'tickets' => $invoice->quantity,
+                'total_amount' => $invoice->total_amount,
+                'is_paid' => $invoice->is_paid,
+                'purchased_at' => $invoice->created_at,
+                'download_url' => $downloadUrl,
+            ];
+        }
+        return response()->json($response);
+    }
+
+    // Function to get the combo details
+    public function getComboDetails($id)
+    {
+        $combo = ComboTicket::find($id);
+        if (!$combo) {
+            return response()->json(['message' => 'Combo is not available'], 404);
+        }
+        // check if the combo is not sold out and is active
+        if ($combo->status == 0) {
+            return response()->json(['message' => 'Combo is not available'], 404);
+        }
+        $response = [
+            'id' => $combo->id,
+            'price' => $combo->price,
+        ];
+        return response()->json($response);
+    }
+
+    // Function to get the user combos
+    public function getUserCombos($id)
+    {
+        $user_invoice = InvoiceComboTicket::where('user_id', $id)->where('status', true)->get();
+
+        if (!$user_invoice) {
+            return response()->json(['message' => 'No tickets found'], 404);
+        }
+
+        $response = [];
+        foreach ($user_invoice as $invoice) {
+            // Get the Ticket Details
+            $ticket = $invoice->ticket;
+            $event = $ticket->event;
+            $downloadUrl = URL::to('/invoices/' . $invoice->pdf);
             $response[] = [
                 'id' => $invoice->id,
                 'title' => $event->title,

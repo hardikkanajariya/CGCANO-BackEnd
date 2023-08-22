@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('invoice_combo_tickets', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('combo_id');
+            $table->string('full_name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->unsignedInteger('quantity');
+            $table->string('total_amount');
+            $table->boolean('is_paid')->default(false);
+            $table->integer('status')->default(0);
+            $table->string('pdf')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('combo_id')->references('id')->on('combo_tickets');
             $table->timestamps();
         });
     }

@@ -48,19 +48,30 @@ Route::prefix('all')->group(function () {
 // Handle Tickets
 Route::prefix('tickets')->group(function () {
     Route::get('{slug}', [TicketApiController::class, 'getTicketDetails']);
-    Route::get('all', [TicketApiController::class, 'getAllTickets']);
     Route::get('user/{id}', [TicketApiController::class, 'getUserTickets']);
+});
+
+// Handle Combo Tickets
+Route::prefix('combo')->group(function () {
+    Route::get('{id}', [TicketApiController::class, 'getComboDetails']);
+    Route::get('user/{id}', [TicketApiController::class, 'getUserCombos']);
 });
 
 // Handle Orders
 Route::prefix('orders')->group(function () {
-    Route::post('create', [InvoiceApiController::class, 'createOrder']);
+    Route::post('ticket', [InvoiceApiController::class, 'createTicketOrder']);
+    Route::post('combo', [InvoiceApiController::class, 'createComboOrder']);
+    Route::post('package', [InvoiceApiController::class, 'createPackageOrder']);
+    Route::post('donation', [InvoiceApiController::class, 'createDonationOrder']);
     Route::post('status', [InvoiceApiController::class, 'updateOrderStatus']);
 });
 
 // Handle Payment
 Route::prefix('payment')->group(function () {
-    Route::post('create', [InvoiceApiController::class, 'paymentDetails']);
+    Route::post('ticket', [InvoiceApiController::class, 'paymentDetailsTicket']);
+    Route::post('combo', [InvoiceApiController::class, 'paymentDetailsCombo']);
+    Route::post('package', [InvoiceApiController::class, 'paymentDetailsPackage']);
+    Route::post('donation', [InvoiceApiController::class, 'paymentDetailsDonation']);
 });
 
 // Handle Contact and Subscribe form submission

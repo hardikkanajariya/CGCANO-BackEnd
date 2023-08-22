@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Event Ticket & Invoice</title>
+    <title>Event Combo Ticket & Invoice</title>
     <style>@import url(https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap);
 
         body {
@@ -68,23 +68,21 @@
 </head>
 <body>
 <div class="container">
-    <div class="invoice"><h1>Event Invoice</h1>
+    <div class="invoice"><h1>Combo Ticket Invoice</h1>
         <p>Invoice Number:<span>{{ $invoiceData['invoiceNumber'] }}</span></p>
         <p>Amount:<span>${{ $invoiceData['amount'] }}</span></p>
         <p>Name:<span>{{ $invoiceData['name'] }}</span></p>
-        <p>Title:<span>{{ $invoiceData['title'] }}</span></p></div>
-    <div class="ticket"><h1>Event Ticket</h1>
-        @php
-            $count = 1;
-        @endphp
-        @foreach($barcodeImages as $image)
+        <p>Title:<span>{{ $invoiceData['title'] }}</span></p>
+    </div>
+    <div class="ticket">
+        <h1>Download your Event Tickets from here</h1>
+        @foreach($events as $data)
             <div class="barcode" style="margin-bottom: 20px;">
-                <p>Ticket Number: <span>{{ $count }}</span></p>
-                <img src="data:image/png;base64,{{ base64_encode($image) }}" alt="Event barcode">
+                <a href="{{url('/')}}/invoice/combo/">Download <b style="color: red;">{{$data->title}}</b> Ticket</a>
             </div>
-            @php $count++; @endphp
         @endforeach
-        <p>Please present this ticket at the event entrance for entry. Enjoy the show!</p></div>
+        <p>Please present this ticket at the event entrance for entry. Enjoy the show!</p>
+    </div>
 </div>
 </body>
 </html>

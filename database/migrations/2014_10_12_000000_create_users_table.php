@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('country')->nullable();
-            $table->string('country_code')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
