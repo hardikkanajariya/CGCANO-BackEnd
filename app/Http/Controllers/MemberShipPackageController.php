@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MemberShipPackage;
+use App\Models\MemberShip;
 use Illuminate\Http\Request;
 
 class MemberShipPackageController extends Controller
 {
     // Function to View All Packages
     public function listPackage(){
-        $packages = MemberShipPackage::all();
+        $packages = MemberShip::all();
         return view('pages.package.view', compact('packages'));
     }
 
@@ -25,7 +25,7 @@ class MemberShipPackageController extends Controller
             'price' => 'required',
             'description' => 'required'
         ]);
-        $package = new MemberShipPackage();
+        $package = new MemberShip();
         $package->name = $request->name;
         $package->price = $request->price;
         $package->description = $request->description;
@@ -38,7 +38,7 @@ class MemberShipPackageController extends Controller
 
     // Function to view Edit Package
     public function viewEditPackage($id){
-        $package = MemberShipPackage::find($id);
+        $package = MemberShip::find($id);
         return view('pages.package.edit', compact('package'));
     }
 
@@ -49,7 +49,7 @@ class MemberShipPackageController extends Controller
             'price' => 'required',
             'description' => 'required'
         ]);
-        $package = MemberShipPackage::find($id);
+        $package = MemberShip::find($id);
         $package->name = $request->name;
         $package->price = $request->price;
         $package->description = $request->description;
@@ -61,7 +61,7 @@ class MemberShipPackageController extends Controller
 
     // Function to Delete Package
     public function doDeletePackage($id){
-        $package = MemberShipPackage::find($id);
+        $package = MemberShip::find($id);
         $package->delete();
         return redirect()->route('membership')->with('success', 'Package Deleted Successfully');
     }

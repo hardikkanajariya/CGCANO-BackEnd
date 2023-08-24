@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barcodes;
-use App\Models\ComboTicket;
-use App\Models\Events;
-use App\Models\InvoiceComboTicket;
+use App\Models\TicketCombo;
+use App\Models\EventList;
+use App\Models\InvoiceCombo;
 use App\Models\InvoiceTicket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class TicketApiController extends Controller
     // get the ticket details by event slug
     public function getTicketDetails($slug)
     {
-        $event = Events::where('slug', $slug)->first();
+        $event = EventList::where('slug', $slug)->first();
 
         // Get the ticket details
         if (!$event) {
@@ -75,7 +75,7 @@ class TicketApiController extends Controller
     // Function to get the combo details
     public function getComboDetails($id)
     {
-        $combo = ComboTicket::find($id);
+        $combo = TicketCombo::find($id);
         if (!$combo) {
             return response()->json(['message' => 'Combo is not available'], 404);
         }
@@ -93,7 +93,7 @@ class TicketApiController extends Controller
     // Function to get the user combos
     public function getUserCombos($id)
     {
-        $user_invoice = InvoiceComboTicket::where('user_id', $id)->where('status', true)->get();
+        $user_invoice = InvoiceCombo::where('user_id', $id)->where('status', true)->get();
 
         if (!$user_invoice) {
             return response()->json(['message' => 'No tickets found'], 404);

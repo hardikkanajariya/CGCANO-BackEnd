@@ -4,15 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Payments extends Model
+class PaymentCombo extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-
-    protected $table = 'payments';
-
+    protected $table = 'payment_combo';
     protected $primaryKey = 'id';
 
     protected $fillable = [
@@ -31,7 +27,6 @@ class Payments extends Model
 
     public function order()
     {
-        return $this->belongsTo(InvoiceTicket::class, 'order_id');
+        return $this->belongsTo(InvoiceCombo::class, 'order_id');
     }
-
 }

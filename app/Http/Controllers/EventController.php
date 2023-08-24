@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\EventAmenities;
 use App\Models\EventCategory;
-use App\Models\Events;
+use App\Models\EventList;
 use App\Models\Speakers;
-use App\Models\Tickets;
+use App\Models\TicketEvent;
 use App\Models\Venues;
 use Exception;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class EventController extends Controller
     // Event Handler (CRUD)
     public function list()
     {
-        $events = Events::all();
+        $events = EventList::all();
         return view('pages.event.view', ['events' => $events]);
     }
 
@@ -56,7 +56,7 @@ class EventController extends Controller
             'linkedin' => 'nullable|url',
         ]);
         try {
-            $event = new Events();
+            $event = new EventList();
             $event->title = $request->title;
 
             // generate slug from title if slug is empty
@@ -117,7 +117,7 @@ class EventController extends Controller
 
     public function viewEdit($id)
     {
-        $event = Events::find($id);
+        $event = EventList::find($id);
         $categories = EventCategory::all();
         $venues = Venues::all();
         $speakers = Speakers::all();
@@ -126,7 +126,7 @@ class EventController extends Controller
 
     public function doEdit(Request $request, $id)
     {
-        $event = Events::findOrFail($id);
+        $event = EventList::findOrFail($id);
 
         $request->validate([
             'id' => 'required|exists:events,id',
@@ -236,7 +236,7 @@ class EventController extends Controller
     public function doDelete($id)
     {
         try {
-            $event = Events::find($id);
+            $event = EventList::find($id);
             // delete image
             $image_path = public_path('images') . '/event/thumbnail/' . $event->thumbnail;
             if (file_exists($image_path)) {
@@ -252,7 +252,7 @@ class EventController extends Controller
             }
 
             // Delete event tickets
-            $tickets = Tickets::where('event_id', $id)->get();
+            $tickets = TicketEvent::where('event_id', $id)->get();
             foreach ($tickets as $key => $value) {
                 $value->delete();
             }

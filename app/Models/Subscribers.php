@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubscribedList extends Model
+class Subscribers extends Model
 {
     use HasFactory;
 
-    protected $table = 'subscribed_lists';
+    protected $table = 'subscribers';
 
     protected $primaryKey = 'id';
 

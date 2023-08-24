@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ComboInvoice;
 use App\Mail\TicketEmail;
-use App\Models\InvoiceComboTicket;
+use App\Models\InvoiceCombo;
 use App\Models\InvoiceTicket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -38,7 +38,7 @@ class MiscellaneousController extends Controller
         ]);
 
         // Get the invoice
-        $invoice = InvoiceComboTicket::find($request->id);
+        $invoice = InvoiceCombo::find($request->id);
 
         // Send the email
         try{

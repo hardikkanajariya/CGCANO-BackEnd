@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\InvoiceComboTicket;
+use App\Models\InvoiceCombo;
 use App\Models\InvoiceTicket;
 
 class InvoiceController extends Controller
@@ -17,7 +17,7 @@ class InvoiceController extends Controller
 
     public function viewTicketPayment($id)
     {
-        // Get the payment details from either InvoiceTicket or InvoiceComboTicket ID
+        // Get the payment details from either InvoiceTicket or InvoiceCombo ID
         $invoice = InvoiceTicket::find($id);
         if (!$invoice) {
             return redirect()->back()->with('error', 'InvoiceTicket not found');
@@ -34,7 +34,7 @@ class InvoiceController extends Controller
     // Combo Invoice List
     public function listCombo()
     {
-        $invoices = InvoiceComboTicket::all();
+        $invoices = InvoiceCombo::all();
         return view('pages.invoice.combo.view', compact('invoices'));
     }
 
@@ -42,7 +42,7 @@ class InvoiceController extends Controller
     public function viewPaymentCombo($id)
     {
         // Get the payment Details from InvoiceTicket ID
-        $invoice = InvoiceComboTicket::find($id);
+        $invoice = InvoiceCombo::find($id);
         if (!$invoice) {
             return redirect()->back()->with('error', 'InvoiceTicket not found');
         }

@@ -32,12 +32,12 @@ class InvoiceTicket extends Model
     public function ticket()
     {
         // get event of this ticket
-        return $this->belongsTo(Tickets::class, 'ticket_id');
+        return $this->belongsTo(TicketEvent::class, 'ticket_id');
     }
 
     public function payment()
     {
-        return $this->hasOne(Payments::class, 'order_id');
+        return $this->hasOne(PaymentEvent::class, 'order_id');
     }
 
 

@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Mail\ComboInvoice;
 use App\Mail\TicketEmail;
 use App\Models\Barcodes;
-use App\Models\Events;
-use App\Models\InvoiceComboTicket;
+use App\Models\EventList;
+use App\Models\InvoiceCombo;
 use App\Models\InvoiceTicket;
-use App\Models\Tickets;
+use App\Models\TicketEvent;
 use Dompdf\Dompdf;
 use Exception;
 use Illuminate\Http\Request;
@@ -90,7 +90,7 @@ class InvoiceApiController extends Controller
         ]);
 
         // check if ticket is available or not
-        $ticket = Tickets::find($request->ticket_id);
+        $ticket = TicketEvent::find($request->ticket_id);
         if ($ticket->is_sold_out) {
             return response()->json([
                 'message' => 'Ticket is not available',
@@ -133,7 +133,7 @@ class InvoiceApiController extends Controller
             'phone' => 'required',
         ]);
 
-        $order = new InvoiceComboTicket();
+        $order = new InvoiceCombo();
         $order->user_id = $request->user_id;
         $order->combo_id = $request->combo_id;
         $order->quantity = $request->quantity;
@@ -190,7 +190,7 @@ class InvoiceApiController extends Controller
 
 
         // Get the ticket details
-        $ticket = Tickets::find($order->ticket_id);
+        $ticket = TicketEvent::find($order->ticket_id);
 
         // Get the event details
         $event = $ticket->event;
@@ -267,7 +267,7 @@ class InvoiceApiController extends Controller
         ]);
 
         // Insert Payment Details
-        $order = InvoiceComboTicket::find($request->order_id);
+        $order = InvoiceCombo::find($request->order_id);
         $order->payment()->create([
             'order_id' => $request->order_id,
             'billing_token' => $request->billing_token,
@@ -322,8 +322,8 @@ class InvoiceApiController extends Controller
 
         $combo_ticket = $order->ticket;
         foreach (json_decode($combo_ticket->event_id) as $event) {
-            $event = Events::find($event);
-            $ticket = Tickets::where('event_id', $event->id)->first();
+            $event = EventList::find($event);
+            $ticket = TicketEvent::where('event_id', $event->id)->first();
             // Create Order
             $ticket_order = InvoiceTicket::create([
                 'user_id' => $order->user_id,
@@ -338,7 +338,7 @@ class InvoiceApiController extends Controller
 
             $barcodeImages = $this->generateBarcodes($order, $request, 'combo', $event->end);
 
-            $ticket = Tickets::where('event_id', $event->id)->first();
+            $ticket = TicketEvent::where('event_id', $event->id)->first();
 
             $invoiceData = [
                 'invoiceNumber' => "INV" . $request->order_id,

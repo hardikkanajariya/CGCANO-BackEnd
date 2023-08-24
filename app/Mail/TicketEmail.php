@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Events;
+use App\Models\EventList;
 use App\Models\InvoiceTicket;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

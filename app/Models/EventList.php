@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Events extends Model
+class EventList extends Model
 {
     use HasFactory;
-    protected $table = 'events';
+    protected $table = 'event_list';
     protected $primaryKey = 'id';
     protected $fillable = [
         'name',
@@ -41,7 +41,7 @@ class Events extends Model
 
     public function tickets()
     {
-        return $this->hasOne('App\Models\Tickets', 'event_id');
+        return $this->hasOne('App\Models\TicketEvent', 'event_id');
     }
 
     public function orders()
@@ -52,7 +52,7 @@ class Events extends Model
     // Count the number of tickets sold
     public function ticketsSold()
     {
-        // get All Tickets for this event
+        // get All TicketEvent for this event
         $tickets = $this->tickets()->get();
         $ticketsSold = 0;
 

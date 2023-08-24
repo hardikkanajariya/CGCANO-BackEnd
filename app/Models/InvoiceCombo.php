@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class InvoiceComboTicket extends Model
+class InvoiceCombo extends Model
 {
     use HasFactory;
-    protected $table = 'invoice_combo_tickets';
+    protected $table = 'invoice_combo';
     protected $primaryKey = 'id';
     protected $fillable = [
         'user_id',
@@ -29,11 +29,11 @@ class InvoiceComboTicket extends Model
 
     public function ticket()
     {
-        return $this->belongsTo(ComboTicket::class, 'combo_id');
+        return $this->belongsTo(TicketCombo::class, 'combo_id');
     }
 
     public function payment()
     {
-        return $this->hasOne(ComboPayment::class, 'order_id');
+        return $this->hasOne(PaymentCombo::class, 'order_id');
     }
 }

@@ -45,13 +45,13 @@ Route::prefix('all')->group(function () {
     Route::get('packages', [CommonApiController::class, 'getAllPackages']);
 });
 
-// Handle Tickets
+// Handle TicketEvent
 Route::prefix('tickets')->group(function () {
     Route::get('{slug}', [TicketApiController::class, 'getTicketDetails']);
     Route::get('user/{id}', [TicketApiController::class, 'getUserTickets']);
 });
 
-// Handle Combo Tickets
+// Handle Combo TicketEvent
 Route::prefix('combo')->group(function () {
     Route::get('{id}', [TicketApiController::class, 'getComboDetails']);
     Route::get('user/{id}', [TicketApiController::class, 'getUserCombos']);

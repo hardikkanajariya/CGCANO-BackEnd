@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\ComboTicket;
+use App\Models\TicketCombo;
 use App\Models\EventCategory;
-use App\Models\Events;
+use App\Models\EventList;
 use App\Models\Gallery;
-use App\Models\MemberShipPackage;
+use App\Models\MemberShip;
 use App\Models\Speakers;
 use App\Models\Sponsors;
 use Illuminate\Support\Carbon;
@@ -58,7 +58,7 @@ class CommonApiController extends Controller
     // Function to get all events
     public function getAllEvents()
     {
-        $events = Events::where('status', 1)->get();
+        $events = EventList::where('status', 1)->get();
         $response = [];
         foreach ($events as $event) {
             $response[] = [
@@ -77,7 +77,7 @@ class CommonApiController extends Controller
     // Function to get all offers
     public function getAllOffers()
     {
-        $offers = ComboTicket::all();
+        $offers = TicketCombo::all();
         $response = [];
         foreach($offers as $offer) {
             $response[] = [
@@ -95,14 +95,14 @@ class CommonApiController extends Controller
     // Function to get offer details by id
     public function getOfferDetails($id)
     {
-        $offer = ComboTicket::find($id);
+        $offer = TicketCombo::find($id);
         if (!$offer) {
             return response()->json(['error' => 'Offer not found'], 404);
         }
 
         $events = [];
         foreach(json_decode($offer->event_id) as $event) {
-            $event = Events::find($event);
+            $event = EventList::find($event);
             if (!$event){
                 continue;
             }
@@ -131,7 +131,7 @@ class CommonApiController extends Controller
     // Function to get all packages
     public function getAllPackages()
     {
-        $packages = MemberShipPackage::where('status', 1)->get();
+        $packages = MemberShip::where('status', 1)->get();
         return response()->json($packages);
     }
 

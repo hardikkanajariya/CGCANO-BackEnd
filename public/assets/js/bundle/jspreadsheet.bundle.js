@@ -307,7 +307,7 @@ return /******/ (function() { // webpackBootstrap
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -321,14 +321,14 @@ return /******/ (function() { // webpackBootstrap
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	!function() {
@@ -341,7 +341,7 @@ return /******/ (function() { // webpackBootstrap
 /******/ 			return getter;
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
@@ -353,12 +353,12 @@ return /******/ (function() { // webpackBootstrap
 /******/ 			}
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	!function() {
 /******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
 /******/ 	}();
-/******/ 	
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -1252,14 +1252,14 @@ function Animation() {
     const Component = {
         loading: {}
     }
-    
+
     Component.loading.show = function(timeout) {
         if (! Component.loading.element) {
             Component.loading.element = document.createElement('div');
             Component.loading.element.className = 'jloading';
         }
         document.body.appendChild(Component.loading.element);
-    
+
         // Max timeout in seconds
         if (timeout > 0) {
             setTimeout(function() {
@@ -1267,13 +1267,13 @@ function Animation() {
             }, timeout * 1000)
         }
     }
-    
+
     Component.loading.hide = function() {
         if (Component.loading.element && Component.loading.element.parentNode) {
             document.body.removeChild(Component.loading.element);
         }
     }
-    
+
     Component.slideLeft = function (element, direction, done) {
         if (direction == true) {
             element.classList.add('slide-left-in');
@@ -1293,7 +1293,7 @@ function Animation() {
             }, 400);
         }
     }
-    
+
     Component.slideRight = function (element, direction, done) {
         if (direction === true) {
             element.classList.add('slide-right-in');
@@ -1313,7 +1313,7 @@ function Animation() {
             }, 400);
         }
     }
-    
+
     Component.slideTop = function (element, direction, done) {
         if (direction === true) {
             element.classList.add('slide-top-in');
@@ -1333,7 +1333,7 @@ function Animation() {
             }, 400);
         }
     }
-    
+
     Component.slideBottom = function (element, direction, done) {
         if (direction === true) {
             element.classList.add('slide-bottom-in');
@@ -1353,7 +1353,7 @@ function Animation() {
             }, 100);
         }
     }
-    
+
     Component.fadeIn = function (element, done) {
         element.style.display = '';
         element.classList.add('fade-in');
@@ -1364,7 +1364,7 @@ function Animation() {
             }
         }, 2000);
     }
-    
+
     Component.fadeOut = function (element, done) {
         element.classList.add('fade-out');
         setTimeout(function () {
@@ -3183,7 +3183,7 @@ function Calendar() {
                 fullscreen: false,
                 // Create the calendar closed as default
                 opened: false,
-                // Events
+                // EventList
                 onopen: null,
                 onclose: null,
                 onchange: null,
@@ -3327,7 +3327,7 @@ function Calendar() {
                         }
                     }
 
-                    // Events
+                    // EventList
                     if (typeof (obj.options.onopen) == 'function') {
                         obj.options.onopen(el);
                     }
@@ -3360,7 +3360,7 @@ function Calendar() {
                     }
                 }
 
-                // Events
+                // EventList
                 if (!ignoreEvents && typeof (obj.options.onclose) == 'function') {
                     obj.options.onclose(el);
                 }
@@ -4754,7 +4754,7 @@ function Tabs(el, options) {
             el.classList.add('jtabs-animation');
         }
 
-        // Events
+        // EventList
         obj.headers.addEventListener("click", function(e) {
             if (e.target.parentNode.classList.contains('jtabs-headers')) {
                 var target = e.target;
@@ -6719,7 +6719,7 @@ function Dropdown() {
                 }
             }
 
-            // Events
+            // EventList
             if (typeof (obj.options.onchange) == 'function') {
                 obj.options.onchange(el, obj, oldValue, obj.options.value);
             }
@@ -6796,7 +6796,7 @@ function Dropdown() {
                         obj.header.value = getText().join('; ');
                     }
 
-                    // Events
+                    // EventList
                     change(oldValue);
                 }
             }
@@ -7035,7 +7035,7 @@ function Dropdown() {
                 }
             }
 
-            // Events
+            // EventList
             if (typeof (obj.options.onopen) == 'function') {
                 obj.options.onopen(el);
             }
@@ -7047,7 +7047,7 @@ function Dropdown() {
                 obj.header.value = obj.getText();
                 // Remove cursor
                 obj.setCursor();
-                // Events
+                // EventList
                 if (!ignoreEvents && typeof (obj.options.onclose) == 'function') {
                     obj.options.onclose(el);
                 }
@@ -8021,7 +8021,7 @@ function Toolbar(el, options) {
             toolbarItem.classList.add('jtoolbar-item');
 
             if (items[i].width) {
-                toolbarItem.style.width = parseInt(items[i].width) + 'px'; 
+                toolbarItem.style.width = parseInt(items[i].width) + 'px';
             }
 
             if (items[i].k) {
@@ -8264,7 +8264,7 @@ function Editor() {
             maxHeight: null,
             height: null,
             focus: false,
-            // Events
+            // EventList
             onclick: null,
             onfocus: null,
             onblur: null,
@@ -9815,7 +9815,7 @@ function Validations() {
         }
         return null;
     }
-    
+
     component.url = function() {
         var pattern = new RegExp(/(((https?:\/\/)|(www\.))[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]+)/ig);
         return pattern.test(data) ? true : false;
@@ -9825,7 +9825,7 @@ function Validations() {
         var pattern = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
         return data && pattern.test(data) ? true : false;
     }
-    
+
     component.required = function(data) {
         return data.trim() ? true : false;
     }
@@ -10936,7 +10936,7 @@ function Progressbar(el, options) {
         }
     }
 
-    // Events
+    // EventList
     if ('touchstart' in document.documentElement === true) {
         el.addEventListener('touchstart', action);
         el.addEventListener('touchend', action);
@@ -11057,7 +11057,7 @@ function Rating(el, options) {
         // Class
         el.classList.add('jrating');
 
-        // Events
+        // EventList
         el.addEventListener("click", function(e) {
             var index = e.target.getAttribute('data-index');
             if (index != undefined) {
@@ -11435,7 +11435,7 @@ function Slider(el, options) {
             // Keep children items
             for (var i = 0; i < el.children.length; i++) {
                 obj.options.items.push(el.children[i]);
-                
+
                 // counter click event
                 var item = document.createElement('div');
                 item.onclick = function() {
@@ -11454,7 +11454,7 @@ function Slider(el, options) {
         var close = document.createElement('div');
         close.className = 'jslider-close';
         close.innerHTML = '';
-        
+
         close.onclick = function() {
             obj.close();
         }
@@ -11560,7 +11560,7 @@ function Slider(el, options) {
             obj.show(obj.currentImage.nextElementSibling);
         }
     }
-    
+
     obj.prev = function() {
         if (obj.currentImage.previousElementSibling) {
             obj.show(obj.currentImage.previousElementSibling);
@@ -11724,7 +11724,7 @@ function Tags(el, options) {
             var ret = obj.options.onbeforechange(el, obj, obj.options.value, value);
             if (ret === false) {
                 return false;
-            } else { 
+            } else {
                 if (ret != null) {
                     value = ret;
                 }
@@ -11913,7 +11913,7 @@ function Tags(el, options) {
     /**
      * Add one element from the suggestions to the element
      * @param {object} item - Node element in the suggestions container
-     */ 
+     */
     obj.selectIndex = function(text, value) {
         var node = helpers.getNode();
         if (node) {
@@ -12758,7 +12758,7 @@ const Events = function() {
     let tooltip = document.createElement('div')
     tooltip.classList.add('jtooltip');
 
-    // Events
+    // EventList
     const mouseDown = function(e) {
         // Check if this is the floating
         var item = jSuites.findElement(e.target, 'jpanel');

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ComboTicket extends Model
+class TicketCombo extends Model
 {
     use HasFactory;
 
-    protected $table = 'combo_tickets';
+    protected $table = 'tickets_combo';
 
     protected $primaryKey = 'id';
 
@@ -29,6 +29,6 @@ class ComboTicket extends Model
 
     public function events()
     {
-        return $this->belongsToMany(Events::class);
+        return $this->belongsToMany(EventList::class);
     }
 }

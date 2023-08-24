@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tickets extends Model
+class TicketEvent extends Model
 {
     use HasFactory;
 
-    protected $table = 'tickets';
+    protected $table = 'tickets_event';
     protected $primaryKey = 'id';
     protected $fillable = [
         'event_id',
@@ -22,7 +22,7 @@ class Tickets extends Model
 
     public function event()
     {
-        return $this->belongsTo(Events::class, 'event_id');
+        return $this->belongsTo(EventList::class, 'event_id');
     }
 
     public function user()

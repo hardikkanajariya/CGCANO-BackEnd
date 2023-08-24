@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\InvoiceComboTicket;
+use App\Models\InvoiceCombo;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -20,7 +20,7 @@ class ComboInvoice extends Mailable
     public array $invoiceData = [];
     public function __construct($id)
     {
-        $invoice = InvoiceComboTicket::find($id);
+        $invoice = InvoiceCombo::find($id);
         $this->invoiceData = [
             "order_id" => $invoice->id,
             "Name" => $invoice->name,

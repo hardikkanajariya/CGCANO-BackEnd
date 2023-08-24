@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Events;
+use App\Models\EventList;
 use Illuminate\Support\Carbon;
 
 class EventApiController extends Controller
@@ -11,7 +11,7 @@ class EventApiController extends Controller
     // Function to get Event Detail by ID
     public function getEventDetail($slug)
     {
-        $event = Events::where('slug', $slug)->first();
+        $event = EventList::where('slug', $slug)->first();
         $urls = [];
         foreach (json_decode($event->gallery) as $gallery) {
             $urls[] = url('images/event/gallery/' . $gallery);

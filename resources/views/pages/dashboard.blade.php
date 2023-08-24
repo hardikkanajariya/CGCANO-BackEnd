@@ -158,7 +158,7 @@
                 },
                 yaxis: {
                     title: {
-                        text: 'Tickets'
+                        text: 'TicketEvent'
                     },
                     min: 5,
                     max: 50
@@ -224,7 +224,7 @@
                     }
                 },
             };
-            var chart = new ApexCharts(document.querySelector("#apex-Tickets"), options);
+            var chart = new ApexCharts(document.querySelector("#apex-TicketEvent"), options);
             chart.render();
         });
         $(function () {
