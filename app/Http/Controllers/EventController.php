@@ -33,7 +33,7 @@ class EventController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'slug' => 'required|unique:events',
+            'slug' => 'required|unique:event_list',
             'description' => 'required',
             'category' => 'required|exists:event_categories,id',
             'venue' => 'required|exists:venues,id',
@@ -129,9 +129,9 @@ class EventController extends Controller
         $event = EventList::findOrFail($id);
 
         $request->validate([
-            'id' => 'required|exists:events,id',
+            'id' => 'required|exists:event_list,id',
             'title' => 'required',
-            'slug' => 'required|unique:events,slug,' . $id,
+            'slug' => 'required|unique:event_list,slug,' . $id,
             'description' => 'required',
             'category' => 'required|exists:event_categories,id',
             'venue' => 'required|exists:venues,id',

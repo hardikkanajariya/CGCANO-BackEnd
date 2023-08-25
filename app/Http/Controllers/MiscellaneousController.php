@@ -34,7 +34,7 @@ class MiscellaneousController extends Controller
     public function resendInvoiceEmailCombo(Request $request)
     {
         $request->validate([
-            'id' => 'required|integer|exists:invoice_combo_tickets,id',
+            'id' => 'required|integer|exists:invoice_combo,id',
         ]);
 
         // Get the invoice

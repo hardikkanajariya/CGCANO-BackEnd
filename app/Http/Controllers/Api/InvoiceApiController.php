@@ -81,7 +81,7 @@ class InvoiceApiController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'order_id' => 'nullable',
-            'ticket_id' => 'required|exists:tickets,id',
+            'ticket_id' => 'required|exists:tickets_event,id',
             'quantity' => 'required|numeric|min:1',
             'total_amount' => 'required|numeric',
             'fullname' => 'required|min:3|max:255',
@@ -125,7 +125,7 @@ class InvoiceApiController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'order_id' => 'nullable',
-            'combo_id' => 'required|exists:combo_tickets,id',
+            'combo_id' => 'required|exists:tickets_combo,id',
             'quantity' => 'required|numeric|min:1',
             'total_amount' => 'required|numeric',
             'fullname' => 'required|min:3|max:255',
