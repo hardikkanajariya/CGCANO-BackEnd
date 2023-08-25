@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ComboInvoice;
-use App\Mail\TicketEmail;
+use App\Mail\InvoiceComboMail;
+use App\Mail\InvoiceTicketMail;
 use App\Models\InvoiceCombo;
 use App\Models\InvoiceTicket;
 use Illuminate\Http\Request;
@@ -23,7 +23,7 @@ class MiscellaneousController extends Controller
 
         // Send the email
         try{
-            Mail::to($invoice->email)->cc($invoice->user->email)->send(new TicketEmail("invoices/{$invoice->pdf}", $invoice->full_name));
+            Mail::to($invoice->email)->cc($invoice->user->email)->send(new InvoiceTicketMail("invoices/{$invoice->pdf}", $invoice->full_name));
             return redirect()->back()->with('success', 'Invoice Email Sent Successfully');
         }catch (\Exception $e){
             return redirect()->back()->with('error', 'Something went wrong');
@@ -42,7 +42,7 @@ class MiscellaneousController extends Controller
 
         // Send the email
         try{
-            Mail::to($invoice->email)->cc($invoice->user->email)->send(new ComboInvoice($invoice->id));
+            Mail::to($invoice->email)->cc($invoice->user->email)->send(new InvoiceComboMail($invoice->id));
             return redirect()->back()->with('success', 'Invoice Email Sent Successfully');
         }catch (\Exception $e){
             return redirect()->back()->with('error', 'Something went wrong');

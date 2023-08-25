@@ -59,9 +59,6 @@
                         <h5>Created At</h5>
                         <p>{{ $paymentDetails->created_at }}</p>
                     </div>
-                    <div class="mb-4">
-                        <a type="button" class="btn btn-primary" href="{{route('')}}">Resend Ticket Mail</a>
-                    </div>
                 </div>
             </div>
         </div>

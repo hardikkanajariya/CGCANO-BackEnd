@@ -33,6 +33,6 @@ class InvoicePackage extends Model
 
     public function payment()
     {
-        return $this->hasOne(PackagePayment::class, 'order_id');
+        return $this->hasOne(PaymentPackage::class, 'order_id');
     }
 }

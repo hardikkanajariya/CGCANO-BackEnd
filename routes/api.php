@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\EventApiController;
 use App\Http\Controllers\Api\GalleryApiController;
 use App\Http\Controllers\Api\CommonApiController;
 use App\Http\Controllers\Api\InvoiceApiController;
+use App\Http\Controllers\Api\PackageApiController;
 use App\Http\Controllers\Api\PosController;
 use App\Http\Controllers\Api\SpeakerApiController;
 use App\Http\Controllers\Api\TicketApiController;
@@ -45,16 +46,28 @@ Route::prefix('all')->group(function () {
     Route::get('packages', [CommonApiController::class, 'getAllPackages']);
 });
 
-// Handle TicketEvent
+// Handle Event Tickets
 Route::prefix('tickets')->group(function () {
     Route::get('{slug}', [TicketApiController::class, 'getTicketDetails']);
     Route::get('user/{id}', [TicketApiController::class, 'getUserTickets']);
 });
 
-// Handle Combo TicketEvent
+// Handle Combo Tickets
 Route::prefix('combo')->group(function () {
     Route::get('{id}', [TicketApiController::class, 'getComboDetails']);
     Route::get('user/{id}', [TicketApiController::class, 'getUserCombos']);
+});
+
+// Handle Packages
+Route::prefix('package')->group(function () {
+    Route::get('{name}', [PackageApiController::class, 'getPackageDetails']);
+    Route::get('user/{id}', [PackageApiController::class, 'getUserPackages']);
+});
+
+// Handle Donations
+Route::prefix('donation')->group(function () {
+    Route::get('{id}', [PackageApiController::class, 'getDonationDetails']);
+    Route::get('user/{id}', [PackageApiController::class, 'getUserDonations']);
 });
 
 // Handle Orders

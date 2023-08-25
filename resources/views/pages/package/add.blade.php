@@ -19,21 +19,26 @@
                         <label class="form-label">Package Name</label>
                         <input type="text" class="form-control form-control-lg" placeholder="GOLD" required name="name" value="{{old('name')}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mt-2">
                         <label class="form-label">Description</label>
                         <textarea id="summernote" rows="10" class="form-control no-resize" name="description" placeholder="Please type what you want...">{{old('description')}}</textarea>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mt-2">
                         <label class="form-label">Amount</label>
                         <input type="text" class="form-control form-control-lg" placeholder="$99xx" name="price" value="{{old('price')}}" required>
                     </div>
-                    <div class="col-sm-12 p-4">
+                    <div class="col-sm-12 mt-2">
+                        <label class="form-label">Validity</label>
+                        <input type="text" class="form-control form-control-lg" placeholder="1 Day" name="validity" value="{{old('validity')}}" required>
+                        <p class="text-muted">Please Enter Validity in Days*</p>
+                    </div>
+                    <div class="col-sm-12 mt-2 p-4">
                         <div class="form-check">
                             <input class="form-check-input p-1" type="checkbox" value="1" id="discount" onchange="toggleDiscount()" name="discount" @if(old('discount')) checked @endif>
                             <label class="form-check-label" for="discount">Discount</label>
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mt-2">
                         <label class="form-label">Percentage</label>
                         <input id="percentage" type="text" class="form-control form-control-lg" placeholder="100%" disabled name="percentage" value="{{old('percentage')}}">
                     </div>

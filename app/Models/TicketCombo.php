@@ -29,6 +29,6 @@ class TicketCombo extends Model
 
     public function events()
     {
-        return $this->belongsToMany(EventList::class);
+        return $this->hasOne(EventList::class);
     }
 }

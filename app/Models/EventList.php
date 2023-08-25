@@ -11,7 +11,7 @@ class EventList extends Model
     protected $table = 'event_list';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'name',
+        'title',
         'description',
         'category_id',
         'venue_id',

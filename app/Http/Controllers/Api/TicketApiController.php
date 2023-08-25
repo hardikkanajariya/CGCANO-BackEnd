@@ -44,7 +44,7 @@ class TicketApiController extends Controller
     // Function to get the user tickets
     public function getUserTickets($id)
     {
-        $user_invoice = InvoiceTicket::where('user_id', $id)->where('status', true)->get();
+        $user_invoice = InvoiceTicket::where('user_id', $id)->where('is_paid', true)->get();
 
         if (!$user_invoice) {
             return response()->json(['message' => 'No tickets found'], 404);
@@ -93,7 +93,7 @@ class TicketApiController extends Controller
     // Function to get the user combos
     public function getUserCombos($id)
     {
-        $user_invoice = InvoiceCombo::where('user_id', $id)->where('status', true)->get();
+        $user_invoice = InvoiceCombo::where('user_id', $id)->where('is_paid', true)->get();
 
         if (!$user_invoice) {
             return response()->json(['message' => 'No tickets found'], 404);

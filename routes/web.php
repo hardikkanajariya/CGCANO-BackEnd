@@ -14,7 +14,7 @@ use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\SubScribedController;
 use App\Http\Controllers\TicketController;
-use App\Mail\TicketEmail;
+use App\Mail\InvoiceTicketMail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 
@@ -33,7 +33,7 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('test', function () {
-    Mail::to("hcollege0@gmail.com")->send(new TicketEmail("invoices/123.pdf", "Test fullname"));
+    Mail::to("hcollege0@gmail.com")->send(new InvoiceTicketMail("invoices/123.pdf", "Test fullname"));
     return "Email Sent";
 });
 

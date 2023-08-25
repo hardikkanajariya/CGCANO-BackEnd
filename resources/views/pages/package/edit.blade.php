@@ -27,6 +27,11 @@
                         <label class="form-label">Amount</label>
                         <input type="text" class="form-control form-control-lg" placeholder="$99xx" name="price" value="{{old('price') ? old('price') : $package->price}}" required>
                     </div>
+                    <div class="col-sm-12 mt-2">
+                        <label class="form-label">Validity</label>
+                        <input type="text" class="form-control form-control-lg" placeholder="{{$package->validity}}" name="validity" value="{{old('validity')}}" required>
+                        <p class="text-muted">Please Enter Validity in Days*</p>
+                    </div>
                     <div class="col-sm-12 p-4">
                         <div class="form-check">
                             <input class="form-check-input p-1" type="checkbox" value="1" id="discount" onchange="toggleDiscount()" name="discount" @if(old('discount') || $package->discount) checked @endif>
@@ -35,7 +40,7 @@
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Percentage</label>
-                        <input id="percentage" type="text" class="form-control form-control-lg" placeholder="100%" disabled name="percentage" value="{{old('percentage')? old('percentage') : $package->percentage}}}}">
+                        <input id="percentage" type="text" class="form-control form-control-lg" placeholder="100%" disabled name="percentage" value="{{old('percentage')? old('percentage') : $package->percentage}}">
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Update</button>

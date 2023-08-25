@@ -23,7 +23,8 @@ class MemberShipPackageController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'validity' => 'required|numeric'
         ]);
         $package = new MemberShip();
         $package->name = $request->name;
@@ -31,6 +32,7 @@ class MemberShipPackageController extends Controller
         $package->description = $request->description;
         $package->discount = $request->discount ?? 0;
         $package->percentage = $request->percentage ?? 0;
+        $package->validity = date('Y-m-d', strtotime('+'.$request->validity.' days'));
         $package->status = 1;
         $package->save();
         return redirect()->route('membership')->with('success', 'Package Added Successfully');
@@ -47,7 +49,8 @@ class MemberShipPackageController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'validity' => 'required|numeric'
         ]);
         $package = MemberShip::find($id);
         $package->name = $request->name;
@@ -55,6 +58,7 @@ class MemberShipPackageController extends Controller
         $package->description = $request->description;
         $package->discount = $request->discount ?? 0;
         $package->percentage = $request->percentage ?? 0;
+        $package->validity = date('Y-m-d', strtotime('+'.$request->validity.' days'));
         $package->save();
         return redirect()->route('membership')->with('success', 'Package Updated Successfully');
     }

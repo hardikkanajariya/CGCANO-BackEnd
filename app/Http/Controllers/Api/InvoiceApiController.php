@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Mail\ComboInvoice;
-use App\Mail\TicketEmail;
+use App\Mail\InvoiceComboMail;
+use App\Mail\InvoiceTicketMail;
 use App\Models\Barcodes;
+use App\Models\ErrorLog;
 use App\Models\EventList;
 use App\Models\InvoiceCombo;
+use App\Models\InvoicePackage;
 use App\Models\InvoiceTicket;
 use App\Models\TicketEvent;
 use Dompdf\Dompdf;
@@ -153,6 +155,41 @@ class InvoiceApiController extends Controller
         ]);
     }
 
+    // Function to Create Package Order
+    public function createPackageOrder(Request $request){
+        // Validate the request
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'order_id' => 'nullable',
+            'package_id' => 'required|exists:memberships,id',
+            'quantity' => 'required|numeric|min:1',
+            'total_amount' => 'required|numeric',
+            'fullname' => 'required|min:3|max:255',
+            'email' => 'required|email',
+            'phone' => 'required',
+        ]);
+
+        $order = new InvoicePackage();
+        $order->user_id = $request->user_id;
+        $order->package_id = $request->package_id;
+        $order->quantity = $request->quantity;
+        $order->total_amount = $request->total_amount;
+        $order->is_paid = false;
+        $order->full_name = $request->fullname;
+        $order->email = $request->email;
+        $order->phone = $request->phone;
+        $order->save();
+
+        // Return the response
+        return response()->json([
+            'message' => 'Order Created Successfully',
+            'order_id' => $order->id,
+            'order' => $order,
+            'ticket_price' => $request->total_amount,
+            'name' => $order->package->name,
+        ]);
+    }
+
     /* --------------- Function to Insert Payment Details ------------------- */
     // Function to Insert Payment Details for Ticket
     public function paymentDetailsTicket(Request $request)
@@ -220,12 +257,15 @@ class InvoiceApiController extends Controller
         // Send Email To The User With Barcode Image Attached
         try {
             if($order->user->email == $order->email) {
-                Mail::to($order->user->email)->send(new TicketEmail("invoices/$randomString.pdf", $order->user->fullname));
+                Mail::to($order->user->email)->send(new InvoiceTicketMail("invoices/$randomString.pdf", $order->user->fullname));
             }else{
-                Mail::to($order->email)->cc($order->user->email)->send(new TicketEmail("invoices/$randomString.pdf", $order->user->fullname));
+                Mail::to($order->email)->cc($order->user->email)->send(new InvoiceTicketMail("invoices/$randomString.pdf", $order->user->fullname));
             }
         } catch (Exception $e) {
-            // return $e->getMessage();
+            $log = new ErrorLog();
+            $log->type = "Package Invoice Email Sending";
+            $log->message = $e->getMessage();
+            $log->save();
         }
         // Update ticket quantity
         $quantity = $ticket->tickets_left - $order->quantity;
@@ -243,7 +283,7 @@ class InvoiceApiController extends Controller
 
         // Return the response
         return response()->json([
-            'message' => 'Payment Details Inserted Successfully',
+            'message' => 'Payment Successfully Done',
             'order' => $order->load('payment')->payment,
         ]);
     }
@@ -306,12 +346,15 @@ class InvoiceApiController extends Controller
         // Send Email To The User With Barcode Image Attached
         try {
             if($order->user->email == $order->email) {
-                Mail::to($order->user->email)->send(new ComboInvoice($order->id));
+                Mail::to($order->user->email)->send(new InvoiceComboMail($order->id));
             }else{
-                Mail::to($order->email)->cc($order->user->email)->send(new ComboInvoice($order->id));
+                Mail::to($order->email)->cc($order->user->email)->send(new InvoiceComboMail($order->id));
             }
         } catch (Exception $e) {
-            // return $e->getMessage();
+            $log = new ErrorLog();
+            $log->type = "Package Invoice Email Sending";
+            $log->message = $e->getMessage();
+            $log->save();
         }
 
         // update combo invoice status
@@ -372,6 +415,88 @@ class InvoiceApiController extends Controller
             $ticket_order->pdf = $randomString . ".pdf";
             $ticket_order->save();
         }
+        // Return the response
+        return response()->json([
+            'message' => 'Payment Successfully Done',
+            'order' => $order->load('payment')->payment,
+        ]);
+    }
+
+    // Function to Insert Payment Details for Package
+    public function paymentDetailsPackage(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'order_id' => 'required',
+            'billing_token' => 'required',
+            'payment_amount' => 'required',
+            'facilitator_access_token' => 'nullable',
+            'paypal_order_id' => 'required',
+            'payer_id' => 'required',
+            'payer_name' => 'nullable',
+            'payer_email' => 'nullable',
+            'payer_address' => 'nullable',
+            'gross_amount' => 'required',
+            'status' => 'required',
+        ]);
+
+        // Insert Payment Details
+        $order = InvoicePackage::find($request->order_id);
+        $order->payment()->create([
+            'order_id' => $request->order_id,
+            'billing_token' => $request->billing_token,
+            'payment_amount' => $request->payment_amount,
+            'facilitator_access_token' => $request->facilitator_access_token,
+            'paypal_order_id' => $request->paypal_order_id,
+            'payer_id' => $request->payer_id,
+            'payer_name' => $request->payer_name,
+            'payer_email' => $request->payer_email,
+            'payer_address' => $request->payer_address,
+            'gross_amount' => $request->gross_amount,
+            'status' => $request->status,
+        ]);
+
+        $pdf = new Dompdf();
+        $pdf->setPaper('A4', 'horizontal'); // Set paper size and orientation
+        $invoiceData = [
+            "order_id" => $order->id,
+            "Name" => $order->name,
+            "total_amount" => $order->total_amount,
+            "fullname" => $order->full_name,
+            "email" => $order->email,
+            "phone" => $order->phone,
+            'package_name' => $order->package->name,
+        ];
+        $randomString = md5(rand(11111111, 99999999)); // Using md5 for URL-safe hash
+
+        // Load the PDF template with data
+        $pdf->loadHtml(View::make('pdf.package', compact('invoiceData',)));
+        $pdf->render();
+
+        // Save the PDF to a public path or return as response
+        $pdfPath = public_path("invoices/package/$randomString.pdf"); // Change
+        file_put_contents($pdfPath, $pdf->output());
+
+        // Send Email To The User With Barcode Image Attached
+        try {
+            if($order->user->email == $order->email) {
+                Mail::to($order->user->email)->send(new InvoiceComboMail($order->id));
+            }else{
+                Mail::to($order->email)->cc($order->user->email)->send(new InvoiceComboMail($order->id));
+            }
+        } catch (Exception $e) {
+            $log = new ErrorLog();
+            $log->type = "Package Invoice Email Sending";
+            $log->message = $e->getMessage();
+            $log->save();
+        }
+
+        // update combo invoice status
+        $order->is_paid = true;
+        $order->status = true;
+        $order->pdf = $randomString . ".pdf";
+        $order->save();
+
         // Return the response
         return response()->json([
             'message' => 'Payment Details Inserted Successfully',

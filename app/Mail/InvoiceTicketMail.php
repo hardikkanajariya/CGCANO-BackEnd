@@ -2,34 +2,37 @@
 
 namespace App\Mail;
 
-use App\Models\InvoiceCombo;
+use App\Models\EventList;
+use App\Models\InvoiceTicket;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
 
-class ComboInvoice extends Mailable
+class InvoiceTicketMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public array $invoiceData = [];
-    public function __construct($id)
+    public $invoice_path;
+    public $fullname;
+    public $event;
+    public $venue;
+    public $address;
+    public function __construct($path, $fullname)
     {
-        $invoice = InvoiceCombo::find($id);
-        $this->invoiceData = [
-            "order_id" => $invoice->id,
-            "Name" => $invoice->name,
-            "quantity" => $invoice->quantity,
-            "total_amount" => $invoice->total_amount,
-            "fullname" => $invoice->full_name,
-            "email" => $invoice->email,
-            "phone" => $invoice->phone,
-        ];
+        $this->invoice_path = $path;
+        $this->fullname = $fullname;
+        $invoice = InvoiceTicket::where('pdf', Str::after($path, 'invoices/'))->first();
+        $this->event = $invoice->ticket->event;
+        $this->venue = $this->event->venue;
+        $this->address = $this->venue->address;
     }
 
     /**
@@ -38,7 +41,7 @@ class ComboInvoice extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Combo Invoice',
+            subject: 'Ticket Email',
         );
     }
 
@@ -48,7 +51,7 @@ class ComboInvoice extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.combo_invoice',
+            view: 'emails.invoice_ticket',
         );
     }
 

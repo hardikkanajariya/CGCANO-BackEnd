@@ -16,8 +16,7 @@
                     <tr>
                         <th>#Id</th>
                         <th>user</th>
-                        <th>Ticket</th>
-                        <th>Quantity</th>
+                        <th>Package</th>
                         <th>Total Amount</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -28,10 +27,7 @@
                         <tr>
                             <td>{{$data->id}}</td>
                             <td>{{$data->user->fullname}}</td>
-                            <td>
-                                <a href="{{route('resend.ticket',$data->ticket->id)}}">Resent Ticket</a>
-                            </td>
-                            <td>{{$data->quantity}}</td>
+                            <td>{{$data->package->name}}</td>
                             <td>{{$data->total_amount}}</td>
                             <td>
                                 @if($data->status == 0)
@@ -45,7 +41,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{route('payment',[$data->id])}}"
+                                <a href="{{route('payment.package',[$data->id])}}"
                                    class="btn btn-sm btn-outline-success">View Payment Details</a>
                             </td>
                         </tr>
