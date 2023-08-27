@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 // Route for getting all events and event details by id [Now it's getting from slug]
 Route::prefix('events')->group(function () {
     Route::get('{id}', [EventApiController::class, 'getEventDetail']);
+    Route::get('category/{name}', [EventApiController::class, 'getEventByCategory']);
 });
 
 // Get Offer Details by id

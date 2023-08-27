@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\EventCategory;
 use App\Models\EventList;
 use Illuminate\Support\Carbon;
 
@@ -38,6 +39,27 @@ class EventApiController extends Controller
             'instagram' => $event->instagram,
             'linkedin' => $event->linkedin,
         ];
+        return response()->json($response);
+    }
+
+    // Function to get Event by Category
+    public function getEventByCategory($name)
+    {
+        // get the category id from category name
+        $category = EventCategory::where('name', $name)->first();
+        $events = EventList::where('status', 1)->get();
+        $response = [];
+        foreach ($events as $event) {
+            $response[] = [
+                'id' => $event->id,
+                'title' => $event->title,
+                'event_date' => Carbon::parse($event->start)->format('d M Y'),
+                'event_thumbnail' => url('images/event/thumbnail/' . $event->thumbnail),
+                'speaker_name' => $event->speaker->name,
+                'speaker_image' => url('images/speaker/' . $event->speaker->image),
+                'slug' => $event->slug,
+            ];
+        }
         return response()->json($response);
     }
 

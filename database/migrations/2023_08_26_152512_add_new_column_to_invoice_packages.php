@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('error_logs', function (Blueprint $table) {
-            $table->id();
-            $table->string('type');
-            $table->longText('message');
-            $table->timestamps();
+        Schema::table('invoice_packages', function (Blueprint $table) {
+            $table->string('validity')->nullable()->after('package_id');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('error_logs');
+        Schema::table('invoice_packages', function (Blueprint $table) {
+            //
+        });
     }
 };

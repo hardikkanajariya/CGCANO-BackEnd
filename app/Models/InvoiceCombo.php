@@ -32,6 +32,11 @@ class InvoiceCombo extends Model
         return $this->belongsTo(TicketCombo::class, 'combo_id');
     }
 
+    public function combo()
+    {
+        return $this->belongsTo(TicketCombo::class, 'combo_id');
+    }
+
     public function payment()
     {
         return $this->hasOne(PaymentCombo::class, 'order_id');

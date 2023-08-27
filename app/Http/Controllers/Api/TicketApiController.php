@@ -101,20 +101,13 @@ class TicketApiController extends Controller
 
         $response = [];
         foreach ($user_invoice as $invoice) {
-            // Get the Ticket Details
-            $ticket = $invoice->ticket;
-            $event = $ticket->event;
-            $downloadUrl = URL::to('/invoices/' . $invoice->pdf);
+            $downloadUrl = URL::to('/invoices/combo/' . $invoice->pdf);
             $response[] = [
                 'id' => $invoice->id,
-                'title' => $event->title,
-                'slug' => $event->slug,
-                'date' => Carbon::parse($invoice->created_at)->format('M d Y h:i A'),
-                'price' => $ticket->price,
-                'tickets' => $invoice->quantity,
+                'name' => $invoice->combo->name,
+                'quantity' => $invoice->quantity,
                 'total_amount' => $invoice->total_amount,
                 'is_paid' => $invoice->is_paid,
-                'purchased_at' => $invoice->created_at,
                 'download_url' => $downloadUrl,
             ];
         }

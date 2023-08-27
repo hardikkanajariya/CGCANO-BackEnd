@@ -253,7 +253,11 @@ class InvoiceApiController extends Controller
         $randomString = md5(rand(11111111, 99999999)); // Using md5 for URL-safe hash
         $pdfPath = public_path("invoices/$randomString.pdf"); // Change the path and filename as needed
         file_put_contents($pdfPath, $pdf->output());
-
+        // update invoice status
+        $order->is_paid = true;
+        $order->status = true;
+        $order->pdf = $randomString . ".pdf";
+        $order->save();
         // Send Email To The User With Barcode Image Attached
         try {
             if($order->user->email == $order->email) {
@@ -274,12 +278,6 @@ class InvoiceApiController extends Controller
         }
         $ticket->tickets_left = $quantity < 0 ? 0 : $quantity;
         $ticket->save();
-
-        // update invoice status
-        $order->is_paid = true;
-        $order->status = true;
-        $order->pdf = $randomString . ".pdf";
-        $order->save();
 
         // Return the response
         return response()->json([
@@ -495,6 +493,8 @@ class InvoiceApiController extends Controller
         $order->is_paid = true;
         $order->status = true;
         $order->pdf = $randomString . ".pdf";
+        $time = "+" . $order->package->validity." days";
+        $order->validity = date('Y-m-d H:i:s', strtotime($time));
         $order->save();
 
         // Return the response

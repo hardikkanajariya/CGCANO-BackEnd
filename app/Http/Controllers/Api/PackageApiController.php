@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\InvoicePackage;
 use App\Models\MemberShip;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\URL;
 
 class PackageApiController extends Controller
 {
@@ -38,14 +39,16 @@ class PackageApiController extends Controller
             ]);
         }
 
-        foreach ($packages as $package) {
-            $package = MemberShip::find($package->id);
+        foreach ($packages as $item) {
+            $package = MemberShip::find($item->package_id);
+            $downloadUrl = URL::to('/invoices/package/' . $item->pdf);
             $response[] = [
                 'id' => $package->id,
-                'name' => $package->package->name,
-                'price' => $package->package->price,
-                'is_paid' => $package->is_paid,
-                'validity' => Carbon::parse($package->validity)->format('d M Y'),
+                'name' => $package->name,
+                'price' => $package->price,
+                'is_paid' => $item->is_paid,
+                'validity' => Carbon::parse($item->validity)->format('d M Y'),
+                'download_url' => $downloadUrl,
             ];
         }
 

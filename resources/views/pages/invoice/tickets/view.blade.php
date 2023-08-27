@@ -8,6 +8,8 @@
                 <div class="dropdown morphing scale-left">
                     <a href="#" class="card-fullscreen btn" style="width: 100px" data-bs-toggle="tooltip"
                        title="Card Full-Screen"><i class="icon-size-fullscreen"></i></a>
+                    <a href="{{route('orders.ticket.add')}}" class="btn btn-outline-primary" style="width: 100px"><i
+                            class="fa fa-add"></i></a>
                 </div>
             </div>
             <div class="card-body">

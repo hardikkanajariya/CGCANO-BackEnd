@@ -116,6 +116,11 @@ Route::prefix('tickets')->middleware(['auth', 'verified'])->group(function () {
 Route::prefix('invoice')->middleware(['auth', 'verified'])->group(function () {
     // Ticket Invoices
     Route::get('/ticket', [InvoiceController::class, 'listTicket'])->name('orders.ticket');
+    Route::get('/ticket/add', [InvoiceController::class, 'viewAddManualTicketInvoice'])->name('orders.ticket.add');
+    Route::post('/ticket/add', [InvoiceController::class, 'doAddManualTicketInvoice'])->name('orders.ticket.doAdd');
+    // Routes for Editing Ticket Invoices
+    Route::get('/ticket/edit/{id}', [InvoiceController::class, 'viewEditTicketInvoice'])->name('orders.ticket.edit');
+    Route::post('/ticket/edit/{id}', [InvoiceController::class, 'doEditTicketInvoice'])->name('orders.ticket.doEdit');
     Route::get('/{id}/payment', [InvoiceController::class, 'viewTicketPayment'])->name('payment.ticket');
 
     // Combo Invoices
