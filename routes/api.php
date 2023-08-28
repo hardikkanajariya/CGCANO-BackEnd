@@ -63,6 +63,7 @@ Route::prefix('combo')->group(function () {
 Route::prefix('package')->group(function () {
     Route::get('{name}', [PackageApiController::class, 'getPackageDetails']);
     Route::get('user/{id}', [PackageApiController::class, 'getUserPackages']);
+    Route::get('user/{id}/active', [PackageApiController::class, 'getUserActivePackages']);
 });
 
 // Handle Donations

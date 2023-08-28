@@ -31,8 +31,8 @@ class MemberShipPackageController extends Controller
         $package->price = $request->price;
         $package->description = $request->description;
         $package->discount = $request->discount ?? 0;
-        $package->percentage = $request->percentage ?? 0;
-        $package->validity = date('Y-m-d', strtotime('+'.$request->validity.' days'));
+        $package->percentage = $request->percentage;
+        $package->validity = '+'.$request->validity.' days';
         $package->status = 1;
         $package->save();
         return redirect()->route('membership')->with('success', 'Package Added Successfully');
@@ -57,8 +57,8 @@ class MemberShipPackageController extends Controller
         $package->price = $request->price;
         $package->description = $request->description;
         $package->discount = $request->discount ?? 0;
-        $package->percentage = $request->percentage ?? 0;
-        $package->validity = date('Y-m-d', strtotime('+'.$request->validity.' days'));
+        $package->percentage = $request->percentage;
+        $package->validity = '+'.$request->validity.' days';
         $package->save();
         return redirect()->route('membership')->with('success', 'Package Updated Successfully');
     }

@@ -8,26 +8,37 @@ $dbname = "cgcano";
 // Create a new database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+try {
+    // Check the connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Update records with completed payments
+    $invoiceTicketQuery = "UPDATE invoice_ticket SET status = 1 WHERE status = 0 AND is_paid = 1";
+    $invoiceComboQuery = "UPDATE invoice_combo SET status = 1 WHERE status = 0 AND is_paid = 1";
+    $invoicePackageQuery = "UPDATE invoice_packages SET status = 1 WHERE status = 0 AND is_paid = 1";
+
+
+    // Remove records with status 'pending' for 5 minutes or more
+    $currentTime = time();
+    $fiveMinutesAgo = $currentTime - (5 * 60);
+    $deleteTicket = "DELETE FROM invoice_ticket WHERE status = 0 AND created_at <= FROM_UNIXTIME($fiveMinutesAgo)";
+    $deleteCombo = "DELETE FROM invoice_combo WHERE status = 0 AND created_at <= FROM_UNIXTIME($fiveMinutesAgo)";
+    $deletePackage = "DELETE FROM invoice_packages WHERE status = 0 AND created_at <= FROM_UNIXTIME($fiveMinutesAgo)";
+    $conn->query($invoiceTicketQuery);
+    $conn->query($invoiceComboQuery);
+    $conn->query($invoicePackageQuery);
+    $conn->query($deleteTicket);
+    $conn->query($deleteCombo);
+    $conn->query($deletePackage);
+} catch (Exception $e) {
+    // Log cron job details
+    $cronStatus = $e->getMessage();
+    $logQuery = "INSERT INTO cron_logs (cron_status, created_at) VALUES ('$cronStatus', NOW())";
+    $conn->query($logQuery);
+} finally {
+    // Close the database connection
+    $conn->close();
 }
-
-// Update records with completed payments
-$updateQuery = "UPDATE invoices SET status = 1 WHERE status = 0 AND is_paid = 1";
-$conn->query($updateQuery);
-
-// Remove records with status 'pending' for 5 minutes or more
-$currentTime = time();
-$fiveMinutesAgo = $currentTime - (5 * 60);
-$deleteQuery = "DELETE FROM invoices WHERE status = 0 AND created_at <= FROM_UNIXTIME($fiveMinutesAgo)";
-$conn->query($deleteQuery);
-
-// Log cron job details
-$cronStatus = "Cron job executed successfully";
-$logQuery = "INSERT INTO cron_logs (cron_status, created_at) VALUES ('$cronStatus', NOW())";
-$conn->query($logQuery);
-
-// Close the database connection
-$conn->close();
 ?>

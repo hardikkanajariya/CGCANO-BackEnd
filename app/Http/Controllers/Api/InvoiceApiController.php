@@ -493,8 +493,7 @@ class InvoiceApiController extends Controller
         $order->is_paid = true;
         $order->status = true;
         $order->pdf = $randomString . ".pdf";
-        $time = "+" . $order->package->validity." days";
-        $order->validity = date('Y-m-d H:i:s', strtotime($time));
+        $order->validity = date('Y-m-d H:i:s', strtotime($order->package->validity));
         $order->save();
 
         // Return the response

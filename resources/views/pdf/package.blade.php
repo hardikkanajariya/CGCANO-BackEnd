@@ -78,7 +78,7 @@
     <br>
     <br>
     <br>
-    <p>You Can Download your Event tickets from your Profile Page. <a href="http://localhost:3000/auth/profile">Click Here</a>
+    <p>You Can Download your Invoice from your Profile Page. <a href="http://localhost:3000/auth/profile">Click Here</a>
     </p>
     <br>
     <br>

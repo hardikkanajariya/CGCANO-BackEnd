@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-sm-12 p-4">
                         <div class="form-check">
-                            <input class="form-check-input p-1" type="checkbox" value="1" id="discount" onchange="toggleDiscount()" name="discount" @if(old('discount') || $package->discount) checked @endif>
+                            <input class="form-check-input p-1" type="checkbox" value="1" id="discount" onchange="toggleDiscount()" name="discount">
                             <label class="form-check-label" for="discount">Discount</label>
                         </div>
                     </div>
