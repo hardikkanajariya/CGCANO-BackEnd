@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InvoicePackage;
 use App\Models\MemberShip;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,7 @@ class MemberShipPackageController extends Controller
 {
     // Function to View All Packages
     public function listPackage(){
-        $packages = MemberShip::all();
+        $packages = MemberShip::where('status', 1)->get();
         return view('pages.package.view', compact('packages'));
     }
 
@@ -66,7 +67,15 @@ class MemberShipPackageController extends Controller
     // Function to Delete Package
     public function doDeletePackage($id){
         $package = MemberShip::find($id);
-        $package->delete();
+
+        // Delete All Invoices for this Package
+        $invoices = InvoicePackage::where('package_id', $id)->get();
+        foreach($invoices as $invoice){
+            $invoice->status = 0;
+            $invoice->save();
+        }
+        $package->status = 0;
+        $package->save();
         return redirect()->route('membership')->with('success', 'Package Deleted Successfully');
     }
 }

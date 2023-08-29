@@ -17,7 +17,7 @@ class CommonApiController extends Controller
     // Function to get all speakers
     public function getAllSpeakers()
     {
-        $speakers = Speakers::all();
+        $speakers = Speakers::where('status', 1)->get();
         foreach ($speakers as $speaker) {
             $speaker->image = url('images/speaker/' . $speaker->image);
         }
@@ -38,7 +38,7 @@ class CommonApiController extends Controller
     // Function to get all categories
     public function getAllCategories()
     {
-        $categories = EventCategory::all();
+        $categories = EventCategory::where('status', 1)->get();
         foreach ($categories as $category) {
             $category->image = url('images/event/category/' . $category->image);
         }
@@ -48,7 +48,7 @@ class CommonApiController extends Controller
     // Function to get all sponsors
     public function getAllSponsors()
     {
-        $sponsors = Sponsors::all();
+        $sponsors = Sponsors::where('status', 1)->get();
         foreach ($sponsors as $sponsor) {
             $sponsor->logo = url('images/sponsor/' . $sponsor->logo);
         }
@@ -77,7 +77,7 @@ class CommonApiController extends Controller
     // Function to get all offers
     public function getAllOffers()
     {
-        $offers = TicketCombo::all();
+        $offers = TicketCombo::where('status', 1)->get();
         $response = [];
         foreach($offers as $offer) {
             $response[] = [

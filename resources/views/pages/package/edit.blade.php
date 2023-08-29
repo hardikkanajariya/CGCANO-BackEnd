@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-sm-12 mt-2">
                         <label class="form-label">Validity</label>
-                        <input type="text" class="form-control form-control-lg" placeholder="{{$package->validity}}" name="validity" value="{{old('validity')}}" required>
+                        <input type="number" class="form-control form-control-lg" placeholder="+365 days" name="validity" value="{{old('validity')? old('validity') : preg_replace('/[^0-9]/', '', $package->validity) }}" required>
                         <p class="text-muted">Please Enter Validity in Days*</p>
                     </div>
                     <div class="col-sm-12 p-4">

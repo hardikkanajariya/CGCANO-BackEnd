@@ -10,7 +10,7 @@ class SponsorController extends Controller
     // List all sponsor
     public function list()
     {
-        $sponsors = Sponsors::all();
+        $sponsors = Sponsors::where('status', 1)->get();
         return view('pages.sponsor.view', ['sponsors' => $sponsors]);
     }
 
@@ -96,11 +96,12 @@ class SponsorController extends Controller
         try{
             $sponsor = Sponsors::find($id);
             // Delete Old Image
-            $image_path = public_path('images/sponsor/'.$sponsor->logo);
-            if(file_exists($image_path)) {
-                unlink($image_path);
-            }
-            $sponsor->delete();
+//            $image_path = public_path('images/sponsor/'.$sponsor->logo);
+//            if(file_exists($image_path)) {
+//                unlink($image_path);
+//            }
+            $sponsor->status = 0;
+            $sponsor->save();
             return redirect()->route('sponsor')->with('success', 'Sponsor Deleted Successfully');
         }catch(\Exception $e){
             return redirect()->back()->with('error', $e->getMessage());

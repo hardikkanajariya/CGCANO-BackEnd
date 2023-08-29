@@ -12,7 +12,7 @@ class PointOfSaleController extends Controller
     // Function to view All Scanners List
     public function list()
     {
-        $pos = PontOfSale::all();
+        $pos = PontOfSale::where('status', 1)->get();
         return view('pages.pos.view')->with('pos', $pos);
     }
 

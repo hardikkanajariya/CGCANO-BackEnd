@@ -8,6 +8,7 @@ use App\Models\TicketCombo;
 use App\Models\EventList;
 use App\Models\InvoiceCombo;
 use App\Models\InvoiceTicket;
+use App\Models\TicketEvent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -44,8 +45,7 @@ class TicketApiController extends Controller
     // Function to get the user tickets
     public function getUserTickets($id)
     {
-        $user_invoice = InvoiceTicket::where('user_id', $id)->where('is_paid', true)->get();
-
+        $user_invoice = InvoiceTicket::where('user_id', $id)->where('is_paid', true)->where('status', 1)->get();
         if (!$user_invoice) {
             return response()->json(['message' => 'No tickets found'], 404);
         }
@@ -83,9 +83,19 @@ class TicketApiController extends Controller
         if ($combo->status == 0) {
             return response()->json(['message' => 'Combo is not available'], 404);
         }
+        $events = json_decode($combo->event_id);
+
+        // check if the combo is not sold out and is active
+        foreach($events as $event) {
+            $event = TicketEvent::find($event);
+            if($event->is_sold_out == 1 || $event->is_active == 0) {
+                return response()->json(['message' => 'Combo is not available'], 404);
+            }
+        }
         $response = [
             'id' => $combo->id,
             'price' => $combo->price,
+            'quantity' => $combo->quantity,
         ];
         return response()->json($response);
     }
@@ -93,7 +103,7 @@ class TicketApiController extends Controller
     // Function to get the user combos
     public function getUserCombos($id)
     {
-        $user_invoice = InvoiceCombo::where('user_id', $id)->where('is_paid', true)->get();
+        $user_invoice = InvoiceCombo::where('user_id', $id)->where('is_paid', true)->where('status', 1)->get();
 
         if (!$user_invoice) {
             return response()->json(['message' => 'No tickets found'], 404);

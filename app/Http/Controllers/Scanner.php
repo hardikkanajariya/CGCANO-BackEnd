@@ -11,7 +11,7 @@ class Scanner extends Controller
     // Function to view All Scanners List
     public function list()
     {
-        $scanners = \App\Models\Scanner::all();
+        $scanners = \App\Models\Scanner::where('status', 1)->get();
         return view('pages.scanner.view')->with('scanners', $scanners);
     }
 
@@ -98,7 +98,8 @@ class Scanner extends Controller
         try {
             $scanenr = \App\Models\Scanner::find($id);
             if ($scanenr) {
-                $scanenr->delete();
+                $scanenr->status = 0;
+                $scanenr->save();
                 return redirect()->route('scanner')->with('success', 'Scanner deleted successfully');
             }
             return redirect()->back()->with('error', 'Scanner not found');

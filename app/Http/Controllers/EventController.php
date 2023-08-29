@@ -6,6 +6,7 @@ use App\Models\EventAmenities;
 use App\Models\EventCategory;
 use App\Models\EventList;
 use App\Models\Speakers;
+use App\Models\TicketCombo;
 use App\Models\TicketEvent;
 use App\Models\Venues;
 use Exception;
@@ -17,15 +18,15 @@ class EventController extends Controller
     // Event Handler (CRUD)
     public function list()
     {
-        $events = EventList::all();
+        $events = EventList::where('status', 1)->get();
         return view('pages.event.view', ['events' => $events]);
     }
 
     public function viewAdd()
     {
-        $categories = EventCategory::all();
-        $venues = Venues::all();
-        $speakers = Speakers::all();
+        $categories = EventCategory::where('status', 1)->get();
+        $venues = Venues::where('status', 1)->get();
+        $speakers = Speakers::where('status', 1)->get();
         return view('pages.event.add', ['categories' => $categories, 'venues' => $venues, 'speakers' => $speakers]);
     }
 
@@ -117,9 +118,9 @@ class EventController extends Controller
     public function viewEdit($id)
     {
         $event = EventList::find($id);
-        $categories = EventCategory::all();
-        $venues = Venues::all();
-        $speakers = Speakers::all();
+        $categories = EventCategory::where('status', 1)->get();
+        $venues = Venues::where('status', 1)->get();
+        $speakers = Speakers::where('status', 1)->get();
         return view('pages.event.edit', ['event' => $event, 'categories' => $categories, 'venues' => $venues, 'speakers' => $speakers]);
     }
 
@@ -250,12 +251,25 @@ class EventController extends Controller
                 }
             }
 
+            // Delete event from Combo Event
+            $comboEvent = TicketCombo::all();
+            foreach ($comboEvent as $value) {
+                $eventList = json_decode($value->event_id);
+                if (in_array($id, $eventList)) {
+                    $eventList = array_diff($eventList, [$id]);
+                    $value->event_id = json_encode($eventList);
+                    $value->save();
+                }
+            }
+
             // Delete event tickets
             $tickets = TicketEvent::where('event_id', $id)->get();
             foreach ($tickets as $key => $value) {
-                $value->delete();
+                $value->status = 0;
+                $value->save();
             }
-            $event->delete();
+            $event->status = 0;
+            $event->save();
             return redirect()->route('event')->with('success', 'Event deleted successfully.');
         } catch (Throwable $th) {
             return redirect()->route('event')->with('error', 'Failed to delete event.');
@@ -265,7 +279,7 @@ class EventController extends Controller
     // Event Venue Amenities Handler (CRUD)
     public function listAmenities()
     {
-        $amenities = EventAmenities::all();
+        $amenities = EventAmenities::where('status', 1)->get();
         return view('pages.event.venues.amenities.view', ['amenities' => $amenities]);
     }
 
@@ -328,12 +342,12 @@ class EventController extends Controller
     {
         try {
             $amenities = EventAmenities::find($id);
-            // delete image
-            $image_path = public_path('images') . '/event/venue/amenities' . $amenities->image;
-            if (file_exists($image_path)) {
-                @unlink($image_path);
-            }
-            $amenities->delete();
+//            // delete image
+//            $image_path = public_path('images') . '/event/venue/amenities' . $amenities->image;
+//            if (file_exists($image_path)) {
+//                @unlink($image_path);
+//            }
+            $amenities->status = 0;
             return redirect()->route('event.venue.amenities')->with('success', 'Amenities deleted successfully.');
         } catch (Throwable $th) {
             return redirect()->route('event.venue.amenities')->with('error', 'Failed to delete amenities.');
@@ -343,13 +357,13 @@ class EventController extends Controller
     // Event Venue Handler (CRUD)
     public function listVenues()
     {
-        $venues = Venues::all();
+        $venues = Venues::where('status', 1)->get();
         return view('pages.event.venues.view', ['venues' => $venues]);
     }
 
     public function viewAddVenue()
     {
-        $amenities = EventAmenities::all();
+        $amenities = EventAmenities::where('status', 1)->get();
         return view('pages.event.venues.add', ['amenities' => $amenities]);
     }
 
@@ -385,7 +399,7 @@ class EventController extends Controller
     public function viewEditVenue($id)
     {
         $venue = Venues::find($id);
-        $amenities = EventAmenities::all();
+        $amenities = EventAmenities::where('status', 1)->get();
         return view('pages.event.venues.edit', ['venue' => $venue, 'amenities' => $amenities]);
     }
 
@@ -422,7 +436,8 @@ class EventController extends Controller
     {
         try {
             $venue = Venues::find($id);
-            $venue->delete();
+            $venue->status = 0;
+            $venue->save();
             return redirect()->route('event.venues')->with('success', 'Venue deleted successfully.');
         } catch (Throwable $th) {
             return redirect()->route('event.venues')->with('error', 'Failed to delete venue.');
@@ -432,7 +447,7 @@ class EventController extends Controller
     // Event Categories Handler (CRUD)
     public function listCategories()
     {
-        $categories = EventCategory::all();
+        $categories = EventCategory::where('status', 1)->get();
         return view('pages.event.category.view', ['categories' => $categories]);
     }
 
@@ -497,11 +512,8 @@ class EventController extends Controller
     {
         try {
             $category = EventCategory::find($id);
-            // Delete old image
-            if ($category->image) {
-                unlink(public_path('images/event/category/' . $category->image));
-            }
-            $category->delete();
+            $category->status = 0;
+            $category->save();
             return redirect()->route('event.categories')->with('success', 'Category deleted successfully.');
         } catch (Throwable $th) {
             return redirect()->route('event.categories')->with('error', 'Failed to delete category.');

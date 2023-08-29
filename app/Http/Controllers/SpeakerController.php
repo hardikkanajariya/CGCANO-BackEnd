@@ -10,7 +10,7 @@ class SpeakerController extends Controller
     // Function to view All speakers list
     public function list()
     {
-        $speakers = Speakers::all();
+        $speakers = Speakers::where('status', 1)->get();
         return view('pages.speaker.view')->with('speakers', $speakers);
     }
 
@@ -95,11 +95,12 @@ class SpeakerController extends Controller
         try{
             $speaker = Speakers::find($id);
             // Delete Old Image
-            $image_path = public_path('images/speaker/'.$speaker->image);
-            if(file_exists($image_path)) {
-                unlink($image_path);
-            }
-            $speaker->delete();
+//            $image_path = public_path('images/speaker/'.$speaker->image);
+//            if(file_exists($image_path)) {
+//                unlink($image_path);
+//            }
+            $speaker->status = 0;
+            $speaker->save();
             return redirect()->route('speaker')->with('success', 'Speaker Deleted Successfully');
         }catch(\Exception $e){
             return redirect()->back()->with('error', $e->getMessage());

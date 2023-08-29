@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-sm-12 mt-2">
                         <label class="form-label">Validity</label>
-                        <input type="text" class="form-control form-control-lg" placeholder="1 Day" name="validity" value="{{old('validity')}}" required>
+                        <input type="number" class="form-control form-control-lg" placeholder="1 Day" name="validity" value="{{old('validity')}}" required>
                         <p class="text-muted">Please Enter Validity in Days*</p>
                     </div>
                     <div class="col-sm-12 mt-2 p-4">

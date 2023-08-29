@@ -23,7 +23,7 @@ class InvoiceController extends Controller
     // Function to generate barcodes
     public function listTicket()
     {
-        $invoices = InvoiceTicket::all();
+        $invoices = InvoiceTicket::where('status', '!=', 4)->get(); // 4 = Deleted
         return view('pages.invoice.tickets.view', compact('invoices'));
     }
     /* --------------- Function To Handle Ticket Invoice ------------------- */
@@ -44,6 +44,17 @@ class InvoiceController extends Controller
         return view('pages.invoice.tickets.payment', compact('paymentDetails'));
     }
 
+    // Function to Delete InvoiceTicket
+    public function doDeleteTicketInvoice($id)
+    {
+        $invoice = InvoiceTicket::find($id);
+        if (!$invoice) {
+            return redirect()->back()->with('error', 'InvoiceTicket not found');
+        }
+        $invoice->status = 4;
+        $invoice->save();
+        return redirect()->back()->with('success', 'InvoiceTicket Deleted Successfully');
+    }
     public function viewAddManualTicketInvoice()
     {
         $users = User::all();
@@ -53,7 +64,6 @@ class InvoiceController extends Controller
     }
 
     // Function to Add Manual Invoice Ticket
-
     public function doAddManualTicketInvoice(Request $request)
     {
         $request->validate([
@@ -92,7 +102,7 @@ class InvoiceController extends Controller
             $event = $ticket->event;
 
             // Generate Barcodes
-            $barcodeImages = $this->generateBarcodes($invoice, 'ticket', $event->end);
+            $barcodeImages = $this->generateBarcodes($invoice, $event->end);
 
             $invoiceData = [
                 'invoiceNumber' => "INV" . $request->order_id,
@@ -146,7 +156,7 @@ class InvoiceController extends Controller
 
     // Function to Do Add Manual Invoice Ticket
 
-    private function generateBarcodes($order, $type, $valid_till)
+    private function generateBarcodes($order, $valid_till)
     {
         $barcodeImages = [];
         for ($i = 0; $i < $order->quantity; $i++) {
@@ -166,7 +176,7 @@ class InvoiceController extends Controller
                 'invoice_id' => $order->id,
                 'barcode_id' => $barcodeValue,
                 'barcode_img' => $barcodeValue . ".png",
-                'type' => $type,
+                'type' => 'ticket',
                 'scan_remaining' => $order->quantity,
                 'valid_till' => $valid_till ? $valid_till : date('Y-m-d H:i:s', strtotime('+1 day')),
             ]);
@@ -181,8 +191,20 @@ class InvoiceController extends Controller
 
     public function listCombo()
     {
-        $invoices = InvoiceCombo::all();
+        $invoices = InvoiceCombo::where('status', '!=', 4)->get(); // 4 = Deleted
         return view('pages.invoice.combo.view', compact('invoices'));
+    }
+
+    // Function to delete Combo Invoice
+    public function doDeleteComboInvoice($id)
+    {
+        $invoice = InvoiceCombo::find($id);
+        if (!$invoice) {
+            return redirect()->back()->with('error', 'Combo not found');
+        }
+        $invoice->status = 4;
+        $invoice->save();
+        return redirect()->back()->with('success', 'Combo Deleted Successfully');
     }
 
     // Combo Invoice Payment
@@ -201,11 +223,23 @@ class InvoiceController extends Controller
     }
 
     /* --------------- Function To Handle Package Invoice ------------------- */
-
+    // Package Invoice List
     public function listPackage()
     {
-        $invoices = InvoicePackage::all();
+        $invoices = InvoicePackage::where('status', '!=', 4)->get(); // 4 = Deleted
         return view('pages.invoice.package.view', compact('invoices'));
+    }
+
+    // Function to delete Package Invoice
+    public function doDeletePackageInvoice($id)
+    {
+        $invoice = InvoicePackage::find($id);
+        if (!$invoice) {
+            return redirect()->back()->with('error', 'Package not found');
+        }
+        $invoice->status = 4;
+        $invoice->save();
+        return redirect()->back()->with('success', 'Package Deleted Successfully');
     }
 
     public function viewPaymentPackage($id)

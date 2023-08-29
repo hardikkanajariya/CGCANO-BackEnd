@@ -120,15 +120,17 @@ Route::prefix('invoice')->middleware(['auth', 'verified'])->group(function () {
     Route::post('/ticket/add', [InvoiceController::class, 'doAddManualTicketInvoice'])->name('orders.ticket.doAdd');
     // Routes for Editing Ticket Invoices
     Route::get('/ticket/edit/{id}', [InvoiceController::class, 'viewEditTicketInvoice'])->name('orders.ticket.edit');
-    Route::post('/ticket/edit/{id}', [InvoiceController::class, 'doEditTicketInvoice'])->name('orders.ticket.doEdit');
+    Route::get('/ticket/delete/{id}', [InvoiceController::class, 'doDeleteTicketInvoice'])->name('orders.ticket.delete');
     Route::get('/{id}/payment', [InvoiceController::class, 'viewTicketPayment'])->name('payment.ticket');
 
     // Combo Invoices
     Route::get('/combo', [InvoiceController::class, 'listCombo'])->name('orders.combo');
+    Route::get('/combo/{id}/delete', [InvoiceController::class, 'doDeleteComboInvoice'])->name('orders.combo.delete');
     Route::get('/combo/{id}/payment', [InvoiceController::class, 'viewPaymentCombo'])->name('payment.combo');
 
     // Package Invoices
     Route::get('/package', [InvoiceController::class, 'listPackage'])->name('orders.package');
+    Route::get('/package/{id}/delete', [InvoiceController::class, 'doDeletePackageInvoice'])->name('orders.package.delete');
     Route::get('/package/{id}/payment', [InvoiceController::class, 'viewPaymentPackage'])->name('payment.package');
 
     // Donation Invoices

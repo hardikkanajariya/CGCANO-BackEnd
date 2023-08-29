@@ -39,6 +39,8 @@
                                     <span class="badge bg-danger">Cancelled</span>
                                 @elseif($data->status == 3)
                                     <span class="badge bg-secondary">Failed</span>
+                                @elseif($data->status == 4)
+                                    <span class="badge bg-danger">UnPublished</span>
                                 @endif
                             </td>
                             <td>
@@ -55,6 +57,14 @@
                                     </li>
                                     <li>Resent Invoice:
                                         <a href="{{route('resend.combo', ["id" => $data->id])}}">Resend</a>
+                                    </li>
+                                    <li>
+                                        <form action="{{route('orders.combo.delete', ["id" => $data->id])}}"
+                                              method="get">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Cancel
+                                            </button>
+                                        </form>
                                     </li>
                                 </ul>
                             </td>

@@ -38,11 +38,15 @@
                                     <span class="badge bg-danger">Cancelled</span>
                                 @elseif($data->status == 3)
                                     <span class="badge bg-secondary">Failed</span>
+                                @elseif($data->status == 4)
+                                    <span class="badge bg-danger">UnPublished</span>
                                 @endif
                             </td>
                             <td>
                                 <a href="{{route('payment.package',[$data->id])}}"
-                                   class="btn btn-sm btn-outline-success">View Payment Details</a>
+                                   class="btn btn-sm btn-outline-success">Payment</a>
+                                <a href="{{route('orders.package.delete', ["id" => $data->id])}}" class="btn btn-sm btn-outline-danger">Cancel
+                                </a>
                             </td>
                         </tr>
                     @endforeach

@@ -31,7 +31,7 @@ class PackageApiController extends Controller
     // Function to get user packages
     public function getUserPackages($id)
     {
-        $packages = InvoicePackage::where('user_id', $id)->where('is_paid', 1)->get();
+        $packages = InvoicePackage::where('user_id', $id)->where('is_paid', 1)->where('status', 1)->get();
         $response = [];
         if (!$packages) {
             return response()->json([
@@ -59,9 +59,6 @@ class PackageApiController extends Controller
     // Function to get user packages Details By Id
     public function getUserActivePackages($id)
     {
-        // Get the user details
-        $user = User::find($id);
-
         // Get the user packages
         $packages = InvoicePackage::where('user_id', $id)->where('is_paid', 1)->where('status', 1)->first();
 

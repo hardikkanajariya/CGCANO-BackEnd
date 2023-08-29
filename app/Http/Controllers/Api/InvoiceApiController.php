@@ -11,6 +11,7 @@ use App\Models\EventList;
 use App\Models\InvoiceCombo;
 use App\Models\InvoicePackage;
 use App\Models\InvoiceTicket;
+use App\Models\TicketCombo;
 use App\Models\TicketEvent;
 use Dompdf\Dompdf;
 use Exception;
@@ -134,6 +135,25 @@ class InvoiceApiController extends Controller
             'email' => 'required|email',
             'phone' => 'required',
         ]);
+
+        // get the combo details
+        $combo = TicketCombo::find($request->combo_id);
+        if($combo->status == 0) {
+            return response()->json([
+                'message' => 'Combo is not available',
+            ], 400);
+        }
+
+        // check if the combo is not sold out and is active
+        $events = json_decode($combo->event_id);
+        foreach($events as $event) {
+            $event = TicketEvent::find($event);
+            if($event->is_sold_out == 1 || $event->is_active == 0) {
+                return response()->json([
+                    'message' => 'Combo is not available',
+                ], 400);
+            }
+        }
 
         $order = new InvoiceCombo();
         $order->user_id = $request->user_id;

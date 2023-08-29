@@ -45,6 +45,8 @@
                                     <span class="badge bg-danger">Cancelled</span>
                                 @elseif($data->status == 3)
                                     <span class="badge bg-secondary">Failed</span>
+                                @elseif($data->status == 4)
+                                    <span class="badge bg-danger">UnPublished</span>
                                 @endif
                             </td>
                             <td>
@@ -54,7 +56,6 @@
                                 @else
                                     <a href="{{route('orders.combo')}}" class="btn btn-sm btn-outline-primary text-black">View Combo Invoice</a>
                                 @endif
-
                             </td>
                             <td>
                                 <ul>
@@ -62,6 +63,7 @@
                                     <li>Email: {{$data->email}}</li>
                                     <li>Phone: {{$data->phone}}</li>
                                     <li>View Ticket: <a href="{{url('/')}}/invoices/{{$data->pdf}}">View Ticket</a></li>
+                                    <li>UnPublish Ticket: <a href="{{route('orders.ticket.delete', [$data->id])}}}}" class="text-danger">Remove</a> </li>
                                 </ul>
                             </td>
                         </tr>
