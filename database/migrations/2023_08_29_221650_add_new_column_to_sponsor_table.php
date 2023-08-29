@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('speakers', function (Blueprint $table) {
+        Schema::table('sponsor', function (Blueprint $table) {
             $table->boolean('status')->default(true)->after('id');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('speakers', function (Blueprint $table) {
+        Schema::table('sponsor', function (Blueprint $table) {
             $table->dropColumn('status');
         });
     }

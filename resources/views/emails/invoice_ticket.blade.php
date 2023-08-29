@@ -25,9 +25,9 @@
     <div class="contact-details"><p class="mb-2">For inquiries, contact us:</p>
         <p class="mb-2">Phone: +1 (705) 923-2799</p>
         <p class="mb-2">Email: Info@gcanorthernontario.com</p>
-        <p class="mb-2">Website:<a href="http://www.gcanorthernontario.com" class="text-blue-500">www.gcanorthernontario.com</a>
+        <p class="mb-2">Website:<a href="https://www.gcanorthernontario.com" class="text-blue-500">www.gcanorthernontario.com</a>
         </p>
-        <p class="mb-2">Location: 39 Teravista Way, Sudbury ON, P3E 0H9, Canada</p></div>
+        <p class="mb-2">Location: 39 Tera-vista Way, Sud-bury ON, P3E 0H9, Canada</p></div>
 </div>
 </body>
 </html>

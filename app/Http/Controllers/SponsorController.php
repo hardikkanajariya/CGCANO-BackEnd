@@ -71,7 +71,6 @@ class SponsorController extends Controller
             $sponsor->name = $request->name;
             $sponsor->description = $request->description;
             $sponsor->website = $request->website;
-            $sponsor->event_id = 1;
             if($request->image){
                 // Delete Old Image
                 $image_path = public_path('images/sponsor/'.$sponsor->logo);

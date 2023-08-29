@@ -87,7 +87,7 @@ class TicketApiController extends Controller
 
         // check if the combo is not sold out and is active
         foreach($events as $event) {
-            $event = TicketEvent::find($event);
+            $event = TicketEvent::where('event_id', $event)->first();
             if($event->is_sold_out == 1 || $event->is_active == 0) {
                 return response()->json(['message' => 'Combo is not available'], 404);
             }

@@ -40,7 +40,7 @@ class InvoiceApiController extends Controller
             file_put_contents($barcodePath, $barcodeImage);
 
             // Insert Barcode Details
-            $barcode = Barcodes::create([
+            Barcodes::create([
                 'invoice_id' => $request->order_id,
                 'barcode_id' => $barcodeValue,
                 'barcode_img' => $barcodeValue . ".png",
@@ -244,7 +244,6 @@ class InvoiceApiController extends Controller
             'gross_amount' => $request->gross_amount,
             'status' => $request->status,
         ]);
-
 
         // Get the ticket details
         $ticket = TicketEvent::find($order->ticket_id);

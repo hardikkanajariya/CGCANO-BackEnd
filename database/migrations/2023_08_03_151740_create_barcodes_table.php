@@ -19,7 +19,6 @@ return new class extends Migration
             $table->json('data')->nullable();
             $table->boolean('is_used')->default(false);
             $table->boolean('is_expired')->default(false);
-            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
             $table->timestamps();
         });
     }
