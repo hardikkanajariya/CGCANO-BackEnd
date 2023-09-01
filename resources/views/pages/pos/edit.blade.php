@@ -18,14 +18,14 @@
                     @csrf
                     <input type="hidden" name="id" value="{{$pos->id}}">
                     <div class="col-sm-12">
-                        <label class="form-label">Scanner Name</label>
+                        <label class="form-label">Volunteer Name</label>
                         <input type="text" class="form-control form-control-lg" placeholder="john doe" required value="{{$pos->name}}"
                                name="name">
                     </div>
                     <div class="col-sm-12">
-                        <label class="form-label">fullname</label>
-                        <input type="text" name="fullname" class="form-control form-control-lg"
-                               value="{{$pos->fullname}}" required>
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="phone" class="form-control form-control-lg"
+                               value="{{$pos->phone}}" required>
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Email</label>
@@ -42,9 +42,13 @@
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Confirm Password</label>
-                        <input type="text" class="form-control form-control-lg" placeholder="Enter your Password"
-                               name="confirm_password"
-                               required>
+                        <input type="text" class="form-control form-control-lg" placeholder="Enter your Password" name="confirm_password">
+                    </div>
+                    <div class="col-sm-12 mt-2 p-4">
+                        <div class="form-check">
+                            <input class="form-check-input p-1" type="checkbox" value="1" id="discount" name="status" @if(old('status') || $pos->status) checked @endif>
+                            <label class="form-check-label" for="discount">Status</label>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Update</button>

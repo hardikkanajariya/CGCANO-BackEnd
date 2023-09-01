@@ -97,6 +97,7 @@ Route::post('subscribe', [SubScribedController::class, 'addSubscribed']);
 Route::prefix('auth')->group(function () {
     Route::post('login', [UserAuthentication::class, 'login']);
     Route::post('register', [UserAuthentication::class, 'register']);
+    Route::post('update', [UserAuthentication::class, 'update']);
 });
 
 // Routes for handling Scanner Application
@@ -108,8 +109,4 @@ Route::prefix('scanner')->group(function () {
 // Routes for handling POS Application
 Route::prefix('pos')->group(function () {
     Route::post('login', [PosController::class, 'login']);
-    Route::post('scan', [PosController::class, 'scanTicket']);
-    Route::post('create', [PosController::class, 'createOrder']);
-    Route::post('status', [PosController::class, 'updateOrderStatus']);
-    Route::post('payment', [PosController::class, 'paymentDetails']);
 });

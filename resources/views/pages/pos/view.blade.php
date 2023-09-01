@@ -17,7 +17,7 @@
                     <tr>
                         <th>fullname</th>
                         <th>Email</th>
-                        <th>Date</th>
+                        <th>Phone</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -26,8 +26,8 @@
                     @foreach($pos as $data)
                         <tr>
                             <td>{{$data->name}}</td>
-                            <td>#POS-{{$data->id}}</td>
-                            <td>{{\Illuminate\Support\Facades\Date::make($data->created_at)}}</td>
+                            <td>{{$data->email}}</td>
+                            <td>{{$data->phone}}</td>
                             <td>
                                 @if($data->status)
                                     <span class="badge  bg-success text-white">Active</span>

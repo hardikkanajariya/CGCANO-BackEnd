@@ -157,7 +157,7 @@ Route::prefix('scanner')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/delete/{id}', [Scanner::class, 'doDelete'])->name('scanner.delete');
 });
 
-Route::prefix('pos')->middleware(['auth', 'verified'])->group(function () {
+Route::prefix('volunteers')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [PointOfSaleController::class, 'list'])->name('pos');
     Route::get('/add', [PointOfSaleController::class, 'viewAdd'])->name('pos.add');
     Route::post('/add', [PointOfSaleController::class, 'doAdd'])->name('pos.doAdd');

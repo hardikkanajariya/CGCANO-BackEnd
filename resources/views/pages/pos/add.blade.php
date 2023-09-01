@@ -17,30 +17,36 @@
                     @csrf
                     <div class="col-sm-12">
                         <label class="form-label">Volunteer Name</label>
-                        <input type="text" class="form-control form-control-lg" placeholder="john doe" required
+                        <input type="text" class="form-control form-control-lg" placeholder="john doe" required value="{{old('name')}}"
                                name="name">
                     </div>
                     <div class="col-sm-12">
-                        <label class="form-label">fullname</label>
-                        <input name="fullname" type="text" class="form-control form-control-lg"
-                               placeholder="@johndoe"
+                        <label class="form-label">Phone</label>
+                        <input name="phone" type="number" class="form-control form-control-lg"
+                               placeholder="Enter your Phone Number" value="{{old('phone')}}"
                                required>
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Email</label>
                         <input name="email" type="email" class="form-control form-control-lg"
-                               placeholder="john@mail.com"
+                               placeholder="john@mail.com" value="{{old('email')}}"
                                required>
                     </div>
                     <div class="col-sm-12 ">
                         <label class="form-label">Password</label>
-                        <input name="password" type="password" class="form-control form-control-lg">
+                        <input name="password" type="password" class="form-control form-control-lg" value="{{old('password')}}">
                     </div>
                     <div class="col-sm-12">
                         <label class="form-label">Confirm Password</label>
                         <input name="confirm_password" type="text" class="form-control form-control-lg"
-                               placeholder="Enter your Password"
+                               placeholder="Generate Password"
                                required>
+                    </div>
+                    <div class="col-sm-12 mt-2 p-4">
+                        <div class="form-check">
+                            <input class="form-check-input p-1" type="checkbox" value="1" id="discount" name="status" @if(old('status')) checked @endif>
+                            <label class="form-check-label" for="discount">Status</label>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Add</button>

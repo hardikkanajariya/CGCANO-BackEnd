@@ -2,102 +2,103 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PontOfSale;
-use App\Models\POSData;
+use App\Models\Volunteers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Exception;
 
 class PointOfSaleController extends Controller
 {
-    // Function to view All Scanners List
+    // Function to view All volunteers List
     public function list()
     {
-        $pos = PontOfSale::where('status', 1)->get();
+        $pos = Volunteers::all();
         return view('pages.pos.view')->with('pos', $pos);
     }
 
-    // Function to view Add Scanner
+    // Function to view Add volunteers
     public function viewAdd()
     {
         return view('pages.pos.add');
     }
 
-    // Function to view Edit Scanner
+    // Function to view Edit volunteers
     public function viewEdit($id)
     {
-        $pos = PontOfSale::find($id);
+        $pos = Volunteers::find($id);
         if ($pos == null) {
-            return redirect()->back()->with('error', 'POS not found');
+            return redirect()->back()->with('error', 'Volunteer not found');
         }
         return view('pages.pos.edit')->with('pos', $pos);
     }
 
-    // Function to view Do Add Scanner
+    // Function to view Does Add volunteers
     public function doAdd(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'fullname' => 'required|unique:point_of_sales',
-            'email' => 'required|unique:point_of_sales|email',
+            'email' => 'required|email|unique:volunteers',
+            'phone' => 'required|unique:volunteers',
             'password' => 'required',
             'confirm_password' => 'required|same:password',
         ]);
 
-        try{
-            $pos = new PontOfSale();
+        try {
+            $pos = new Volunteers();
             $pos->name = $request->name;
-            $pos->fullname = $request->fullname;
             $pos->email = $request->email;
+            $pos->phone = $request->phone;
             $pos->password = Hash::make($request->password);
+            $pos->status = $request->status ? 1 : 0;
             $pos->save();
-            return redirect()->route('pos')->with('success', 'POS has been added successfully');
-        }catch (\Exception $e) {
+            return redirect()->route('pos')->with('success', 'Volunteer has been added successfully');
+        } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    // Function to view Do Edit Scanner
+    // Function to view Do Edit volunteers
     public function doEdit(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
-            'fullname' => 'required|unique:point_of_sales,fullname,'.$id,
-            'email' => 'required|unique:point_of_sales,email,'.$id.'|email',
+            'email' => 'required|email|unique:volunteers,email,' . $id,
+            'phone' => 'required|unique:volunteers,phone,' . $id,
+            'password' => 'nullable',
+            'confirm_password' => 'nullable|same:password',
             'old_password' => 'nullable',
         ]);
 
-        try{
-            $pos = PontOfSale::find($id);
-            if ($request->old_password) {
-                if (Hash::check($request->old_password, $pos->password)) {
-                    $request->validate([
-                        'password' => 'required',
-                        'confirm_password' => 'required|same:password',
-                    ]);
-                    $pos->password = Hash::make($request->password);
-                }else{
-                    return redirect()->back()->with('error', 'Old password is incorrect');
-                }
-            }
+        try {
+            $pos = Volunteers::find($id);
             $pos->name = $request->name;
-            $pos->fullname = $request->fullname;
             $pos->email = $request->email;
+            $pos->phone = $request->phone;
+            $pos->status = $request->status ? 1 : 0;
+            if ($request->password != null) {
+                // Confirm Old Password
+                if (!\Hash::check($request->old_password, $pos->password)) {
+                    return redirect()->back()->with('error', 'Old Password is not correct');
+                }
+
+                $pos->password = Hash::make($request->password);
+            }
             $pos->save();
-            return redirect()->route('pos')->with('success', 'POS has been updated successfully');
-        }catch (\Exception $e) {
+            return redirect()->route('pos')->with('success', 'Volunteer has been updated successfully');
+        } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    // Function to view Delete Scanner
+    // Function to view Delete volunteers
     public function doDelete($id)
     {
-        return view('pages.pos.delete');
-    }
-
-    // Function to view Scanner Details
-    public function details($id)
-    {
-        return view('pages.pos.details');
+        try {
+            $pos = Volunteers::find($id);
+            $pos->delete();
+            return redirect()->route('pos')->with('success', 'Volunteer has been deleted successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }
