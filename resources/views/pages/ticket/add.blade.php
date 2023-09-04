@@ -27,7 +27,7 @@
                     </div>
                     <div  class="col-sm-12">
                         <label class="form-label">Food Available</label>
-                        <select name="food" class="form-control form-control-lg" name="food" required>
+                        <select class="form-control form-control-lg" name="is_food_available" required>
                             <option value="1">Yes</option>
                             <option value="0">No</option>
                         </select>

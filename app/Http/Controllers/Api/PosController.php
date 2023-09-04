@@ -100,7 +100,7 @@ class PosController extends Controller
             $invoice->ticket_id = $request->ticket;
             $invoice->full_name = $user->fullname;
             $invoice->email = $user->email;
-            $invoice->phone = $user->phone;
+            $invoice->phone = $user->mobile;
             $invoice->quantity = $request->quantity;
             $invoice->total_amount = $request->total;
             $invoice->is_paid = true;

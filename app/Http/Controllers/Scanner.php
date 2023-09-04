@@ -192,4 +192,52 @@ class Scanner extends Controller
             ]);
         }
     }
+
+    // Function to Scan Food
+    public function scanFood(Request $request){
+        $request->validate([
+            'user_id' => 'required|exists:scanners,id',
+            'barcode_id' => 'required|exists:barcodes,barcode_id',
+        ]);
+
+        $barcode = Barcodes::where('barcode_id', $request->barcode_id)->first();
+
+        if($barcode){
+
+            // Constraint: Barcode should not be used before and should not be expired yet
+            if($barcode->is_food_available != 1){
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Food not available',
+                ]);
+            }else if($barcode->is_food_taken == 1){
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Food already taken',
+                ]);
+            }else{
+                // Constraint: Barcode should be used by the same scanner who scanned it first
+                if($barcode->scanned_by != null){
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Food already scanned by another scanner',
+                    ]);
+                }
+            }
+
+            $barcode->is_food_taken = 1;
+            $barcode->food_scanned_by = $request->user_id;
+            $barcode->food_scanned_at = date('Y-m-d H:i:s');
+            $barcode->save();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Food scanned successfully',
+            ]);
+        }else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Food not found',
+            ]);
+        }
+    }
 }

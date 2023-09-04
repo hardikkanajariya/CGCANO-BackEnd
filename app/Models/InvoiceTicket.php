@@ -39,8 +39,4 @@ class InvoiceTicket extends Model
     {
         return $this->hasOne(PaymentEvent::class, 'order_id');
     }
-
-
-
-
 }

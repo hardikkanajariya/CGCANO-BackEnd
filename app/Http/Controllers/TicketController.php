@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barcodes;
+use App\Models\InvoiceTicket;
 use App\Models\TicketCombo;
 use App\Models\EventList;
 use App\Models\TicketEvent;
@@ -13,7 +15,7 @@ class TicketController extends Controller
     public function list()
     {
         // Get all the tickets
-        $tickets = TicketEvent::all();
+        $tickets = TicketEvent::where('status', 1)->get();
 
         // Return the view
         return view('pages.ticket.view', compact('tickets'));
@@ -33,6 +35,7 @@ class TicketController extends Controller
         $request->validate([
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
+            'is_food_available' => 'nullable|boolean',
         ]);
         // Get the event
         $event = EventList::where('slug', $event)->firstOrFail();
@@ -47,6 +50,7 @@ class TicketController extends Controller
             'price' => $request->price,
             'quantity' => $request->quantity,
             'tickets_left' => $request->quantity,
+            'is_food_available' => $request->is_food_available ?? false,
         ]);
 
         // Redirect to the event page
@@ -72,6 +76,7 @@ class TicketController extends Controller
         $request->validate([
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
+            'is_food_available' => 'nullable|boolean',
         ]);
 
         // Get the ticket
@@ -83,7 +88,22 @@ class TicketController extends Controller
             'quantity' => $request->quantity,
             'tickets_left' => $request->quantity,
             'is_sold_out' => $request->quantity == 0,
+            'is_food_available' => $request->is_food_available ?? false,
         ]);
+
+        // Get all the invoices for this ticket
+        $invoices = InvoiceTicket::where('ticket_id', $id)->get();
+        // Update the invoice
+        foreach ($invoices as $invoice) {
+            // Get All the barcodes for this invoice
+            $barcodes = Barcodes::where('invoice_id', $invoice->id)->get();
+            // Update the barcodes
+            foreach ($barcodes as $barcode) {
+                $barcode->update([
+                    'is_food_available' => $request->is_food_available ?? false,
+                ]);
+            }
+        }
 
         // Redirect to the event page
         return redirect()->route('ticket')->with('success', 'Ticket updated successfully');
@@ -94,11 +114,15 @@ class TicketController extends Controller
     {
         // Get the ticket
         $ticket = TicketEvent::where('id', $id)->firstOrFail();
+        $invoice = InvoiceTicket::where('ticket_id', $id)->get();
+        if ($invoice->count() > 0) {
+            return redirect()->back()->with('error', 'Ticket Cannot Be Deleted Because It Is Already Sold');
+        }
         // Delete the ticket
         $ticket->status = 0;
         $ticket->save();
         // Redirect to the event page
-        return redirect()->route('event')->with('success', 'Ticket deleted successfully');
+        return redirect()->route('ticket')->with('success', 'Ticket deleted successfully');
     }
 
     // Function to mark a ticket as sold out

@@ -22,7 +22,8 @@ class Barcodes extends Model
         'is_expired',
         'type',
         'scan_remaining',
-        'valid_till'
+        'valid_till',
+        'is_food_available'
     ];
 
     public function invoice()

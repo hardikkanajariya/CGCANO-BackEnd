@@ -18,6 +18,7 @@ class TicketEvent extends Model
         'tickets_left',
         'is_sold_out',
         'is_active',
+        'is_food_available',
     ];
 
     public function event()

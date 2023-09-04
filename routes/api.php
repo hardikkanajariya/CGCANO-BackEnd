@@ -104,6 +104,10 @@ Route::prefix('auth')->group(function () {
 Route::prefix('scanner')->group(function () {
     Route::post('login', [Scanner::class, 'login']);
     Route::post('scan', [Scanner::class, 'scanTicket']);
+    Route::prefix('food')->group(function () {
+        Route::post('login', [Scanner::class, 'login']);
+        Route::post('scan', [Scanner::class, 'scanFood']);
+    });
 });
 
 // Routes for handling POS Application

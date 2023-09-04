@@ -102,7 +102,7 @@ class InvoiceController extends Controller
             $event = $ticket->event;
 
             // Generate Barcodes
-            $barcodeImages = $this->generateBarcodes($invoice, $event->end);
+            $barcodeImages = $this->generateBarcodes($invoice, $event->end, $ticket->is_food_available);
 
             $invoiceData = [
                 'invoiceNumber' => "INV" . $request->order_id,
@@ -156,7 +156,7 @@ class InvoiceController extends Controller
 
     // Function to Do Add Manual Invoice Ticket
 
-    private function generateBarcodes($order, $valid_till)
+    private function generateBarcodes($order, $valid_till, $is_food_available = false)
     {
         $barcodeImages = [];
         for ($i = 0; $i < $order->quantity; $i++) {
@@ -179,6 +179,7 @@ class InvoiceController extends Controller
                 'type' => 'ticket',
                 'scan_remaining' => $order->quantity,
                 'valid_till' => $valid_till ? $valid_till : date('Y-m-d H:i:s', strtotime('+1 day')),
+                'is_food_available' => $is_food_available
             ]);
 
             $barcodeImages[] = $barcodeImage;
@@ -276,5 +277,12 @@ class InvoiceController extends Controller
             return redirect()->back()->with('error', 'Payment not found');
         }
         return view('pages.invoice.donation.payment', compact('paymentDetails'));
+    }
+
+    /* --------------- Function to View Barcodes ------------------- */
+    public function viewBarcode()
+    {
+        $barcodes = Barcodes::all();
+        return view('pages.invoice.barcode.view', compact('barcodes'));
     }
 }

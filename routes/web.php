@@ -136,6 +136,9 @@ Route::prefix('invoice')->middleware(['auth', 'verified'])->group(function () {
     // Donation Invoices
     Route::get('/donation', [InvoiceController::class, 'listDonation'])->name('orders.donation');
     Route::get('/donation/{id}/payment', [InvoiceController::class, 'viewPaymentDonation'])->name('payment.donation');
+
+    // Barcode
+    Route::get('/barcodes', [InvoiceController::class, 'viewBarcode'])->name('barcode');
 });
 
 // Routes For Handling Membership Packages

@@ -49,12 +49,13 @@
                                     <span class="badge bg-danger">UnPublished</span>
                                 @endif
                             </td>
-                            <td>
+                            <td style="text-align: center">
                                 @if($data->payment)
                                     <a href="{{route('payment.ticket',[$data->id])}}"
                                        class="btn btn-sm btn-outline-success">View Payment Details</a>
                                 @else
-                                    <a href="{{route('orders.combo')}}" class="btn btn-sm btn-outline-primary text-black">View Combo Invoice</a>
+{{--                                    <a href="{{route('orders.combo')}}" class="btn btn-sm btn-outline-primary text-black">View Combo Invoice</a>--}}
+                                    <span class="badge bg-info">Not Available</span>
                                 @endif
                             </td>
                             <td>

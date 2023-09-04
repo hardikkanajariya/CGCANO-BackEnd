@@ -24,7 +24,7 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 class InvoiceApiController extends Controller
 {
     // Function to generate barcodes
-    private function generateBarcodes($order, $request, $type, $valid_till)
+    private function generateBarcodes($order, $request, $type, $valid_till, $is_food_available = false)
     {
         $barcodeImages = [];
         for ($i = 0; $i < $order->quantity; $i++) {
@@ -47,6 +47,7 @@ class InvoiceApiController extends Controller
                 'type' => $type,
                 'scan_remaining' => $order->quantity,
                 'valid_till' => $valid_till ? $valid_till : date('Y-m-d H:i:s', strtotime('+1 day')),
+                'is_food_available' => $is_food_available,
             ]);
 
             $barcodeImages[] = $barcodeImage;
@@ -252,7 +253,7 @@ class InvoiceApiController extends Controller
         $event = $ticket->event;
 
         // Generate Barcodes
-        $barcodeImages = $this->generateBarcodes($order, $request, 'ticket', $event->end);
+        $barcodeImages = $this->generateBarcodes($order, $request, 'ticket', $event->end, $ticket->is_food_available);
 
         $invoiceData = [
             'invoiceNumber' => "INV" . $request->order_id,
@@ -396,7 +397,7 @@ class InvoiceApiController extends Controller
                 'phone' => $order->phone,
             ]);
 
-            $barcodeImages = $this->generateBarcodes($order, $request, 'combo', $event->end);
+            $barcodeImages = $this->generateBarcodes($order, $request, 'combo', $event->end, $ticket->is_food_available);
 
             $ticket = TicketEvent::where('event_id', $event->id)->first();
 

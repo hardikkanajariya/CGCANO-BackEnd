@@ -41,7 +41,7 @@ class EventList extends Model
 
     public function tickets()
     {
-        return $this->hasOne('App\Models\TicketEvent', 'event_id');
+        return $this->hasOne('App\Models\TicketEvent', 'event_id')->where('status', true);
     }
 
     public function orders()
