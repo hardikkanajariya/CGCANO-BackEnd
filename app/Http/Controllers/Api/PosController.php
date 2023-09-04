@@ -174,19 +174,7 @@ class PosController extends Controller
     }
 
     // Function to get Sold Tickets
-    public function getSoldTickets(Request $request){
-        $request->validate([
-           'user_id' => 'required|exists:volunteers,id'
-        ]);
 
-        $tickets = InvoiceTicket::with('ticket.event')
-                ->where('sold_by', $request->user_id)
-                ->get();
-
-        return response($tickets, 200);
-    }
-
-    // Function to generate Barcodes
     private function generateBarcodes($order, $valid_till)
     {
         try {
@@ -225,6 +213,22 @@ class PosController extends Controller
                 'message' => 'Something went wrong'
             ], 500);
         }
+    }
+
+    // Function to generate Barcodes
+
+    public function getSoldTickets(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:volunteers,id'
+        ]);
+
+        $tickets = InvoiceTicket::with('ticket.event')
+            ->where('sold_by', $request->user_id)
+            ->where('status', 1)
+            ->get();
+
+        return response($tickets, 200);
     }
 
 }

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barcodes;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class Scanner extends Controller
 {
-    // Function to view All Scanners List
+    // Function to view All Scanners' List
     public function list()
     {
         $scanners = \App\Models\Scanner::where('status', 1)->get();
@@ -32,7 +33,7 @@ class Scanner extends Controller
         }
     }
 
-    // Function to view Do Add Scanner
+    // Function to view Does Add Scanner
     public function doAdd(Request $request)
     {
         $request->validate([
@@ -105,6 +106,90 @@ class Scanner extends Controller
             return redirect()->back()->with('error', 'Scanner not found');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong, please try again later');
+        }
+    }
+
+    // Function to view Login Scanner
+    public function login(Request $request){
+        $request->validate([
+            'email' => 'required|email|exists:scanners,email',
+            'password' => 'required',
+        ]);
+
+        $scanner = \App\Models\Scanner::where('email', $request->email)->first();
+
+        if($scanner){
+            if(Hash::check($request->password, $scanner->password)){
+                $data = [
+                    'id' => $scanner->id,
+                    'name' => $scanner->name,
+                    'fullname' => $scanner->fullname,
+                    'email' => $scanner->email,
+                ];
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Login successful',
+                    'scanner' => $data,
+                ]);
+            }else{
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Password is incorrect',
+                ]);
+            }
+        }else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Scanner not found',
+            ]);
+        }
+    }
+
+    // Function to Scan Ticket
+    public function scanTicket(Request $request){
+        $request->validate([
+            'user_id' => 'required|exists:scanners,id',
+            'barcode_id' => 'required|exists:barcodes,barcode_id',
+        ]);
+
+        $barcode = Barcodes::where('barcode_id', $request->barcode_id)->first();
+
+        if($barcode){
+
+            // Constraint: Barcode should not be used before and should not be expired yet
+            if($barcode->is_used == 1){
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Ticket already scanned',
+                ]);
+            }else if($barcode->is_expired == 1){
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Ticket expired',
+                ]);
+            }else{
+                // Constraint: Barcode should be used by the same scanner who scanned it first
+                if($barcode->scanned_by != null){
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Ticket already scanned by another scanner',
+                    ]);
+                }
+            }
+
+            $barcode->is_used = 1;
+            $barcode->is_expired = 1;
+            $barcode->scanned_by = $request->user_id;
+            $barcode->save();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Ticket scanned successfully',
+            ]);
+        }else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Ticket not found',
+            ]);
         }
     }
 }

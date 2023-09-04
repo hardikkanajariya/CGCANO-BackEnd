@@ -253,20 +253,21 @@ class EventController extends Controller
 
             // Delete event from Combo Event
             $comboEvent = TicketCombo::all();
-            foreach ($comboEvent as $value) {
-                $eventList = json_decode($value->event_id);
-                if (in_array($id, $eventList)) {
-                    $eventList = array_diff($eventList, [$id]);
-                    $value->event_id = json_encode($eventList);
-                    $value->save();
+            if($comboEvent->count() > 0) {
+                foreach ($comboEvent as $value) {
+                    $eventList = json_decode($value->event_id);
+                    if (in_array($id, $eventList)) {
+                        $eventList = array_diff($eventList, [$id]);
+                        $value->event_id = json_encode($eventList);
+                        $value->save();
+                    }
                 }
             }
-
             // Delete event tickets
             $tickets = TicketEvent::where('event_id', $id)->get();
-            foreach ($tickets as $key => $value) {
-                $value->status = 0;
-                $value->save();
+            foreach ($tickets as $key) {
+                $key->is_active = 0;
+                $key->save();
             }
             $event->status = 0;
             $event->save();
