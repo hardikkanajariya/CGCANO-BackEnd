@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('volunteers', function (Blueprint $table) {
-            $table->string('password')->nullable();
-
+        Schema::create('scanner_history', function (Blueprint $table) {
+            $table->id();
+            $table->string('barcode_id');
+            $table->string('barcode_image');
+            $table->string('scanned_by');
+            $table->timestamps();
         });
     }
 
@@ -22,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('volunteers', function (Blueprint $table) {
-            $table->dropColumn('password');
-        });
+        Schema::dropIfExists('new_scanner_history');
     }
 };

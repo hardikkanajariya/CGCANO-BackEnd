@@ -109,4 +109,7 @@ Route::prefix('scanner')->group(function () {
 // Routes for handling POS Application
 Route::prefix('pos')->group(function () {
     Route::post('login', [PosController::class, 'login']);
+    Route::get('tickets', [PosController::class, 'getTickets']);
+    Route::post('sell', [PosController::class, 'sellTicket']);
+    Route::get('sold', [PosController::class, 'getSoldTickets']);
 });

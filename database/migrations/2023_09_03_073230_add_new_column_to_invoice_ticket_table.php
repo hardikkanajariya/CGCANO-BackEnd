@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('volunteers', function (Blueprint $table) {
-            $table->string('password')->nullable();
-
+        Schema::table('invoice_ticket', function (Blueprint $table) {
+            $table->string('sold_by')->nullable();
         });
     }
 
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('volunteers', function (Blueprint $table) {
-            $table->dropColumn('password');
+        Schema::table('invoice_ticket', function (Blueprint $table) {
+            $table->dropColumn(['sold_by']);
         });
     }
 };

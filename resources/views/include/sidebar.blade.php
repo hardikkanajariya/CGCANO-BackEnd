@@ -141,7 +141,7 @@
                     <a class="m-link" href="{{route('pos')}}">
                         <img width="18" src="{{url('assets/img/icons/pos.png')}}"
                              alt="external-payment-terminal-devices-icongeek26-outline-colour-icongeek26"/>
-                        <span class="ms-2">Point of Sale</span>
+                        <span class="ms-2">Volunteers</span>
                     </a>
                 </li>
             </ul>
