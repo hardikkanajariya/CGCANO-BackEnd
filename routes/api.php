@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\UserAuthentication;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\Scanner;
 use App\Http\Controllers\SubScribedController;
+use App\Http\Controllers\VolunteersResume;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -116,4 +117,9 @@ Route::prefix('pos')->group(function () {
     Route::get('tickets', [PosController::class, 'getTickets']);
     Route::post('sell', [PosController::class, 'sellTicket']);
     Route::get('sold', [PosController::class, 'getSoldTickets']);
+});
+
+// Routes for Handling Volunteers Resume Application
+Route::prefix('resume')->group(function () {
+    Route::post('create', [VolunteersResume::class, 'createApplication']);
 });

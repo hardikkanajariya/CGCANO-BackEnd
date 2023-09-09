@@ -14,6 +14,7 @@ use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\SubScribedController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\VolunteersResume;
 use App\Mail\InvoiceTicketMail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -167,6 +168,14 @@ Route::prefix('volunteers')->middleware(['auth', 'verified'])->group(function ()
     Route::get('/edit/{id}', [PointOfSaleController::class, 'viewEdit'])->name('pos.edit');
     Route::post('/edit/{id}', [PointOfSaleController::class, 'doEdit'])->name('pos.doEdit');
     Route::get('/delete/{id}', [PointOfSaleController::class, 'doDelete'])->name('pos.delete');
+
+    // Routes for Resume Requests
+    Route::prefix('resume')->group(function () {
+        Route::get('/', [VolunteersResume::class, 'listResume'])->name('pos.resume');
+        Route::get('/delete/{id}', [VolunteersResume::class, 'doDelete'])->name('pos.resume.delete');
+        Route::get('/approved/{id}', [VolunteersResume::class, 'markAsApproved'])->name('pos.resume.approve');
+        Route::get('/rejected/{id}', [VolunteersResume::class, 'markAsRejected'])->name('pos.resume.reject');
+    });
 });
 
 Route::prefix('speaker')->middleware(['auth', 'verified'])->group(function () {

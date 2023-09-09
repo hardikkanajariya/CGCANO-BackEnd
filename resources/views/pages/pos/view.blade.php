@@ -9,6 +9,7 @@
                     <a href="#" class="card-fullscreen btn" style="width: 100px" data-bs-toggle="tooltip"
                        title="Card Full-Screen"><i class="icon-size-fullscreen"></i></a>
                     <a href="{{route('pos.add')}}" class="btn btn-outline-primary" style="width: 100px"><i class="fa fa-add"></i></a>
+                    <a href="{{route('pos.resume')}}" class="btn btn-outline-primary" style="width: auto">Resumes</a>
                 </div>
             </div>
             <div class="card-body">
