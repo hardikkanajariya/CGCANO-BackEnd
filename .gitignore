@@ -17,3 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/public/invoices/*.pdf
+/public/barcodes/*.png
+*.zip
