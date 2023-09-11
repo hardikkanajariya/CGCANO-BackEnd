@@ -3,6 +3,16 @@
         <nav class="navbar">
             <!-- start: toggle btn -->
             <div class="d-flex">
+                <button type="button" class="btn btn-link d-xl-block p-0 text-primary" onclick="function toggleSidebar() {
+                    document.getElementById('sidebar').classList.toggle('open');
+                }
+                toggleSidebar()">
+                  <span class="hamburger-icon">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                  </span>
+                </button>
                 <h3 class="mb-0 d-lg-inline-block">CGCANO</h3>
             </div>
             <!-- start: link -->
@@ -24,7 +34,8 @@
                     <div class="dropdown morphing scale-left user-profile mx-lg-3 mx-2">
                         <a class="nav-link dropdown-toggle rounded-circle after-none p-0" href="#" role="button"
                            data-bs-toggle="dropdown">
-                            <img class="avatar img-thumbnail rounded-circle shadow" src="{{url('/')}}/assets/img/logo.png"
+                            <img class="avatar img-thumbnail rounded-circle shadow"
+                                 src="{{url('/')}}/assets/img/logo.png"
                                  alt="">
                         </a>
                         <div class="dropdown-menu border-0 rounded-4 shadow p-0">

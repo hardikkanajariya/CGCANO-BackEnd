@@ -32,7 +32,7 @@ class MemberShipPackageController extends Controller
         $package->price = $request->price;
         $package->description = $request->description;
         $package->discount = $request->discount ?? 0;
-        $package->percentage = $request->percentage;
+        $package->percentage = $request->percentage ?? 0;
         $package->validity = '+'.$request->validity.' days';
         $package->status = 1;
         $package->save();

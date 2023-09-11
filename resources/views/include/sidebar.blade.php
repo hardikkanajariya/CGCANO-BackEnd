@@ -1,4 +1,4 @@
-<div class="sidebar p-2 py-md-3 @@cardClass">
+<div id="sidebar" class="sidebar p-2 py-md-3 @@cardClass">
     <div class="container-fluid">
         <!-- sidebar: menu list -->
         <div class="main-menu flex-grow-1">

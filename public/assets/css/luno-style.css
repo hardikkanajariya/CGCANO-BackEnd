@@ -27400,22 +27400,6 @@ body.rtl_mode .post-card .author {
     margin-left: 5px
 }
 
-body.rtl_mode .hamburger-icon:hover .line:nth-child(1) {
-    transform: translateX(7px) rotate(45deg)
-}
-
-body.rtl_mode .hamburger-icon:hover .line:nth-child(3) {
-    transform: translateX(7px) rotate(-45deg)
-}
-
-body.rtl_mode .hamburger-icon.active .line:nth-child(1) {
-    transform: translateX(-7px) rotate(-45deg)
-}
-
-body.rtl_mode .hamburger-icon.active .line:nth-child(3) {
-    transform: translateX(-7px) rotate(45deg)
-}
-
 /*!
  * Bootstrap Colorpicker - Simple and customizable colorpicker component for Twitter Bootstrap.
  * @package bootstrap-colorpicker
@@ -30395,36 +30379,6 @@ button:focus:not(:focus-visible) {
 .hamburger-icon .line:nth-child(2) {
     background-color: var(--secondary-color)
 }
-
-.hamburger-icon.active .line,
-.hamburger-icon:hover .line {
-    margin: 3px auto
-}
-
-.hamburger-icon.active .line:nth-child(1),
-.hamburger-icon.active .line:nth-child(3),
-.hamburger-icon:hover .line:nth-child(1),
-.hamburger-icon:hover .line:nth-child(3) {
-    width: 16px;
-    background-color: var(--secondary-color)
-}
-
-.hamburger-icon:hover .line:nth-child(1) {
-    transform: translateX(-7px) rotate(-45deg)
-}
-
-.hamburger-icon:hover .line:nth-child(3) {
-    transform: translateX(-7px) rotate(45deg)
-}
-
-.hamburger-icon.active .line:nth-child(1) {
-    transform: translateX(7px) rotate(45deg)
-}
-
-.hamburger-icon.active .line:nth-child(3) {
-    transform: translateX(7px) rotate(-45deg)
-}
-
 .choose-skin li {
     position: relative;
     cursor: pointer
