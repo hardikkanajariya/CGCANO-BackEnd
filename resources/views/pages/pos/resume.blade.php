@@ -44,10 +44,13 @@
                                             class="fa fa-check"></i>&nbsp;&nbsp;Approve</a>
                                     <a href="{{route('pos.resume.reject', [$data->id])}}" class="btn btn-sm btn-danger"><i
                                             class="fa fa-times"></i>&nbsp;&nbsp;Reject</a>
+                                    <a href="{{url('/')}}/uploads/resume/{{$data->file}}" class="btn btn-sm btn-info text-white"><i
+                                            class="fa fa-eye"></i>View Resume</a>
                                 @elseif($data->status == "Approved")
                                     <a href="{{route('pos.resume.reject', [$data->id])}}" class="btn btn-sm btn-danger"><i
                                             class="fa fa-times"></i>&nbsp;&nbsp;Reject</a>
-
+                                    <a href="{{url('/')}}/uploads/resume/{{$data->file}}" class="btn btn-sm btn-info text-white"><i
+                                            class="fa fa-eye"></i>View Resume</a>
                                 @elseif($data->status == "Rejected")
                                     <a href="{{route('pos.resume.approve', [$data->id])}}" onclick="confirm('By Approving this status please make sure you have created Volunteers Credentials and Informed.')"  class="btn btn-sm btn-success"><i
                                             class="fa fa-check"></i>&nbsp;&nbsp;Approve</a>

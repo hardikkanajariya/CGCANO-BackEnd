@@ -34,4 +34,13 @@ class VolunteersResume extends Model
     {
         return $query->where('status', 'rejected');
     }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%')
+            ->orWhere('phone', 'like', '%' . $search . '%')
+            ->orWhere('address', 'like', '%' . $search . '%')
+            ->orWhere('message', 'like', '%' . $search . '%');
+    }
 }

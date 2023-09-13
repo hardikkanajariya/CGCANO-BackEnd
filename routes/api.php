@@ -122,4 +122,5 @@ Route::prefix('pos')->group(function () {
 // Routes for Handling Volunteers Resume Application
 Route::prefix('resume')->group(function () {
     Route::post('create', [VolunteersResume::class, 'createApplication']);
+    Route::post('upload/{id}', [VolunteersResume::class, 'uploadResume']);
 });

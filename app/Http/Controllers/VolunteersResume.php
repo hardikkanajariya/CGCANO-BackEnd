@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\VolunteersResume as Resume;
+use Exception;
+use Illuminate\Http\Request;
 
 class VolunteersResume extends Controller
 {
@@ -48,11 +49,19 @@ class VolunteersResume extends Controller
             'email' => 'required|email',
             'phone' => 'required|numeric',
             'address' => 'required',
-            'message' => 'required|min:10',
+            'message' => 'required',
+            'file' => 'required',
         ]);
 
         try {
             $resume = new Resume();
+
+            $time = time();
+            $name = $request->name;
+            $filename = "{$name}_{$time}.{$request->file->extension()}";
+            $request->file->move(public_path('uploads/resume/'), $filename);
+
+            $resume->file = $filename;
             $resume->name = $request->name;
             $resume->email = $request->email;
             $resume->phone = $request->phone;
@@ -65,11 +74,43 @@ class VolunteersResume extends Controller
                 'status' => 'success',
                 'message' => 'Application Submitted Successfully',
             ]);
-        }catch (\Exception $e) {
+        } catch (Exception $e) {
             // Return Api Response
             return response()->json([
                 'status' => 'error',
                 'message' => 'Error Submitting Application',
+            ]);
+        }
+    }
+
+    // Function to upload resume
+    public function uploadResume(Request $request, $id)
+    {
+        $request->validate([
+            'file' => 'required',
+        ]);
+
+        try {
+            $resume = Resume::find($id);
+
+            // Generate filename with an extension
+            $time = time();
+            $name = $resume->name;
+            $filename = "{$name}_{$time}.{$request->file->extension()}";
+            $request->file->move(public_path('uploads/resume/'), $filename);
+
+            $resume->file = $filename;
+            $resume->save();
+            // Return Api Response
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Resume Uploaded Successfully',
+            ]);
+        } catch (Exception $e) {
+            // Return Api Response
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error Uploading Resume',
             ]);
         }
     }
