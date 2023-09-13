@@ -10,7 +10,7 @@
 <div class="container mx-auto p-6 bg-white shadow-lg rounded-lg max-w-md mt-10">
     <header class="text-center bg-blue-500 text-white py-4 rounded-t-lg"><h1 class="text-2xl font-bold">Your Event
             Ticket</h1></header>
-    <img src="https://admin.gcanorthernontario.com/flyer/temp.jpg" alt="Ticket Flyer"
+    <img src="https://admin.gcanorthernontario.com/flyer/{{$event->flyer}}" alt="Ticket Flyer"
          class="w-full rounded-md shadow-md mt-6">
     <div class="event-details p-6 bg-gray-200 rounded-b-lg"><p class="mb-2">Hello,<strong>{{$fullname}}</strong></p>
         <p class="mb-4">Thank you for being part of our exciting event! 😄</p>

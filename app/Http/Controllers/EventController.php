@@ -43,6 +43,7 @@ class EventController extends Controller
             'end' => 'required|after:start',
             'duration' => 'required',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'flyer' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'gallery' => 'required|array',
             'gallery.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'audience_type' => 'nullable|array',
@@ -72,6 +73,7 @@ class EventController extends Controller
             $event->start = $request->start;
             $event->end = $request->end;
             $event->duration = $request->duration;
+            // thumbnail
             $imageName = time() . '.' . $request->thumbnail->extension();
             $request->thumbnail->move(public_path('images/event/thumbnail'), $imageName);
             $event->thumbnail = $imageName;
@@ -83,8 +85,14 @@ class EventController extends Controller
                 $gallery[] = $galleryName;
             }
             $event->gallery = json_encode($gallery);
+            // flyer
+            if ($request->hasFile('flyer')) {
+                $flyerName = time() . '.' . $request->flyer->extension();
+                $request->flyer->move(public_path('/flyer'), $flyerName);
+                $event->flyer = $flyerName;
+            }
             $event->tickets_available = '1';
-            // If audience type is null, set it to empty array
+            // If an audience type is null, set it to an empty array
             if ($request->audience_type == null) {
                 $request->audience_type = [];
             }
@@ -169,6 +177,7 @@ class EventController extends Controller
             $event->end = $request->end;
             $event->duration = $request->duration;
 
+            // Handle thumbnail upload
             if ($request->hasFile('thumbnail')) {
                 // Delete old thumbnail
                 @unlink(public_path('images/event/thumbnail/' . $event->thumbnail));
@@ -187,7 +196,7 @@ class EventController extends Controller
                     @unlink(public_path('images/event/gallery/' . $value));
                 }
 
-                // Upload and save new gallery
+                // Upload and save a new gallery
                 $gallery = [];
                 foreach ($request->gallery as $key => $value) {
                     $galleryName = time() . $key . '.' . $value->extension();
@@ -196,13 +205,18 @@ class EventController extends Controller
                 }
                 $event->gallery = json_encode($gallery);
             }
+            // Handle flyer upload
+            if ($request->hasFile('flyer')) {
+                // Delete old flyer
+                @unlink(public_path('flyer/' . $event->flyer));
+
+                // Upload and save new flyer
+                $flyerName = time() . '.' . $request->flyer->extension();
+                $request->flyer->move(public_path('/flyer'), $flyerName);
+                $event->flyer = $flyerName;
+            }
 
             $event->tickets_available = '1';
-//
-//            if ($request->audience_type == null) {
-//                $request->audience_type = [];
-//            }
-//            $event->audience_type = json_encode($request->audience_type);
             $event->youtube = $request->youtube;
             $event->website = $request->website;
             $event->contact_phone = $request->phone;
@@ -217,18 +231,6 @@ class EventController extends Controller
             return redirect()->route('event')->with('success', 'Event updated successfully');
 
         } catch (Exception $e) {
-            // Delete thumbnail and gallery
-            $image_path = public_path('images') . '/event/thumbnail/' . $imageName;
-            if (file_exists($image_path)) {
-                @unlink($image_path);
-            }
-            $gallery = json_decode($event->gallery);
-            foreach ($gallery as $key => $value) {
-                $image_path = public_path('images') . '/event/gallery/' . $value;
-                if (file_exists($image_path)) {
-                    @unlink($image_path);
-                }
-            }
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -249,6 +251,11 @@ class EventController extends Controller
                 if (file_exists($image_path)) {
                     @unlink($image_path);
                 }
+            }
+            // delete flyer
+            $flyer_path = public_path('flyer') . '/' . $event->flyer;
+            if (file_exists($flyer_path)) {
+                @unlink($flyer_path);
             }
 
             // Delete event from Combo Event
@@ -343,11 +350,6 @@ class EventController extends Controller
     {
         try {
             $amenities = EventAmenities::find($id);
-//            // delete image
-//            $image_path = public_path('images') . '/event/venue/amenities' . $amenities->image;
-//            if (file_exists($image_path)) {
-//                @unlink($image_path);
-//            }
             $amenities->status = 0;
             return redirect()->route('event.venue.amenities')->with('success', 'Amenities deleted successfully.');
         } catch (Throwable $th) {

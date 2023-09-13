@@ -16,19 +16,19 @@
                 <form action="{{route('event.edit', [$event->id])}}" method="post" enctype="multipart/form-data" class="card-body needs-validation" novalidate="" data-parsley-validate>
                     @csrf
                     <input type="hidden" name="id" value="{{$event->id}}">
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Title</label>
                         <input type="text" class="form-control form-control-lg" required name="title" value="{{old('title') ? old('title') : $event->title}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Slug</label>
                         <input type="text" class="form-control form-control-lg" name="slug" value="{{old('slug') ? old('slug') : $event->slug}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Description</label>
                         <textarea id="summernote" rows="10" class="form-control no-resize" name="description" placeholder="Please type what you want...">{{old('description') ? old('description') : $event->description}}</textarea>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Category</label>
                         <select class="form-select" name="category" required>
                             @foreach($categories as $data)
@@ -41,7 +41,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-sm-12 ">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Venue</label>
                         <select class="form-select" name="venue" required>
                             @foreach($venues as $data)
@@ -54,7 +54,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-sm-12 ">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Speaker</label>
                         <select class="form-select" name="speaker" required>
                             @foreach($speakers as $data)
@@ -62,55 +62,74 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Start Time</label>
                         <input type="datetime-local" class="form-control form-control-lg" required id="start" name="start" value="{{old('start') ? old('start') : $event->start}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">End Time</label>
                         <input type="datetime-local" class="form-control form-control-lg" required id="end" name="end" value="{{old('end') ? old('end') : $event->end}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Duration</label>
                         <input type="text" class="form-control form-control-lg" required readonly id="duration" name="duration" value="{{old('duration')?old('duration') : $event->duration}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Thumbnail</label>
                         <input type="file" class="form-control form-control-lg" name="thumbnail">
+                        @if($event->thumbnail)
+                            <img src="{{url('/')}}/images/event/thumbnail/{{$event->thumbnail}}" alt="{{$event->thumbnail}}" class="img-fluid rounded-4">
+                        @endif
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Gallery</label>
                         <input type="file" class="form-control form-control-lg" multiple name="gallery[]">
+                        <div class="row g-2" data-masonry='{ "percentPosition": "true" }'>
+                            @if($event->gallery == null)
+                                @foreach(json_decode($event->gallery) as $item)
+                                    <div class="col grid-item">
+                                        <img class="img-fluid rounded-4" src="{{url('/')}}/images/event/gallery/{{$item}}" alt="{{$item}}" >
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
+                        <label class="form-label">Ticket Email Flyer</label>
+                        <input type="file" class="form-control form-control-lg" name="flyer">
+                        @if($event->flyer)
+                            <img class="img-fluid rounded-4" src="{{url('/')}}/flyer/{{$event->flyer}}" alt="{{$event->flyer}}" >
+                        @endif
+                    </div>
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Youtube Video URL</label>
                         <input type="url" class="form-control form-control-lg" name="youtube" value="{{old('youtube') ? old('youtube') : $event->youtube}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Facebook</label>
                         <input type="url" class="form-control form-control-lg" name="facebook" value="{{old('facebook') ? old('facebook') : $event->facebook}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Instagram</label>
                         <input type="url" class="form-control form-control-lg" name="instagram" value="{{old('instagram') ? old('instagram') : $event->instagram}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Twitter</label>
                         <input type="url" class="form-control form-control-lg" name="twitter" value="{{old('twitter') ? old('twitter') : $event->twitter}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">LinkedIn</label>
                         <input type="url" class="form-control form-control-lg" name="linkedin" value="{{old('linkedin') ? old('linkedin') : $event->linkedin}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Website</label>
                         <input type="url" class="form-control form-control-lg" name="website" value="{{old('website') ? old('website') : $event->website}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Contact Phone</label>
                         <input type="tel" class="form-control form-control-lg" name="phone" required value="{{old('phone') ? old('phone') : $event->contact_phone}}">
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-2">
                         <label class="form-label">Contact Email</label>
                         <input type="email" class="form-control form-control-lg" name="email" required value="{{old('email') ? old('email') : $event->contact_email}}">
                     </div>
