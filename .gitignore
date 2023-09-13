@@ -18,10 +18,9 @@ yarn-error.log
 /.idea
 /.vscode
 # Exclude PDF files in the /invoices/ directory
-/public/invoices/*.pdf
-
+/public/invoices
+public/uploads
 # Exclude PNG files in the /barcodes/ directory
-/public/barcodes/*.png
-
+/public/barcodes
 # Exclude all ZIP files
 *.zip
