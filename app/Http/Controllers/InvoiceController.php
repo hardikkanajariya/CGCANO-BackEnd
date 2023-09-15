@@ -86,9 +86,9 @@ class InvoiceController extends Controller
             $invoice = new InvoiceTicket();
             $invoice->user_id = $request->user;
             $invoice->ticket_id = $request->ticket;
-            $invoice->full_name = $user->name;
+            $invoice->full_name = $user->full_name;
             $invoice->email = $user->email;
-            $invoice->phone = $user->phone;
+            $invoice->phone = $user->mobile;
             $invoice->quantity = $request->quantity;
             $invoice->total_amount = $request->total;
             $invoice->is_paid = $request->status ? true : false;

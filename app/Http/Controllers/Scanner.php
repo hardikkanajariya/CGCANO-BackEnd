@@ -180,6 +180,8 @@ class Scanner extends Controller
             $barcode->is_used = 1;
             $barcode->is_expired = 1;
             $barcode->scanned_by = $request->user_id;
+            // update Remaining Scans
+            $barcode->scan_remaining = $barcode->scan_remaining - 1;
             $barcode->save();
             return response()->json([
                 'status' => 'success',
@@ -217,7 +219,7 @@ class Scanner extends Controller
                 ]);
             }else{
                 // Constraint: Barcode should be used by the same scanner who scanned it first
-                if($barcode->scanned_by != null){
+                if($barcode->food_scanned_by != null){
                     return response()->json([
                         'status' => 'error',
                         'message' => 'Food already scanned by another scanner',
