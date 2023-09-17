@@ -285,4 +285,11 @@ class InvoiceController extends Controller
         $barcodes = Barcodes::all();
         return view('pages.invoice.barcode.view', compact('barcodes'));
     }
+
+    /* --------------- Function to View Volunteers Invoice ------------------- */
+    public function listVolunteerInvoice()
+    {
+        $invoices = InvoiceTicket::where('sold_by', '!=', null)->get(); // 4 = Deleted
+        return view('pages.invoice.volunteers.view', compact('invoices'));
+    }
 }

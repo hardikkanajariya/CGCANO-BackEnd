@@ -19,6 +19,7 @@
                         <th>#Id</th>
                         <th>user</th>
                         <th>Ticket</th>
+                        <th>Event</th>
                         <th>Quantity</th>
                         <th>Total Amount</th>
                         <th>Status</th>
@@ -27,13 +28,20 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @php
+                        $index = 1;
+                    @endphp
                     @foreach($invoices as $data)
                         <tr>
-                            <td>{{$data->id}}</td>
+                            <td>{{$index}}</td>
+                            @php
+                                ++$index;
+                            @endphp
                             <td>{{$data->user->fullname}}</td>
                             <td>
                                 <a href="{{route('resend.ticket',["id" => $data->id])}}">Resent Ticket</a>
                             </td>
+                            <td> {{$data->event->title}} </td>
                             <td>{{$data->quantity}}</td>
                             <td>{{$data->total_amount}}</td>
                             <td>

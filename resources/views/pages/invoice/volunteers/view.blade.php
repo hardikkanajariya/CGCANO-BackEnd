@@ -4,7 +4,7 @@
     <div class="row g-3 row-deck">
         <div class="card">
             <div class="card-header">
-                <h6 class="card-title m-0">Combo Tickets Invoice</h6>
+                <h6 class="card-title m-0">Volunteers Invoices </h6>
                 <div class="dropdown morphing scale-left">
                     <a href="#" class="card-fullscreen btn" style="width: 100px" data-bs-toggle="tooltip"
                        title="Card Full-Screen"><i class="icon-size-fullscreen"></i></a>
@@ -15,11 +15,13 @@
                     <thead>
                     <tr>
                         <th>#Id</th>
+                        <th>Volunteer</th>
                         <th>user</th>
+                        <th>Ticket</th>
+                        <th>Event</th>
                         <th>Quantity</th>
                         <th>Total Amount</th>
                         <th>Status</th>
-                        <th>Action</th>
                         <th>Details</th>
                     </tr>
                     </thead>
@@ -33,7 +35,12 @@
                             @php
                                 ++$index;
                             @endphp
+                            <td>{{$data->volunteer->name}}</td>
                             <td>{{$data->user->fullname}}</td>
+                            <td>
+                                <a href="{{route('resend.ticket',["id" => $data->id])}}">Resent Ticket</a>
+                            </td>
+                            <td> {{$data->event->title}} </td>
                             <td>{{$data->quantity}}</td>
                             <td>{{$data->total_amount}}</td>
                             <td>
@@ -50,28 +57,12 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{route('payment.combo',[$data->id])}}"
-                                   class="btn btn-sm btn-outline-success">View Payment Details</a>
-                            </td>
-                            <td>
                                 <ul>
                                     <li>Full Name: {{$data->full_name}}</li>
                                     <li>Email: {{$data->email}}</li>
                                     <li>Phone: {{$data->phone}}</li>
-                                    <li>View Ticket:
-                                        <a href="{{url('/')}}/invoices/combo/{{$data->pdf}}">View Ticket</a>
-                                    </li>
-                                    <li>Resent Invoice:
-                                        <a href="{{route('resend.combo', ["id" => $data->id])}}">Resend</a>
-                                    </li>
-                                    <li>
-                                        <form action="{{route('orders.combo.delete', ["id" => $data->id])}}"
-                                              method="get">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Cancel
-                                            </button>
-                                        </form>
-                                    </li>
+                                    <li>View Ticket: <a href="{{url('/')}}/invoices/{{$data->pdf}}">View Ticket</a></li>
+                                    <li>UnPublish Ticket: <a href="{{route('orders.ticket.delete', [$data->id])}}}}" class="text-danger">Remove</a> </li>
                                 </ul>
                             </td>
                         </tr>

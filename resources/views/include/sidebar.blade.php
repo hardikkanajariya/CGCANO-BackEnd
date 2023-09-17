@@ -58,6 +58,7 @@
                         <li><a class="ms-link" href="{{route('orders.package')}}">Package</a></li>
 {{--                        <li><a class="ms-link" href="{{route('orders.donation')}}">Donations</a></li>--}}
                         <li><a class="ms-link" href="{{route('barcode')}}">Barcodes</a></li>
+                        <li><a class="ms-link" href="{{route('orders.volunteer')}}">Volunteers</a></li>
                     </ul>
                 </li>
                 <li>

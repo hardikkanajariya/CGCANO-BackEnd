@@ -19,7 +19,7 @@
                         <th>Name</th>
                         <th>Price</th>
                         <th>Quantity</th>
-                        <th>Tickets Left</th>
+                        <th>Tickets Sold</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -31,7 +31,7 @@
                             <td>{{$data->event->title}}</td>
                             <td>{{$data->price}}</td>
                             <td>{{$data->quantity}}</td>
-                            <td>{{$data->tickets_left}}</td>
+                            <td>{{$data->ticketsSold()}}</td>
                             <td>
                                 @if($data->is_sold_out == 0)
                                     <span class="badge bg-success text-white">Active</span>

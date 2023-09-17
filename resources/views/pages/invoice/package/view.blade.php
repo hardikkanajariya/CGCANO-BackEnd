@@ -23,9 +23,15 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @php
+                        $index = 1;
+                    @endphp
                     @foreach($invoices as $data)
                         <tr>
-                            <td>{{$data->id}}</td>
+                            <td>{{$index}}</td>
+                            @php
+                                ++$index;
+                            @endphp
                             <td>{{$data->user->fullname}}</td>
                             <td>{{$data->package->name}}</td>
                             <td>{{$data->total_amount}}</td>

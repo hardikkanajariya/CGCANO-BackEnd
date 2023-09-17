@@ -40,10 +40,14 @@ class TicketEvent extends Model
     {
         return $this->hasOne(InvoiceTicket::class, 'ticket_id');
     }
+    public function tickets()
+    {
+        return $this->hasMany( InvoiceTicket::class, 'ticket_id');
+    }
 
     // Count the number of tickets sold
     public function ticketsSold()
     {
-        return $this->tickets()->where('is_sold_out', true)->count();
+        return $this->tickets()->sum('quantity');
     }
 }

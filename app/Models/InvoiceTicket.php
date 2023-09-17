@@ -39,4 +39,12 @@ class InvoiceTicket extends Model
     {
         return $this->hasOne(PaymentEvent::class, 'order_id');
     }
+
+    public function event(){
+        return $this->belongsTo(EventList::class, 'ticket_id', 'id');
+    }
+
+    public function volunteer(){
+        return $this->belongsTo(Volunteers::class, 'sold_by', 'id');
+    }
 }

@@ -16,8 +16,8 @@ use App\Http\Controllers\SubScribedController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\VolunteersResume;
 use App\Mail\InvoiceTicketMail;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +30,33 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 Route::get('/', function () {
-    return view('dashboard');
+    // Fetch monthly ticket sales data
+    $monthlyData = DB::table('invoice_ticket')
+        ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('count(*) as count'))
+        ->groupBy('month')
+        ->orderBy('month')
+        ->get();
+
+    // Fetch event data (you may need to adjust this query based on your structure)
+    $eventsData = DB::table('invoice_ticket')
+        ->get();
+
+    // Sum of Total amount
+    $totalAmount = DB::table('invoice_ticket')
+        ->sum('total_amount');
+
+    $total_ticket_sold = DB::table('invoice_ticket')
+        ->sum('quantity');
+
+    $total_user = DB::table('users')
+        ->count();
+    return view('dashboard')->with([
+        'monthlyData' => $monthlyData,
+        'eventsData' => $eventsData,
+        'totalAmount' => $totalAmount,
+        'total_ticket_sold' => $total_ticket_sold,
+        'total_user' => $total_user
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('test', function () {
@@ -39,8 +65,8 @@ Route::get('test', function () {
 });
 
 // Miscellaneous Routes
-Route::prefix('miscellaneous')->middleware(['auth', 'verified'])->group(function(){
-    Route::prefix('/resend-invoice')->group(function(){
+Route::prefix('miscellaneous')->middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('/resend-invoice')->group(function () {
         Route::get('/ticket', [MiscellaneousController::class, 'resendInvoiceEmail'])->name('resend.ticket');
         Route::get('/combo', [MiscellaneousController::class, 'resendInvoiceEmailCombo'])->name('resend.combo');
         Route::get('/package/{id}', [MiscellaneousController::class, 'resendInvoiceEmailPackage'])->name('resend.package');
@@ -140,6 +166,9 @@ Route::prefix('invoice')->middleware(['auth', 'verified'])->group(function () {
 
     // Barcode
     Route::get('/barcodes', [InvoiceController::class, 'viewBarcode'])->name('barcode');
+
+    // Volunteer Invoices
+    Route::get('/volunteer', [InvoiceController::class, 'listVolunteerInvoice'])->name('orders.volunteer');
 });
 
 // Routes For Handling Membership Packages
@@ -222,4 +251,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
