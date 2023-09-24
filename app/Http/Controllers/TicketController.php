@@ -91,6 +91,18 @@ class TicketController extends Controller
             'is_food_available' => $request->is_food_available ?? false,
         ]);
 
+        // Update Combo Ticket if any
+        $comboTickets = TicketCombo::where('status', 1)->get();
+
+        foreach ($comboTickets as $comboTicket) {
+            $events = json_decode($comboTicket->event_id);
+            if (in_array($ticket->event_id, $events)) {
+                $comboTicket->update([
+                    'status' => 0,
+                ]);
+            }
+        }
+
         // Get all the invoices for this ticket
         $invoices = InvoiceTicket::where('ticket_id', $id)->get();
         // Update the invoice
