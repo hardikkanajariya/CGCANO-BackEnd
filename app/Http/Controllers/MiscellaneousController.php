@@ -57,8 +57,8 @@ class MiscellaneousController extends Controller
         // Get the email
         $email = auth()->user()->email;
 
-        Artisan::call('backup:run');
-        $path = storage_path('app/laravel-backup/*');
+//        Artisan::call('backup:run');
+        $path = storage_path('app/CGCANO team/*');
         $latest_ctime = 0;
         $latest_filename = '';
         $files = glob($path);
@@ -68,8 +68,12 @@ class MiscellaneousController extends Controller
             {
                 $latest_ctime = filectime($file);
                 $latest_filename = $file;
+                // get the file name
+                $latest_filename = basename($latest_filename);
             }
         }
+
+//        return response()->download($latest_filename);
 
         // Send the email
         try{

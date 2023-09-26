@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
@@ -76,6 +77,7 @@ Route::prefix('miscellaneous')->middleware(['auth', 'verified'])->group(function
     });
     // Route to take backup of the database and Media Files and send it to the user
     Route::get('/backup', [MiscellaneousController::class, 'backup'])->name('backup');
+    Route::get('/download/{file}', [DownloadController::class, 'download'])->name('file.download');
 });
 
 Route::prefix('gallery')->middleware(['auth', 'verified'])->group(function () {

@@ -18,7 +18,11 @@ return [
                  * The list of directories and files that will be included in the backup.
                  */
                 'include' => [
-                    base_path(),
+                    'public/barcodes',
+                    'public/flyer',
+                    'public/images',
+                    'public/invoices',
+                    'public/uploads'
                 ],
 
                 /*
@@ -42,8 +46,8 @@ return [
                 'ignore_unreadable_directories' => false,
 
                 /*
-                 * This path is used to make directories in resulting zip-file relative
-                 * Set to `null` to include complete absolute path
+                 * This path is used to make directories in the resulting zip-file relative
+                 * Set to `null` to include a complete absolute path
                  * Example: base_path()
                  */
                 'relative_path' => null,
@@ -90,7 +94,8 @@ return [
          * Out of the box Laravel-backup supplies
          * Spatie\DbDumper\Compressors\GzipCompressor::class.
          *
-         * You can also create custom compressor. More info on that here:
+         * You can also create a custom compressor.
+         * More info on that here:
          * https://github.com/spatie/db-dumper#using-compression
          *
          * If you do not want any compressor at all, set it to null.
@@ -101,7 +106,7 @@ return [
          * The file extension used for the database dump files.
          *
          * If not specified, the file extension will be .archive for MongoDB and .sql for all other databases
-         * The file extension should be specified without a leading .
+         * The file extension should be specified without a leading.
          */
         'database_dump_file_extension' => '',
 
@@ -110,7 +115,7 @@ return [
             /*
              * The filename prefix used for the backup zip file.
              */
-            'filename_prefix' => '',
+            'filename_prefix' => 'cgcano-backup-',
 
             /*
              * The disk names on which the backups will be stored.

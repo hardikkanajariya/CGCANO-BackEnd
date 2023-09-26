@@ -17,7 +17,7 @@
             <p class="mb-2">Hello {{auth()->user()->fullname}},</p>
             <p class="mb-2">Your system backup is ready for download.</p>
             <p class="mb-2">Please click the link below to download the backup.</p>
-            <p class="mb-2">Link: <a href="{{storage_path($path)}}" class="text-blue-500" download="true">{{storage_path($path)}}</a></p>
+            <p class="mb-2">Link: <a href="{{route('file.download', [$path])}}" class="text-blue-500">{{$path}}</a></p>
             <p class="mb-2">Thank you.</p>
         </div>
     </main>
