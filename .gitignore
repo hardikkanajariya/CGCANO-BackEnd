@@ -20,6 +20,8 @@ yarn-error.log
 # Exclude PDF files in the /invoices/ directory
 /public/invoices
 public/uploads
+/public/images
+/public/flyer
 # Exclude PNG files in the /barcodes/ directory
 /public/barcodes
 # Exclude all ZIP files
