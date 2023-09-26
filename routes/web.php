@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\InvoiceController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PointOfSaleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Scanner;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\SubScribedController;
@@ -60,7 +62,7 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('test', function () {
-    Mail::to("hcollege0@gmail.com")->send(new InvoiceTicketMail("invoices/123.pdf", "Test fullname"));
+    Mail::to("hcollege0@gmail.com")->send(new InvoiceTicketMail("invoices/6b077eea3776f37d0acd091e3b1be143.pdf", "Test fullname"));
     return "Email Sent";
 });
 
@@ -243,6 +245,14 @@ Route::prefix('subscribers')->middleware(['auth', 'verified'])->group(function (
     Route::get('/subscribe/{id}', [SubScribedController::class, 'subscribe'])->name('sub.true');
     Route::get('/unsubscribe/{id}', [SubScribedController::class, 'unSubscribe'])->name('sub.false');
     Route::get('/delete/{id}', [SubScribedController::class, 'doDelete'])->name('sub.delete');
+});
+
+Route::prefix('settings')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/email-templates', [EmailTemplateController::class, 'list'])->name('settings.email');
+    Route::get('/email-templates/add', [EmailTemplateController::class, 'viewAdd'])->name('settings.email.add');
+    Route::post('/email-templates/add', [EmailTemplateController::class, 'doAdd'])->name('settings.email.doAdd');
+    Route::get('/email-templates/edit/{id}', [EmailTemplateController::class, 'viewEdit'])->name('settings.email.edit');
+    Route::post('/email-templates/edit/{id}', [EmailTemplateController::class, 'doEdit'])->name('settings.email.doEdit');
 });
 
 Route::middleware('auth')->group(function () {

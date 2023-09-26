@@ -54,8 +54,8 @@
                                 <div class="list-group m-2 mb-3">
                                     <a class="list-group-item list-group-item-action border-0"
                                        href="{{route('profile.edit')}}"><i class="w30 fa fa-user"></i>My Profile</a>
-                                    <a class="list-group-item list-group-item-action border-0"
-                                       href="{{route('profile.edit')}}"><i class="w30 fa fa-gear"></i>Settings</a>
+{{--                                    <a class="list-group-item list-group-item-action border-0"--}}
+{{--                                       href="{{route('settings.email')}}"><i class="w30 fa fa-gear"></i>Settings</a>--}}
                                 </div>
                                 <a href="{{route('logout')}}"
                                    class="btn bg-secondary text-light text-uppercase rounded-0">Sign out</a>

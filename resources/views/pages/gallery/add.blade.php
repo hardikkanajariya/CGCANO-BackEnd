@@ -15,7 +15,19 @@
                 </div>
                 <form action="{{route('gallery.add')}}" method="post" enctype="multipart/form-data" class="card-body">
                     @csrf
+                    <div class="alert alert-info mt-3">
+                        <strong>Note:</strong> If you don't see any event category, please add event category first.
+                    </div>
                     <div class="col-sm-12">
+                        <label class="form-label">Select Event Category</label>
+                        <select name="category_id" class="form-control form-control-lg" required>
+                            <option value="">Select Event Category</option>
+                            @foreach($categoryItems as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-12 mt-4">
                         <label class="form-label">Select Gallery Pictures</label>
                         <input type="file" class="form-control form-control-lg" name="gallery[]" multiple required>
                     </div>

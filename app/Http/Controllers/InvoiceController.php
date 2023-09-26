@@ -23,7 +23,7 @@ class InvoiceController extends Controller
     // Function to generate barcodes
     public function listTicket()
     {
-        $invoices = InvoiceTicket::where('status', '!=', 4)->get(); // 4 = Deleted
+        $invoices = InvoiceTicket::where('status', '!=', 4)->with('event')->get(); // 4 = Deleted
         return view('pages.invoice.tickets.view', compact('invoices'));
     }
     /* --------------- Function To Handle Ticket Invoice ------------------- */
