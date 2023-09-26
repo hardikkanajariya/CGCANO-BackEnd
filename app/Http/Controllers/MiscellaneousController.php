@@ -7,6 +7,7 @@ use App\Mail\InvoiceTicketMail;
 use App\Models\InvoiceCombo;
 use App\Models\InvoiceTicket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 
 class MiscellaneousController extends Controller
@@ -44,6 +45,36 @@ class MiscellaneousController extends Controller
         try{
             Mail::to($invoice->email)->cc($invoice->user->email)->send(new InvoiceComboMail($invoice->id));
             return redirect()->back()->with('success', 'Invoice Email Sent Successfully');
+        }catch (\Exception $e){
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
+    }
+
+    // Function to Take Backup of the Database and send it to the user
+    public function backup(Request $request)
+    {
+
+        // Get the email
+        $email = auth()->user()->email;
+
+        Artisan::call('backup:run');
+        $path = storage_path('app/laravel-backup/*');
+        $latest_ctime = 0;
+        $latest_filename = '';
+        $files = glob($path);
+        foreach($files as $file)
+        {
+            if (is_file($file) && filectime($file) > $latest_ctime)
+            {
+                $latest_ctime = filectime($file);
+                $latest_filename = $file;
+            }
+        }
+
+        // Send the email
+        try{
+            Mail::to($email)->send(new \App\Mail\BackupMail($latest_filename));
+            return redirect()->back()->with('success', 'Backup Email Sent Successfully');
         }catch (\Exception $e){
             return redirect()->back()->with('error', 'Something went wrong');
         }

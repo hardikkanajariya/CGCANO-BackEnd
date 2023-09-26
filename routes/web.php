@@ -74,6 +74,8 @@ Route::prefix('miscellaneous')->middleware(['auth', 'verified'])->group(function
         Route::get('/package/{id}', [MiscellaneousController::class, 'resendInvoiceEmailPackage'])->name('resend.package');
         Route::get('/donation/{id}', [MiscellaneousController::class, 'resendInvoiceEmailDonation'])->name('resend.donation');
     });
+    // Route to take backup of the database and Media Files and send it to the user
+    Route::get('/backup', [MiscellaneousController::class, 'backup'])->name('backup');
 });
 
 Route::prefix('gallery')->middleware(['auth', 'verified'])->group(function () {
