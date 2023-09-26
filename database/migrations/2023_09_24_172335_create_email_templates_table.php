@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('subject');
             $table->longText('body');
             $table->boolean('status')->default(true);
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->foreign('event_id')->references('id')->on('event_list')->onDelete('cascade');
             $table->timestamps();
         });
     }
