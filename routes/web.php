@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     // Fetch monthly ticket sales data
     $monthlyData = DB::table('invoice_ticket')
-        ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('count(*) as count'))
+        ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('sum(quantity) as count'))
         ->groupBy('month')
         ->orderBy('month')
         ->get();
