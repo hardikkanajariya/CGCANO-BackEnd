@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('galleries', function (Blueprint $table) {
             $table->unsignedBigInteger('category_id')->nullable();
             // Add Category ID FK
-            $table->foreign('category_id')->references('id')->on('users');
+            $table->foreign('category_id')->references('id')->on('event_categories');
         });
     }
 

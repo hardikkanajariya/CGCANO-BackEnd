@@ -27,12 +27,31 @@ class CommonApiController extends Controller
     // Function to get all galleries
     public function getAllGalleries()
     {
-        $images = Gallery::all();
-        // if image is start with http, then use $image->image as it is
-        foreach ($images as $image) {
-            $image->path = url('images/gallery/' . $image->path);
+        // Get all categories with galleries
+        $categories = EventCategory::with('galleries')->get();
+
+        // Prepare the response data
+        $response = [];
+
+        foreach ($categories as $category) {
+            $categoryData = [
+                'category_name' => $category->name,
+                'galleries' => []
+            ];
+
+            // Format galleries data for this category
+            foreach ($category->galleries as $gallery) {
+                $galleryData = [
+                    'path' => url('images/gallery/' . $gallery->path),
+                ];
+
+                $categoryData['galleries'][] = $galleryData;
+            }
+
+            $response[] = $categoryData;
         }
-        return response()->json($images);
+
+        return response()->json($response);
     }
 
     // Function to get all categories

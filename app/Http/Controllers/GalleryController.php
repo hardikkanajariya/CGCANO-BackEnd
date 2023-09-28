@@ -56,7 +56,8 @@ class GalleryController extends Controller
             Gallery::insert($galleryItems);
             return redirect()->route('gallery')->with('success', 'Gallery uploaded successfully.');
         }catch (\Exception $e){
-            return redirect()->route('gallery')->with('error', 'Gallery failed to upload.');
+            // return redirect()->route('gallery')->with('error', 'Gallery failed to upload.');
+            return redirect()->route('gallery')->with('error', $e->getMessage());
         }
     }
 
