@@ -26,12 +26,12 @@ try {
     $deleteTicket = "DELETE FROM invoice_ticket WHERE status = 0 AND created_at <= FROM_UNIXTIME($fiveMinutesAgo)";
     $deleteCombo = "DELETE FROM invoice_combo WHERE status = 0 AND created_at <= FROM_UNIXTIME($fiveMinutesAgo)";
     $deletePackage = "DELETE FROM invoice_packages WHERE status = 0 AND created_at <= FROM_UNIXTIME($fiveMinutesAgo)";
-    $conn->query($invoiceTicketQuery);
-    $conn->query($invoiceComboQuery);
-    $conn->query($invoicePackageQuery);
-    $conn->query($deleteTicket);
-    $conn->query($deleteCombo);
-    $conn->query($deletePackage);
+    //$conn->query($invoiceTicketQuery);
+    //$conn->query($invoiceComboQuery);
+    //$conn->query($invoicePackageQuery);
+    //$conn->query($deleteTicket);
+    //$conn->query($deleteCombo);
+    //$conn->query($deletePackage);
 } catch (Exception $e) {
     // Log cron job details
     $cronStatus = $e->getMessage();
