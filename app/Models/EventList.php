@@ -58,7 +58,7 @@ class EventList extends Model
 
         // get the order list for each ticket
         foreach ($tickets as $ticket) {
-            $orders = InvoiceTicket::where('ticket_id', $ticket->id)->get();
+            $orders = InvoiceTicket::where('ticket_id', $ticket->id)->where('is_paid', 1)->where('status', 1)->get();
             foreach ($orders as $order) {
                 $ticketsSold += $order->quantity;
             }
