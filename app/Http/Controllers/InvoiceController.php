@@ -23,8 +23,27 @@ class InvoiceController extends Controller
     // Function to generate barcodes
     public function listTicket()
     {
-        $invoices = InvoiceTicket::where('status', '!=', 4)->with('event')->get(); // 4 = Deleted
-        return view('pages.invoice.tickets.view', compact('invoices'));
+        //$invoices = InvoiceTicket::where('status', '!=', 4)->with('event')->orderBy('created_at', 'desc')->get(); // 4 = Deleted
+      //$invoices1 = InvoiceTicket::where('status', '!=', 0) // Status is not '0'
+    	//->where(function ($query) {
+        //	$query->where('status', '!=', 4) // Status is not '4' (Deleted)
+          //    	  ->orWhere('created_at', '>', now()->subMinutes(5)); // Created less than 5 minutes ago
+    	//})
+      //->with('event')
+      //->orderBy('created_at', 'desc')
+      //->get(); 
+      $invoices = InvoiceTicket::where('invoice_ticket.status', '!=', 0)
+    ->where(function ($query) {
+        $query->where('invoice_ticket.status', '!=', 4)
+            ->orWhere('invoice_ticket.created_at', '>', now()->subMinutes(5));
+    })
+    ->join('tickets_event', 'invoice_ticket.ticket_id', '=', 'tickets_event.id')
+    ->join('event_list', 'tickets_event.event_id', '=', 'event_list.id')
+    ->select('invoice_ticket.*', 'event_list.title')
+    ->orderBy('invoice_ticket.created_at', 'desc')
+    ->get();
+
+      return view('pages.invoice.tickets.view', compact('invoices'));
     }
     /* --------------- Function To Handle Ticket Invoice ------------------- */
     // Function to view All InvoiceTicket

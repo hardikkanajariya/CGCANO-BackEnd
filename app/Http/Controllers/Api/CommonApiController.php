@@ -77,7 +77,7 @@ class CommonApiController extends Controller
     // Function to get all events
     public function getAllEvents()
     {
-        $events = EventList::where('status', 1)->get();
+        $events = EventList::where('status', 1)->orderBy('created_at', 'desc')->get();
         $response = [];
         foreach ($events as $event) {
             $response[] = [

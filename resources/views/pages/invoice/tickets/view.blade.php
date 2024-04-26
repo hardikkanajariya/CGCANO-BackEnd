@@ -41,7 +41,7 @@
                             <td>
                                 <a href="{{route('resend.ticket',["id" => $data->id])}}">Resent Ticket</a>
                             </td>
-                            <td> {{$data->event->title}} </td>
+                            <td> {{$data->title}} </td>
                             <td>{{$data->quantity}}</td>
                             <td>{{$data->total_amount}}</td>
                             <td>

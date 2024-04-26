@@ -57,7 +57,7 @@ class MiscellaneousController extends Controller
         // Get the email
         $email = auth()->user()->email;
 
-//        Artisan::call('backup:run');
+		Artisan::call('backup:run');
         $path = storage_path('app/CGCANO team/*');
         $latest_ctime = 0;
         $latest_filename = '';
@@ -77,7 +77,7 @@ class MiscellaneousController extends Controller
 
         // Send the email
         try{
-            Mail::to($email)->send(new \App\Mail\BackupMail($latest_filename));
+            Mail::to('hardikkanajariya@yahoo.com')->send(new \App\Mail\BackupMail($latest_filename));
             return redirect()->back()->with('success', 'Backup Email Sent Successfully');
         }catch (\Exception $e){
             return redirect()->back()->with('error', 'Something went wrong');
