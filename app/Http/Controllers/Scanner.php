@@ -193,7 +193,7 @@ class Scanner extends Controller
                     'user_id' => $invoice_package->user_id,
                     'package_id' => $invoice_package->package->id,
                     'validity' => $invoice_package->validity,
-                    'full_name' => $invoice_package->user->full_name,
+                    'full_name' => $invoice_package->user->fullname,
                     'is_paid' => $invoice_package->is_paid,
                     'status' => $invoice_package->status,
                     'package' => [
