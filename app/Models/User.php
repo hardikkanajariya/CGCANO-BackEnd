@@ -50,4 +50,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function invoice_packages()
+    {
+        return $this->hasMany(InvoicePackage::class, 'user_id');
+    }
+
 }
