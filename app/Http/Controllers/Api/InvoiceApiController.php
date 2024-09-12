@@ -148,7 +148,7 @@ class InvoiceApiController extends Controller
         // check if the combo is not sold out and is active
         $events = json_decode($combo->event_id);
         foreach($events as $event) {
-            $event = TicketEvent::find($event);
+            $event = TicketEvent::where("event_id", $event)->first();
             if($event->is_sold_out == 1 || $event->is_active == 0) {
                 return response()->json([
                     'message' => 'Combo is not available',

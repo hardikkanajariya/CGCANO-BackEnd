@@ -94,6 +94,7 @@ class TicketApiController extends Controller
         }
         $response = [
             'id' => $combo->id,
+            'name' => $combo->name,
             'price' => $combo->price,
             'quantity' => $combo->quantity,
         ];
