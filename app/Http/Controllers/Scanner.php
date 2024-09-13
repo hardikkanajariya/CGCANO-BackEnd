@@ -183,9 +183,33 @@ class Scanner extends Controller
             // update Remaining Scans
             $barcode->scan_remaining = $barcode->scan_remaining - 1;
             $barcode->save();
+            $user = \App\Models\User::with('invoice_packages.package')->find($barcode->invoice->user_id);
+
+            $response_data = $user->invoice_packages->map(function ($invoice_package) {
+                return [
+                    'user_id' => $invoice_package->user_id,
+                    'package_id' => $invoice_package->package->id,
+                    'validity' => $invoice_package->validity,
+                    'full_name' => $invoice_package->user->fullname,
+                    'is_paid' => $invoice_package->is_paid,
+                    'status' => $invoice_package->status,
+                    'package' => [
+                        'id' => $invoice_package->package->id,
+                        'name' => $invoice_package->package->name,
+                        'price' => $invoice_package->package->price,
+                        'validity' => $invoice_package->package->validity,
+                        'description' => $invoice_package->package->description,
+                        'status' => $invoice_package->package->status,
+                        'discount' => $invoice_package->package->discount,
+                        'percentage' => $invoice_package->package->percentage,
+                    ]
+                ];
+            });
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Ticket scanned successfully',
+                'data' => $response_data,
             ]);
         }else {
             return response()->json([
