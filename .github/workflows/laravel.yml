@@ -1,0 +1,37 @@
+name: Deploy to admin.gcanorthernontario.com
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Connect to VPS and deploy code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploying to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/gcanorthernontario-admin/htdocs/admin.gcanorthernontario.com/
+            git checkout main
+            git fetch origin main
+            git pull origin main
+            chmod -R 775 storage
+            chmod -R ugo+rw storage
+            chown -R www-data.www-data storage
+            chown -R www-data.www-data bootstrap/cache
+            php artisan backup:run
+            php artisan config:cache
+            php artisan migrate --force
+            git checkout pipeline
+            git add .
+            git commit -m "Deployed from Github Action"
+            git push origin pipeline
+            git checkout main
+            echo "Done"

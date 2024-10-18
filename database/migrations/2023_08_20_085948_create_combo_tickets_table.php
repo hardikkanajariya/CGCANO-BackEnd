@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('combo_tickets', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->string('image');
             $table->double('price');
             $table->integer('quantity');

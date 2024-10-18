@@ -28,7 +28,7 @@ class Scanner extends Controller
         $scanner = \App\Models\Scanner::find($id);
         if ($scanner) {
             return view('pages.scanner.edit')->with('scanner', $scanner);
-        }else{
+        } else {
             return redirect()->route('scanner')->with('error', 'Scanner not found');
         }
     }
@@ -60,7 +60,7 @@ class Scanner extends Controller
     {
         $request->validate([
             'fullname' => 'required',
-            'email' => 'required|email|unique:scanners,email,'.$id,
+            'email' => 'required|email|unique:scanners,email,' . $id,
             'password' => 'nullable|min:8|confirmed',
             'password_confirmation' => 'nullable|min:8'
         ]);
@@ -80,7 +80,7 @@ class Scanner extends Controller
                             'confirm_password' => 'required|same:password',
                         ]);
                         $scanner->password = Hash::make($request->password);
-                    }else{
+                    } else {
                         return redirect()->back()->with('error', 'Old password is incorrect');
                     }
                 }
@@ -110,7 +110,8 @@ class Scanner extends Controller
     }
 
     // Function to view Login Scanner
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
             'email' => 'required|email|exists:scanners,email',
             'password' => 'required',
@@ -118,8 +119,8 @@ class Scanner extends Controller
 
         $scanner = \App\Models\Scanner::where('email', $request->email)->first();
 
-        if($scanner){
-            if(Hash::check($request->password, $scanner->password)){
+        if ($scanner) {
+            if (Hash::check($request->password, $scanner->password)) {
                 $data = [
                     'id' => $scanner->id,
                     'name' => $scanner->name,
@@ -131,13 +132,13 @@ class Scanner extends Controller
                     'message' => 'Login successful',
                     'scanner' => $data,
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Password is incorrect',
                 ]);
             }
-        }else{
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Scanner not found',
@@ -146,7 +147,8 @@ class Scanner extends Controller
     }
 
     // Function to Scan Ticket
-    public function scanTicket(Request $request){
+    public function scanTicket(Request $request)
+    {
         $request->validate([
             'user_id' => 'required|exists:scanners,id',
             'barcode_id' => 'required|exists:barcodes,barcode_id',
@@ -154,22 +156,22 @@ class Scanner extends Controller
 
         $barcode = Barcodes::where('barcode_id', $request->barcode_id)->first();
 
-        if($barcode){
+        if ($barcode) {
 
             // Constraint: Barcode should not be used before and should not be expired yet
-            if($barcode->is_used == 1){
+            if ($barcode->is_used == 1) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Ticket already scanned',
                 ]);
-            }else if($barcode->is_expired == 1){
+            } else if ($barcode->is_expired == 1) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Ticket expired',
                 ]);
-            }else{
+            } else {
                 // Constraint: Barcode should be used by the same scanner who scanned it first
-                if($barcode->scanned_by != null){
+                if ($barcode->scanned_by != null) {
                     return response()->json([
                         'status' => 'error',
                         'message' => 'Ticket already scanned by another scanner',
@@ -183,6 +185,7 @@ class Scanner extends Controller
             // update Remaining Scans
             $barcode->scan_remaining = $barcode->scan_remaining - 1;
             $barcode->save();
+
             $user = \App\Models\User::with('invoice_packages.package')->find($barcode->invoice->user_id);
 
             $response_data = $user->invoice_packages->map(function ($invoice_package) {
@@ -211,7 +214,7 @@ class Scanner extends Controller
                 'message' => 'Ticket scanned successfully',
                 'data' => $response_data,
             ]);
-        }else {
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Ticket not found',
@@ -220,7 +223,8 @@ class Scanner extends Controller
     }
 
     // Function to Scan Food
-    public function scanFood(Request $request){
+    public function scanFood(Request $request)
+    {
         $request->validate([
             'user_id' => 'required|exists:scanners,id',
             'barcode_id' => 'required|exists:barcodes,barcode_id',
@@ -228,22 +232,22 @@ class Scanner extends Controller
 
         $barcode = Barcodes::where('barcode_id', $request->barcode_id)->first();
 
-        if($barcode){
+        if ($barcode) {
 
             // Constraint: Barcode should not be used before and should not be expired yet
-            if($barcode->is_food_available != 1){
+            if ($barcode->is_food_available != 1) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Food not available',
                 ]);
-            }else if($barcode->is_food_taken == 1){
+            } else if ($barcode->is_food_taken == 1) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Food already taken',
                 ]);
-            }else{
+            } else {
                 // Constraint: Barcode should be used by the same scanner who scanned it first
-                if($barcode->food_scanned_by != null){
+                if ($barcode->food_scanned_by != null) {
                     return response()->json([
                         'status' => 'error',
                         'message' => 'Food already scanned by another scanner',
@@ -259,7 +263,7 @@ class Scanner extends Controller
                 'status' => 'success',
                 'message' => 'Food scanned successfully',
             ]);
-        }else {
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Food not found',
