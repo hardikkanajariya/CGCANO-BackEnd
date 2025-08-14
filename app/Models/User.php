@@ -27,7 +27,10 @@ class User extends Authenticatable
         'email',
         'password',
         'mobile',
+        'role',
         'created_by',
+        'is_guest_account',
+        'temp_password_sent_at',
     ];
 
     /**
@@ -54,5 +57,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(InvoicePackage::class, 'user_id');
     }
-
 }

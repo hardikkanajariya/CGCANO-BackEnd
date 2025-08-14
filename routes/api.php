@@ -1,18 +1,17 @@
 <?php
 
 use App\Http\Controllers\Api\EventApiController;
-use App\Http\Controllers\Api\GalleryApiController;
 use App\Http\Controllers\Api\CommonApiController;
 use App\Http\Controllers\Api\InvoiceApiController;
 use App\Http\Controllers\Api\PackageApiController;
 use App\Http\Controllers\Api\PosController;
-use App\Http\Controllers\Api\SpeakerApiController;
 use App\Http\Controllers\Api\TicketApiController;
 use App\Http\Controllers\Api\UserAuthentication;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\Scanner;
 use App\Http\Controllers\SubScribedController;
 use App\Http\Controllers\VolunteersResume;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +29,23 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('events')->group(function () {
     Route::get('{id}', [EventApiController::class, 'getEventDetail']);
     Route::get('category/{name}', [EventApiController::class, 'getEventByCategory']);
+});
+
+Route::get('/test/mail', function () {
+  try {
+        Mail::raw('SMTP test from Laravel', function ($message) {
+            $message->to('hardikkanajariya@yahoo.com')
+                    ->subject('Laravel SMTP Test');
+        });
+    
+    	Mail::raw('SMTP test from Laravel', function ($message) {
+            $message->to('Sudburycgcanogroup@gmail.com')
+                    ->subject('Laravel SMTP Test');
+        });
+        return '✅ Email Sent! to Hardik & Sudburycgcanogroup';
+    } catch (\Exception $e) {
+        return '❌ Error: ' . $e->getMessage();
+    }
 });
 
 // Get Offer Details by id
@@ -123,4 +139,9 @@ Route::prefix('pos')->group(function () {
 Route::prefix('resume')->group(function () {
     Route::post('create', [VolunteersResume::class, 'createApplication']);
     Route::post('upload/{id}', [VolunteersResume::class, 'uploadResume']);
+});
+
+// Guest User Management
+Route::prefix('guest')->group(function () {
+    Route::post('create-user', [\App\Http\Controllers\Api\GuestUserController::class, 'createGuestUser']);
 });
