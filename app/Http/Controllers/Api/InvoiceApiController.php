@@ -83,7 +83,7 @@ class InvoiceApiController extends Controller
     {
         // Validate the request
         $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'nullable|exists:users,id', // Made nullable for guest users
             'order_id' => 'nullable',
             'ticket_id' => 'required|exists:tickets_event,id',
             'quantity' => 'required|numeric|min:1',
@@ -91,6 +91,7 @@ class InvoiceApiController extends Controller
             'fullname' => 'required|min:3|max:255',
             'email' => 'required|email',
             'phone' => 'required',
+            'is_guest' => 'nullable|boolean', // New field for guest identification
         ]);
 
         // check if ticket is available or not
@@ -101,9 +102,34 @@ class InvoiceApiController extends Controller
             ], 400);
         }
 
+        // Handle guest user creation if needed
+        $userId = $request->user_id;
+        if (!$userId && $request->is_guest) {
+            // Create guest user account
+            $guestController = new \App\Http\Controllers\Api\GuestUserController();
+            $guestRequest = new Request([
+                'fullname' => $request->fullname,
+                'email' => $request->email,
+                'mobile' => $request->phone,
+                'user_id' => $request->user_id
+            ]);
+
+            $guestResponse = $guestController->createGuestUser($guestRequest);
+            $guestData = json_decode($guestResponse->getContent(), true);
+
+            if ($guestResponse->getStatusCode() !== 201 && $guestResponse->getStatusCode() !== 200) {
+                return response()->json([
+                    'message' => 'Failed to create guest account',
+                    'error' => $guestData['message'] ?? 'Unknown error'
+                ], 500);
+            }
+
+            $userId = $guestData['user_id'];
+        }
+
         // Create Order
         $order = InvoiceTicket::create([
-            'user_id' => $request->user_id,
+            'user_id' => $userId,
             'ticket_id' => $request->ticket_id,
             'quantity' => $request->quantity,
             'total_amount' => $request->total_amount,
@@ -127,7 +153,8 @@ class InvoiceApiController extends Controller
     {
         // Validate the request
         $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'nullable|exists:users,id', // Made nullable for guest users
+            'is_guest' => 'nullable|boolean',
             'order_id' => 'nullable',
             'combo_id' => 'required|exists:tickets_combo,id',
             'quantity' => 'required|numeric|min:1',
@@ -139,7 +166,7 @@ class InvoiceApiController extends Controller
 
         // get the combo details
         $combo = TicketCombo::find($request->combo_id);
-        if($combo->status == 0) {
+        if ($combo->status == 0) {
             return response()->json([
                 'message' => 'Combo is not available',
             ], 400);
@@ -147,17 +174,43 @@ class InvoiceApiController extends Controller
 
         // check if the combo is not sold out and is active
         $events = json_decode($combo->event_id);
-        foreach($events as $event) {
+        foreach ($events as $event) {
             $event = TicketEvent::where("event_id", $event)->first();
-            if($event->is_sold_out == 1 || $event->is_active == 0) {
+            if ($event->is_sold_out == 1 || $event->is_active == 0) {
                 return response()->json([
                     'message' => 'Combo is not available',
                 ], 400);
             }
         }
 
+
+        // Handle guest user creation if needed
+        $userId = $request->user_id;
+        if (!$userId && $request->is_guest) {
+            // Create guest user account
+            $guestController = new \App\Http\Controllers\Api\GuestUserController();
+            $guestRequest = new Request([
+                'fullname' => $request->fullname,
+                'email' => $request->email,
+                'mobile' => $request->phone,
+                'user_id' => $request->user_id
+            ]);
+
+            $guestResponse = $guestController->createGuestUser($guestRequest);
+            $guestData = json_decode($guestResponse->getContent(), true);
+
+            if ($guestResponse->getStatusCode() !== 201 && $guestResponse->getStatusCode() !== 200) {
+                return response()->json([
+                    'message' => 'Failed to create guest account',
+                    'error' => $guestData['message'] ?? 'Unknown error'
+                ], 500);
+            }
+
+            $userId = $guestData['user_id'];
+        }
+
         $order = new InvoiceCombo();
-        $order->user_id = $request->user_id;
+        $order->user_id = $userId;
         $order->combo_id = $request->combo_id;
         $order->quantity = $request->quantity;
         $order->total_amount = $request->total_amount;
@@ -177,7 +230,8 @@ class InvoiceApiController extends Controller
     }
 
     // Function to Create Package Order
-    public function createPackageOrder(Request $request){
+    public function createPackageOrder(Request $request)
+    {
         // Validate the request
         $request->validate([
             'user_id' => 'required|exists:users,id',
@@ -280,9 +334,9 @@ class InvoiceApiController extends Controller
         $order->save();
         // Send Email To The User With Barcode Image Attached
         try {
-            if($order->user->email == $order->email) {
+            if ($order->user->email == $order->email) {
                 Mail::to($order->user->email)->send(new InvoiceTicketMail("invoices/$randomString.pdf", $order->user->fullname));
-            }else{
+            } else {
                 Mail::to($order->email)->cc($order->user->email)->send(new InvoiceTicketMail("invoices/$randomString.pdf", $order->user->fullname));
             }
         } catch (Exception $e) {
@@ -354,7 +408,7 @@ class InvoiceApiController extends Controller
         $randomString = md5(rand(11111111, 99999999)); // Using md5 for URL-safe hash
 
         // Load the PDF template with data
-        $pdf->loadHtml(View::make('pdf.combo', compact('invoiceData', )));
+        $pdf->loadHtml(View::make('pdf.combo', compact('invoiceData',)));
         $pdf->render();
 
         // Save the PDF to a public path or return as response
@@ -363,9 +417,9 @@ class InvoiceApiController extends Controller
 
         // Send Email To The User With Barcode Image Attached
         try {
-            if($order->user->email == $order->email) {
+            if ($order->user->email == $order->email) {
                 Mail::to($order->user->email)->send(new InvoiceComboMail($order->id));
-            }else{
+            } else {
                 Mail::to($order->email)->cc($order->user->email)->send(new InvoiceComboMail($order->id));
             }
         } catch (Exception $e) {
@@ -497,9 +551,9 @@ class InvoiceApiController extends Controller
 
         // Send Email To The User With Barcode Image Attached
         try {
-            if($order->user->email == $order->email) {
+            if ($order->user->email == $order->email) {
                 Mail::to($order->user->email)->send(new InvoiceComboMail($order->id));
-            }else{
+            } else {
                 Mail::to($order->email)->cc($order->user->email)->send(new InvoiceComboMail($order->id));
             }
         } catch (Exception $e) {
